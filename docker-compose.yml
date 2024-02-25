@@ -4,12 +4,12 @@ services:
   express:
     container_name: express
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./:/usr/src/server
+      - ./backend:/usr/src/backend
     environment:
       NODE_ENV: development
     command: sh -c "npx prisma migrate dev && npm run dev"
