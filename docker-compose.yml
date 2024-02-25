@@ -12,6 +12,7 @@ services:
       - ./:/usr/src/server
     environment:
       NODE_ENV: development
+    command: sh -c "npx prisma migrate dev && npm run dev"
     depends_on:
       - db
 
