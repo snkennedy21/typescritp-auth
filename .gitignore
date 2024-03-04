@@ -3,3 +3,4 @@
 /dist
 /prisma/env
 /dist
+/frontend/node_modules
