@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   express:
-    container_name: express
+    container_name: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -38,6 +38,16 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
       - "5050:80"
+
+  react:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/usr/src/frontend
 
 volumes:
   postgres_data:
