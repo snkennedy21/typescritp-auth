@@ -145,6 +145,10 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
         httpOnly: true,
         maxAge: 60 * 1000, // 1 minute
     });
+    res.cookie("isAuthenticated", accessToken, {
+        httpOnly: false,
+        maxAge: 60 * 1000, // 1 minute
+    });
     res.json({ accessToken, refreshToken });
 }));
 // ******************* //

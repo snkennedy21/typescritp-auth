@@ -165,6 +165,11 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     maxAge: 60 * 1000, // 1 minute
   });
 
+  res.cookie("isAuthenticated", accessToken, {
+    httpOnly: false,
+    maxAge: 60 * 1000, // 1 minute
+  });
+
   res.json({ accessToken, refreshToken });
 });
 
