@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useSignupMutation } from "../../store/mainApi";
+import { useLoginMutation } from "../../store/mainApi";
 
-function Signup() {
-  const [signup] = useSignupMutation();
+function Login() {
+  const [login] = useLoginMutation();
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -18,12 +18,12 @@ function Signup() {
 
   const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signup(formState);
+    login(formState);
   };
 
   return (
     <React.Fragment>
-      <h1>Signup</h1>
+      <h1>Login</h1>
       <form onSubmit={submitFormHandler}>
         <div>
           <label>name</label>
@@ -52,10 +52,10 @@ function Signup() {
             value={formState.password}
           />
         </div>
-        <button type="submit">Signup</button>
+        <button type="submit">Login</button>
       </form>
     </React.Fragment>
   );
 }
 
-export default Signup;
+export default Login;

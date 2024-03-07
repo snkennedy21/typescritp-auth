@@ -7,8 +7,10 @@ exports.loginRequired = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secretKey = "super_secret_access_key";
 const loginRequired = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    // const authHeader: string | undefined = req.headers["authorization"];
+    // const token: string | undefined = authHeader && authHeader.split(" ")[1];
+    const token = req.cookies["accessToken"];
+    console.log("TOKEN: ", token);
     if (!token) {
         return res.status(401).json({ error: "Unauthorized: Token not provided" });
     }

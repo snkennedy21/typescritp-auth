@@ -23,7 +23,7 @@ userRouter.get("/", async (req: Request, res: Response) => {
 // Create a new user //
 // ***************** //
 userRouter.post("/create", async (req: Request, res: Response) => {
-  const { name, email, age, password }: CreateUserInput = req.body;
+  const { name, email, password }: CreateUserInput = req.body;
   try {
     const hashedPassword: string = await bcrypt.hash(password, 10);
     const existingUser: User | null = await prisma.user.findUnique({
@@ -39,11 +39,36 @@ userRouter.post("/create", async (req: Request, res: Response) => {
       data: {
         name,
         email,
-        age,
         password: hashedPassword,
       },
     });
     delete user.password;
+
+    // Tokens are created to authenticate the user
+    const accessToken: string = jwt.sign(
+      { userId: user.id },
+      "super_secret_access_key",
+      {
+        expiresIn: "1m",
+      }
+    );
+    const refreshToken: string = jwt.sign(
+      { userId: user.id },
+      "super_secret_refresh_key",
+      {
+        expiresIn: "1m",
+      }
+    );
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 1000,
+    }); // Expires in 1 minute
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 60 * 1000,
+    }); // Expires in 1 minute
+
     res.json(user);
   } catch (error) {
     console.log("Error creating user:", error);
@@ -129,6 +154,16 @@ userRouter.post("/login", async (req: Request, res: Response) => {
       expiresIn: "1m",
     }
   );
+  console.log("Access Token:", accessToken);
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    maxAge: 60 * 1000, // 1 minute
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    maxAge: 60 * 1000, // 1 minute
+  });
 
   res.json({ accessToken, refreshToken });
 });

@@ -47,7 +47,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./frontend/src:/app/src
+      - ./frontend/src:/usr/src/backend/src
 
 volumes:
   postgres_data:

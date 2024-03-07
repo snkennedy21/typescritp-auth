@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
 interface JWTTokenPayload {
   userId: string;
@@ -16,8 +17,12 @@ export const loginRequired = (
   res: Response,
   next: NextFunction
 ) => {
-  const authHeader: string | undefined = req.headers["authorization"];
-  const token: string | undefined = authHeader && authHeader.split(" ")[1];
+  // const authHeader: string | undefined = req.headers["authorization"];
+  // const token: string | undefined = authHeader && authHeader.split(" ")[1];
+
+  const token: string | undefined = req.cookies["accessToken"];
+
+  console.log("TOKEN: ", token);
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized: Token not provided" });

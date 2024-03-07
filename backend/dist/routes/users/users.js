@@ -35,7 +35,7 @@ exports.userRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, func
 // Create a new user //
 // ***************** //
 exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, email, age, password } = req.body;
+    const { name, email, password } = req.body;
     try {
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const existingUser = yield prisma_1.prisma.user.findUnique({
@@ -49,11 +49,25 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
             data: {
                 name,
                 email,
-                age,
                 password: hashedPassword,
             },
         });
         delete user.password;
+        // Tokens are created to authenticate the user
+        const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_access_key", {
+            expiresIn: "1m",
+        });
+        const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_refresh_key", {
+            expiresIn: "1m",
+        });
+        res.cookie("accessToken", accessToken, {
+            httpOnly: true,
+            maxAge: 60 * 1000,
+        }); // Expires in 1 minute
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            maxAge: 60 * 1000,
+        }); // Expires in 1 minute
         res.json(user);
     }
     catch (error) {
@@ -121,6 +135,15 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
     });
     const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_refresh_key", {
         expiresIn: "1m",
+    });
+    console.log("Access Token:", accessToken);
+    res.cookie("accessToken", accessToken, {
+        httpOnly: true,
+        maxAge: 60 * 1000, // 1 minute
+    });
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 60 * 1000, // 1 minute
     });
     res.json({ accessToken, refreshToken });
 }));
