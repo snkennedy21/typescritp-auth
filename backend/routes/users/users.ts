@@ -144,30 +144,35 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     { userId: user.id },
     "super_secret_access_key",
     {
-      expiresIn: "1m",
+      expiresIn: "10s",
     }
   );
   const refreshToken: string = jwt.sign(
     { userId: user.id },
     "super_secret_refresh_key",
     {
-      expiresIn: "1m",
+      expiresIn: "5m",
     }
   );
-  console.log("Access Token:", accessToken);
+
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    maxAge: 60 * 1000, // 1 minute
+    maxAge: 5 * 1000,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    maxAge: 60 * 1000, // 1 minute
+    maxAge: 60 * 5000,
   });
 
   res.cookie("isAuthenticated", accessToken, {
     httpOnly: false,
-    maxAge: 60 * 1000, // 1 minute
+    maxAge: 5 * 1000,
+  });
+
+  res.cookie("isRefreshable", refreshToken, {
+    httpOnly: false,
+    maxAge: 60 * 5000,
   });
 
   res.json({ accessToken, refreshToken });
@@ -177,8 +182,8 @@ userRouter.post("/login", async (req: Request, res: Response) => {
 // Refresh User Tokens //
 // ******************* //
 userRouter.post("/refresh", async (req: Request, res: Response) => {
-  const refreshToken: string | undefined =
-    req.headers.authorization?.split(" ")[1];
+  // Now using req.cookies to get the refreshToken
+  const refreshToken = req.cookies["refreshToken"];
 
   if (!refreshToken) {
     return res.status(401).json({ message: "Invalid credentials" });
@@ -201,16 +206,36 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
     { userId: user.id },
     "super_secret_access_key",
     {
-      expiresIn: "1m",
+      expiresIn: "10s",
     }
   );
   const newRefreshToken = jwt.sign(
     { userId: user.id },
     "super_secret_refresh_key",
     {
-      expiresIn: "1m",
+      expiresIn: "5m",
     }
   );
+
+  res.cookie("accessToken", newAccessToken, {
+    httpOnly: true,
+    maxAge: 5 * 1000,
+  });
+
+  res.cookie("refreshToken", newRefreshToken, {
+    httpOnly: true,
+    maxAge: 60 * 5000,
+  });
+
+  res.cookie("isAuthenticated", newAccessToken, {
+    httpOnly: false,
+    maxAge: 5 * 1000,
+  });
+
+  res.cookie("isRefreshable", newRefreshToken, {
+    httpOnly: false,
+    maxAge: 60 * 5000,
+  });
 
   res.json({ newAccessToken, newRefreshToken });
 });

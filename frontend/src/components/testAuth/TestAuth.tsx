@@ -1,71 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useTestAuthQuery } from "../../store/mainApi";
+import { useTestAuthQuery, useRefreshTokenMutation } from "../../store/mainApi";
+import { authenticateUser } from "../../store/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 
 const TestAuth = () => {
-  const { data, error, isLoading } = useTestAuthQuery();
+  const { data, error, isLoading, refetch } = useTestAuthQuery();
+  const dispatch = useDispatch();
+  const [refreshTokens] = useRefreshTokenMutation();
   const [timer, setTimer] = useState("");
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    const decodeJWT = (token: any) => {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64)
-          .split("")
-          .map(function (c) {
-            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-          })
-          .join("")
-      );
-
-      return JSON.parse(jsonPayload);
-    };
-
-    const updateTimer = () => {
-      const token = Cookies.get("isAuthenticated");
-      if (!token) {
-        console.log("No authentication token found.");
-        return;
-      }
-
-      const { exp } = decodeJWT(token);
-      const expirationTime = exp * 1000;
-      const countdown = () => {
-        const currentTime = new Date().getTime();
-        const distance = expirationTime - currentTime;
-
-        if (distance < 0) {
-          clearInterval(intervalId);
-          setTimer("Expired");
-          return;
-        }
-
-        const hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    if (error && error.data.error === "Forbidden: Access token expired") {
+      refreshTokens()
+        .unwrap()
+        .then(() => {
+          dispatch(authenticateUser());
+          refetch();
+        })
+        .catch((refreshError) =>
+          console.error("Refresh token error:", refreshError)
         );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        const milliseconds = Math.floor(distance % 1000);
-
-        setTimer(`${hours}h ${minutes}m ${seconds}s ${milliseconds}ms`);
-      };
-
-      countdown(); // Initial call to set timer immediately
-      const intervalId = setInterval(countdown, 1); // Update every millisecond, but consider changing interval
-
-      return () => clearInterval(intervalId);
-    };
-
-    updateTimer();
-  }, []);
+    }
+  }, [error, refreshTokens, dispatch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>You Are Not Authenticated!</div>;
+    return <div>Error: No</div>;
   }
 
   return (

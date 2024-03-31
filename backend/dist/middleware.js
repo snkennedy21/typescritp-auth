@@ -9,12 +9,15 @@ const secretKey = "super_secret_access_key";
 const loginRequired = (req, res, next) => {
     // const authHeader: string | undefined = req.headers["authorization"];
     // const token: string | undefined = authHeader && authHeader.split(" ")[1];
-    const token = req.cookies["accessToken"];
-    console.log("TOKEN: ", token);
-    if (!token) {
+    const accessToken = req.cookies["accessToken"];
+    const refreshToken = req.cookies["refreshToken"];
+    if (!accessToken && refreshToken) {
+        return res.status(403).json({ error: "Forbidden: Access token expired" });
+    }
+    if (!accessToken && !refreshToken) {
         return res.status(401).json({ error: "Unauthorized: Token not provided" });
     }
-    jsonwebtoken_1.default.verify(token, secretKey, (err, decoded) => {
+    jsonwebtoken_1.default.verify(accessToken, secretKey, (err, decoded) => {
         if (err) {
             return res.status(403).json({ error: "Forbidden: Invalid token" });
         }

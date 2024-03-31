@@ -17,7 +17,6 @@ const express_1 = __importDefault(require("express"));
 const middleware_1 = require("../../middleware");
 exports.endpointsRouter = express_1.default.Router();
 exports.endpointsRouter.get("/protected", middleware_1.loginRequired, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("hello");
     res.json({ message: "You are authorized to view this content" });
 }));
 //# sourceMappingURL=endpoints.js.map

@@ -20,15 +20,18 @@ export const loginRequired = (
   // const authHeader: string | undefined = req.headers["authorization"];
   // const token: string | undefined = authHeader && authHeader.split(" ")[1];
 
-  const token: string | undefined = req.cookies["accessToken"];
+  const accessToken: string | undefined = req.cookies["accessToken"];
+  const refreshToken: string | undefined = req.cookies["refreshToken"];
 
-  console.log("TOKEN: ", token);
+  if (!accessToken && refreshToken) {
+    return res.status(403).json({ error: "Forbidden: Access token expired" });
+  }
 
-  if (!token) {
+  if (!accessToken && !refreshToken) {
     return res.status(401).json({ error: "Unauthorized: Token not provided" });
   }
 
-  jwt.verify(token, secretKey, (err, decoded) => {
+  jwt.verify(accessToken as string, secretKey, (err, decoded) => {
     if (err) {
       return res.status(403).json({ error: "Forbidden: Invalid token" });
     }

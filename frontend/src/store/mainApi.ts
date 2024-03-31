@@ -11,7 +11,6 @@ export const mainApi = createApi({
   endpoints: (builder) => ({
     signup: builder.mutation({
       query: (data) => {
-        console.log(data);
         return {
           url: "/users/create",
           method: "POST",
@@ -43,8 +42,22 @@ export const mainApi = createApi({
         };
       },
     }),
+
+    refreshToken: builder.mutation({
+      query: () => {
+        return {
+          url: "/users/refresh",
+          method: "POST",
+          credentials: "include",
+        };
+      },
+    }),
   }),
 });
 
-export const { useSignupMutation, useLoginMutation, useTestAuthQuery } =
-  mainApi;
+export const {
+  useSignupMutation,
+  useLoginMutation,
+  useTestAuthQuery,
+  useRefreshTokenMutation,
+} = mainApi;
