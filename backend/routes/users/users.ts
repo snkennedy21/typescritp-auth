@@ -6,9 +6,17 @@ import { User, CreateUserInput } from "./users.d";
 
 export const userRouter: Router = express.Router();
 
-// ************* //
-// Get all users //
-// ************* //
+const ACCESS_KEY = "super_secret_access_key";
+const REFRESH_KEY = "super_seccret_refresh_key";
+const ACCESS_TOKEN_EXPIRY = "10s";
+const REFRESH_TOKEN_EXPIRY = "5m";
+const ACCESS_COOKIE_EXPIRY = 10 * 1000;
+const REFRESH_COOKIE_EXPIRY = 5 * 60 * 1000;
+
+/****************************************
+ * * Get All Users
+ * @returns {User[]} - Array of all users
+ ****************************************/
 userRouter.get("/", async (req: Request, res: Response) => {
   try {
     const users: User[] = await prisma.user.findMany();
@@ -19,9 +27,10 @@ userRouter.get("/", async (req: Request, res: Response) => {
   }
 });
 
-// ***************** //
-// Create a new user //
-// ***************** //
+/******************************************
+ * * Create New User
+ * @returns {User} - The newly created user
+ ******************************************/
 userRouter.post("/create", async (req: Request, res: Response) => {
   const { name, email, password }: CreateUserInput = req.body;
   try {
@@ -45,28 +54,20 @@ userRouter.post("/create", async (req: Request, res: Response) => {
     delete user.password;
 
     // Tokens are created to authenticate the user
-    const accessToken: string = jwt.sign(
-      { userId: user.id },
-      "super_secret_access_key",
-      {
-        expiresIn: "1m",
-      }
-    );
-    const refreshToken: string = jwt.sign(
-      { userId: user.id },
-      "super_secret_refresh_key",
-      {
-        expiresIn: "1m",
-      }
-    );
+    const accessToken: string = jwt.sign({ userId: user.id }, ACCESS_KEY, {
+      expiresIn: ACCESS_TOKEN_EXPIRY,
+    });
+    const refreshToken: string = jwt.sign({ userId: user.id }, REFRESH_KEY, {
+      expiresIn: REFRESH_TOKEN_EXPIRY,
+    });
 
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
-      maxAge: 60 * 1000,
+      maxAge: ACCESS_COOKIE_EXPIRY,
     }); // Expires in 1 minute
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      maxAge: 60 * 1000,
+      maxAge: REFRESH_COOKIE_EXPIRY,
     }); // Expires in 1 minute
 
     res.json(user);
@@ -76,9 +77,10 @@ userRouter.post("/create", async (req: Request, res: Response) => {
   }
 });
 
-// *********************** //
-// Get a single user by ID //
-// *********************** //
+/**************************************************
+ * * Get A User By ID
+ * @returns {User} - The user with the specified ID
+ **************************************************/
 userRouter.get("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -99,9 +101,10 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// ******************* //
-// Delete a user by ID //
-// ******************* //
+/************************************
+ * * Delete A User By ID
+ * @returns {User} - The deleted user
+ ***********************************/
 userRouter.delete("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -116,9 +119,10 @@ userRouter.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// ************ //
-// Login a user //
-// ************ //
+/********************************************
+ * * Login User
+ * @returns {newAccessToken, newRefreshToken}
+ *******************************************/
 userRouter.post("/login", async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
@@ -140,59 +144,48 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  const accessToken: string = jwt.sign(
-    { userId: user.id },
-    "super_secret_access_key",
-    {
-      expiresIn: "10s",
-    }
-  );
-  const refreshToken: string = jwt.sign(
-    { userId: user.id },
-    "super_secret_refresh_key",
-    {
-      expiresIn: "5m",
-    }
-  );
+  const accessToken: string = jwt.sign({ userId: user.id }, ACCESS_KEY, {
+    expiresIn: ACCESS_TOKEN_EXPIRY,
+  });
+  const refreshToken: string = jwt.sign({ userId: user.id }, REFRESH_KEY, {
+    expiresIn: REFRESH_TOKEN_EXPIRY,
+  });
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    maxAge: 5 * 1000,
+    maxAge: ACCESS_COOKIE_EXPIRY,
   });
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    maxAge: 60 * 5000,
+    maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
   res.cookie("isAuthenticated", accessToken, {
     httpOnly: false,
-    maxAge: 5 * 1000,
+    maxAge: ACCESS_COOKIE_EXPIRY,
   });
 
   res.cookie("isRefreshable", refreshToken, {
     httpOnly: false,
-    maxAge: 60 * 5000,
+    maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
   res.json({ accessToken, refreshToken });
 });
 
-// ******************* //
-// Refresh User Tokens //
-// ******************* //
+/********************************************
+ * * Refresh Tokens
+ * @returns {newAccessToken, newRefreshToken}
+ *******************************************/
 userRouter.post("/refresh", async (req: Request, res: Response) => {
-  // Now using req.cookies to get the refreshToken
   const refreshToken = req.cookies["refreshToken"];
 
   if (!refreshToken) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  const decoded = jwt.verify(
-    refreshToken,
-    "super_secret_refresh_key"
-  ) as JwtPayload;
+  const decoded = jwt.verify(refreshToken, REFRESH_KEY) as JwtPayload;
 
   const user = await prisma.user.findUnique({
     where: { id: decoded.userId },
@@ -202,39 +195,31 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
     throw new Error("User not found");
   }
 
-  const newAccessToken = jwt.sign(
-    { userId: user.id },
-    "super_secret_access_key",
-    {
-      expiresIn: "10s",
-    }
-  );
-  const newRefreshToken = jwt.sign(
-    { userId: user.id },
-    "super_secret_refresh_key",
-    {
-      expiresIn: "5m",
-    }
-  );
+  const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_KEY, {
+    expiresIn: ACCESS_TOKEN_EXPIRY,
+  });
+  const newRefreshToken = jwt.sign({ userId: user.id }, REFRESH_KEY, {
+    expiresIn: REFRESH_TOKEN_EXPIRY,
+  });
 
   res.cookie("accessToken", newAccessToken, {
     httpOnly: true,
-    maxAge: 5 * 1000,
+    maxAge: ACCESS_COOKIE_EXPIRY,
   });
 
   res.cookie("refreshToken", newRefreshToken, {
     httpOnly: true,
-    maxAge: 60 * 5000,
+    maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
   res.cookie("isAuthenticated", newAccessToken, {
     httpOnly: false,
-    maxAge: 5 * 1000,
+    maxAge: ACCESS_COOKIE_EXPIRY,
   });
 
   res.cookie("isRefreshable", newRefreshToken, {
     httpOnly: false,
-    maxAge: 60 * 5000,
+    maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
   res.json({ newAccessToken, newRefreshToken });

@@ -18,9 +18,16 @@ const prisma_1 = require("../../prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 exports.userRouter = express_1.default.Router();
-// ************* //
-// Get all users //
-// ************* //
+const ACCESS_KEY = "super_secret_access_key";
+const REFRESH_KEY = "super_seccret_refresh_key";
+const ACCESS_TOKEN_EXPIRY = "10s";
+const REFRESH_TOKEN_EXPIRY = "5m";
+const ACCESS_COOKIE_EXPIRY = 10 * 1000;
+const REFRESH_COOKIE_EXPIRY = 5 * 60 * 1000;
+/****************************************
+ * * Get All Users
+ * @returns {User[]} - Array of all users
+ ****************************************/
 exports.userRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield prisma_1.prisma.user.findMany();
@@ -31,9 +38,10 @@ exports.userRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ error: "Internal server error" });
     }
 }));
-// ***************** //
-// Create a new user //
-// ***************** //
+/******************************************
+ * * Create New User
+ * @returns {User} - The newly created user
+ ******************************************/
 exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     try {
@@ -54,19 +62,19 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
         });
         delete user.password;
         // Tokens are created to authenticate the user
-        const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_access_key", {
-            expiresIn: "1m",
+        const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
+            expiresIn: ACCESS_TOKEN_EXPIRY,
         });
-        const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_refresh_key", {
-            expiresIn: "1m",
+        const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
+            expiresIn: REFRESH_TOKEN_EXPIRY,
         });
         res.cookie("accessToken", accessToken, {
             httpOnly: true,
-            maxAge: 60 * 1000,
+            maxAge: ACCESS_COOKIE_EXPIRY,
         }); // Expires in 1 minute
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            maxAge: 60 * 1000,
+            maxAge: REFRESH_COOKIE_EXPIRY,
         }); // Expires in 1 minute
         res.json(user);
     }
@@ -75,9 +83,10 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).json({ error: "Internal server error" });
     }
 }));
-// *********************** //
-// Get a single user by ID //
-// *********************** //
+/**************************************************
+ * * Get A User By ID
+ * @returns {User} - The user with the specified ID
+ **************************************************/
 exports.userRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -96,9 +105,10 @@ exports.userRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(500).json({ error: "Internal server error" });
     }
 }));
-// ******************* //
-// Delete a user by ID //
-// ******************* //
+/************************************
+ * * Delete A User By ID
+ * @returns {User} - The deleted user
+ ***********************************/
 exports.userRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -112,9 +122,10 @@ exports.userRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).json({ error: "Internal server error" });
     }
 }));
-// ************ //
-// Login a user //
-// ************ //
+/********************************************
+ * * Login User
+ * @returns {newAccessToken, newRefreshToken}
+ *******************************************/
 exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     const user = yield prisma_1.prisma.user.findUnique({
@@ -130,67 +141,67 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
     if (!passwordMatch) {
         return res.status(401).json({ message: "Invalid credentials" });
     }
-    const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_access_key", {
-        expiresIn: "10s",
+    const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
+        expiresIn: ACCESS_TOKEN_EXPIRY,
     });
-    const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_refresh_key", {
-        expiresIn: "5m",
+    const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
+        expiresIn: REFRESH_TOKEN_EXPIRY,
     });
     res.cookie("accessToken", accessToken, {
         httpOnly: true,
-        maxAge: 5 * 1000,
+        maxAge: ACCESS_COOKIE_EXPIRY,
     });
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        maxAge: 60 * 5000,
+        maxAge: REFRESH_COOKIE_EXPIRY,
     });
     res.cookie("isAuthenticated", accessToken, {
         httpOnly: false,
-        maxAge: 5 * 1000,
+        maxAge: ACCESS_COOKIE_EXPIRY,
     });
     res.cookie("isRefreshable", refreshToken, {
         httpOnly: false,
-        maxAge: 60 * 5000,
+        maxAge: REFRESH_COOKIE_EXPIRY,
     });
     res.json({ accessToken, refreshToken });
 }));
-// ******************* //
-// Refresh User Tokens //
-// ******************* //
+/********************************************
+ * * Refresh Tokens
+ * @returns {newAccessToken, newRefreshToken}
+ *******************************************/
 exports.userRouter.post("/refresh", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Now using req.cookies to get the refreshToken
     const refreshToken = req.cookies["refreshToken"];
     if (!refreshToken) {
         return res.status(401).json({ message: "Invalid credentials" });
     }
-    const decoded = jsonwebtoken_1.default.verify(refreshToken, "super_secret_refresh_key");
+    const decoded = jsonwebtoken_1.default.verify(refreshToken, REFRESH_KEY);
     const user = yield prisma_1.prisma.user.findUnique({
         where: { id: decoded.userId },
     });
     if (!user) {
         throw new Error("User not found");
     }
-    const newAccessToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_access_key", {
-        expiresIn: "10s",
+    const newAccessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
+        expiresIn: ACCESS_TOKEN_EXPIRY,
     });
-    const newRefreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, "super_secret_refresh_key", {
-        expiresIn: "5m",
+    const newRefreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
+        expiresIn: REFRESH_TOKEN_EXPIRY,
     });
     res.cookie("accessToken", newAccessToken, {
         httpOnly: true,
-        maxAge: 5 * 1000,
+        maxAge: ACCESS_COOKIE_EXPIRY,
     });
     res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
-        maxAge: 60 * 5000,
+        maxAge: REFRESH_COOKIE_EXPIRY,
     });
     res.cookie("isAuthenticated", newAccessToken, {
         httpOnly: false,
-        maxAge: 5 * 1000,
+        maxAge: ACCESS_COOKIE_EXPIRY,
     });
     res.cookie("isRefreshable", newRefreshToken, {
         httpOnly: false,
-        maxAge: 60 * 5000,
+        maxAge: REFRESH_COOKIE_EXPIRY,
     });
     res.json({ newAccessToken, newRefreshToken });
 }));
