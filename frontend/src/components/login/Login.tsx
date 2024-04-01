@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../store/mainApi";
 import { authenticateUser } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [formState, setFormState] = useState({
@@ -23,6 +25,7 @@ function Login() {
     e.preventDefault();
     login(formState);
     dispatch(authenticateUser());
+    navigate("/");
   };
 
   return (

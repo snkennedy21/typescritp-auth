@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../store/mainApi";
 import { unauthenticateUser } from "../../store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -12,6 +14,7 @@ const Navigation = () => {
     console.log("HELLO EVERYONE");
     logout();
     dispatch(unauthenticateUser());
+    navigate("/");
   };
 
   return (

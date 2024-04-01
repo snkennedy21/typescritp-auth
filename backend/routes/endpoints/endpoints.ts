@@ -7,6 +7,7 @@ endpointsRouter.get(
   "/protected",
   loginRequired,
   async (req: Request, res: Response) => {
+    console.log("I AM PROTECTED ENDPOINT");
     res.json({ message: "Yes, you can view this content" });
   }
 );

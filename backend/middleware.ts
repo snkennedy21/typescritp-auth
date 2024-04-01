@@ -21,7 +21,7 @@ export const loginRequired = (
   const accessToken: string | undefined = req.cookies["accessToken"];
   const refreshToken: string | undefined = req.cookies["refreshToken"];
 
-  console.log("REQUEST: ", req);
+  console.log("I AM MIDDLEWARE");
 
   // If the access token is not provided, but the refresh token is, then the access token has expired
   if (!accessToken && refreshToken) {

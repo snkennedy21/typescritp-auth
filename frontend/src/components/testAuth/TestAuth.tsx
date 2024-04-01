@@ -4,20 +4,18 @@ import useAuthCheck from "../../customHooks/useAuthCheck";
 
 const TestAuth = () => {
   const { data, error, isLoading, refetch } = useTestAuthQuery();
-  const dispatch = useDispatch();
-  const [refreshTokens] = useRefreshTokenMutation();
+  useAuthCheck(error, refetch);
+  
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  useAuthCheck(error, refreshTokens, dispatch, refetch);
-
-  console.log("data: ", data);
-  console.log("isAuthenticated: ", isAuthenticated);
+  // console.log("data: ", data);
+  // console.log("isAuthenticated: ", isAuthenticated);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || data === undefined) {
     return <div>No, you are not authenticated</div>;
   }
 

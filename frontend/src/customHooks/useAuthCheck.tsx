@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { authenticateUser } from "../store/authSlice";
+import { useRefreshTokenMutation } from "../store/mainApi";
+import { useDispatch } from "react-redux";
 
 /**
  * Custom hook to check authentication and handle token refresh.
@@ -8,8 +10,11 @@ import { authenticateUser } from "../store/authSlice";
  * @param {function} dispatch - The Redux dispatch function.
  * @param {function} refetch - Function to refetch authentication status.
  */
-const useAuthCheck = (error, refreshTokens, dispatch, refetch) => {
+const useAuthCheck = (error, refetch) => {
+  const dispatch = useDispatch();
+  const [refreshTokens] = useRefreshTokenMutation();
   useEffect(() => {
+    console.log("error: ", error);
     if (
       error &&
       error.data &&
@@ -18,7 +23,7 @@ const useAuthCheck = (error, refreshTokens, dispatch, refetch) => {
       refreshTokens()
         .unwrap()
         .then(() => {
-          dispatch(authenticateUser()); // Assuming authenticateUser is an action creator
+          dispatch(authenticateUser());
           refetch();
         })
         .catch((refreshError) =>
