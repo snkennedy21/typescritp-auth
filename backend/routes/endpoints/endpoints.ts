@@ -7,6 +7,10 @@ endpointsRouter.get(
   "/protected",
   loginRequired,
   async (req: Request, res: Response) => {
-    res.json({ message: "You are authorized to view this content" });
+    res.json({ message: "Yes, you can view this content" });
   }
 );
+
+endpointsRouter.get("/unprotected", async (req: Request, res: Response) => {
+  res.json({ message: "This content is not protected" });
+});

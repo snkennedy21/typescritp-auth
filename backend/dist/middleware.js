@@ -11,6 +11,7 @@ const loginRequired = (req, res, next) => {
     // Get the access token and refresh token from the cookies
     const accessToken = req.cookies["accessToken"];
     const refreshToken = req.cookies["refreshToken"];
+    console.log("REQUEST: ", req);
     // If the access token is not provided, but the refresh token is, then the access token has expired
     if (!accessToken && refreshToken) {
         return res.status(403).json({ error: "Forbidden: Access token expired" });

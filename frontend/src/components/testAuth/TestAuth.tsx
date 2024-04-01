@@ -10,6 +10,9 @@ const TestAuth = () => {
 
   useAuthCheck(error, refreshTokens, dispatch, refetch);
 
+  console.log("data: ", data);
+  console.log("isAuthenticated: ", isAuthenticated);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -18,7 +21,7 @@ const TestAuth = () => {
     return <div>No, you are not authenticated</div>;
   }
 
-  return <div>Yes, you are authenticated</div>;
+  return <div>{data.message}</div>;
 };
 
 export default TestAuth;

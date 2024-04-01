@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../store/mainApi";
+import { authenticateUser } from "../../store/authSlice";
 
 function Login() {
+  const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [formState, setFormState] = useState({
     name: "",
@@ -19,6 +22,7 @@ function Login() {
   const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(formState);
+    dispatch(authenticateUser());
   };
 
   return (

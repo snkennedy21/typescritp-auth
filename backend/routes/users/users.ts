@@ -224,3 +224,36 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
 
   res.json({ newAccessToken, newRefreshToken });
 });
+
+/********************************************
+ * * Logout User
+ * @returns {message}
+ *******************************************/
+userRouter.post("/logout", (req: Request, res: Response) => {
+  // Clear the accessToken cookie
+  res.cookie("accessToken", "", {
+    httpOnly: true,
+    expires: new Date(0), // Set the cookie to expire immediately
+  });
+
+  // Clear the refreshToken cookie
+  res.cookie("refreshToken", "", {
+    httpOnly: true,
+    expires: new Date(0), // Set the cookie to expire immediately
+  });
+
+  // Optionally, clear the isAuthenticated cookie
+  res.cookie("isAuthenticated", "", {
+    httpOnly: false,
+    expires: new Date(0), // Set the cookie to expire immediately
+  });
+
+  // Optionally, clear the isRefreshable cookie
+  res.cookie("isRefreshable", "", {
+    httpOnly: false,
+    expires: new Date(0), // Set the cookie to expire immediately
+  });
+
+  // Send a response indicating the user was logged out
+  res.status(200).json({ message: "Logged out successfully" });
+});

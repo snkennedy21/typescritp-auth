@@ -33,10 +33,31 @@ export const mainApi = createApi({
       invalidatesTags: ["User"],
     }),
 
+    logout: builder.mutation({
+      query: () => {
+        return {
+          url: "/users/logout",
+          method: "POST",
+          credentials: "include",
+        };
+      },
+      invalidatesTags: ["User"],
+    }),
+
     TestAuth: builder.query({
       query: () => {
         return {
           url: "/endpoints/protected",
+          method: "GET",
+          credentials: "include",
+        };
+      },
+    }),
+
+    UnprotectedEndpoint: builder.query({
+      query: () => {
+        return {
+          url: "/endpoints/unprotected",
           method: "GET",
           credentials: "include",
         };
@@ -58,6 +79,8 @@ export const mainApi = createApi({
 export const {
   useSignupMutation,
   useLoginMutation,
+  useLogoutMutation,
+  useUnprotectedEndpointQuery,
   useTestAuthQuery,
   useRefreshTokenMutation,
 } = mainApi;

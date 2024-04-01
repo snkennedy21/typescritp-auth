@@ -1,20 +1,43 @@
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../../store/mainApi";
+import { unauthenticateUser } from "../../store/authSlice";
 
 const Navigation = () => {
+  const dispatch = useDispatch();
+  const [logout] = useLogoutMutation();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const logoutHandler = () => {
+    console.log("HELLO EVERYONE");
+    logout();
+    dispatch(unauthenticateUser());
+  };
+
   return (
     <nav>
       <ul style={{ display: "flex", gap: "5rem" }}>
         <li>
           <Link to="/">Home</Link>
         </li>
+        {isAuthenticated ? (
+          <li onClick={logoutHandler}>Logout</li>
+        ) : (
+          <>
+            <li>
+              <Link to="/signup">Signup</Link>
+            </li>
+            <li>
+              <Link to="/login">Login</Link>
+            </li>
+          </>
+        )}
+
         <li>
-          <Link to="/signup">Signup</Link>
+          <Link to="/protected">Protected</Link>
         </li>
         <li>
-          <Link to="/login">Login</Link>
-        </li>
-        <li>
-          <Link to="/test">Am I Authenticated?</Link>
+          <Link to="/unprotected">Unprotected</Link>
         </li>
       </ul>
     </nav>

@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { authenticateUser, unauthenticateUser } from "./store/authSlice"; // Adjust the path as necessary
 import Cookies from "js-cookie";
 import { useRefreshTokenMutation } from "./store/mainApi";
+import UnprotectedEndpoint from "./components/unprotectedEndpoint/unprotectedEndpoint";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,7 +37,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/test" element={<TestAuth />} />
+          <Route path="/protected" element={<TestAuth />} />
+          <Route path="/unprotected" element={<UnprotectedEndpoint />} />
         </Routes>
       </BrowserRouter>
     </React.Fragment>
