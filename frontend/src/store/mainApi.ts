@@ -1,11 +1,34 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const baseQuery = fetchBaseQuery({
+  baseUrl: "http://localhost:8000",
+  credentials: "include",
+});
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (
+    result.error &&
+    result.error.status === 403 &&
+    result.error.data.error === "Forbidden: Access token expired"
+  ) {
+    // Perform refresh token logic here
+    const refreshResult = await baseQuery("/users/refresh", api, extraOptions);
+
+    if (refreshResult.error) {
+      // Retry the original query with the new access token
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      // Handle case where refresh also fails (e.g., logout the user or redirect to login)
+    }
+  }
+
+  return result;
+};
+
 export const mainApi = createApi({
   reducerPath: "mainApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000",
-  }),
-
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["User"],
 
   endpoints: (builder) => ({
@@ -15,7 +38,6 @@ export const mainApi = createApi({
           url: "/users/create",
           method: "POST",
           body: data,
-          credentials: "include",
         };
       },
       invalidatesTags: ["User"],
@@ -27,7 +49,6 @@ export const mainApi = createApi({
           url: "/users/login",
           method: "POST",
           body: data,
-          credentials: "include",
         };
       },
       invalidatesTags: ["User"],
@@ -38,7 +59,6 @@ export const mainApi = createApi({
         return {
           url: "/users/logout",
           method: "POST",
-          credentials: "include",
         };
       },
       invalidatesTags: ["User"],
@@ -49,7 +69,6 @@ export const mainApi = createApi({
         return {
           url: "/endpoints/protected",
           method: "GET",
-          credentials: "include",
         };
       },
     }),
@@ -59,7 +78,6 @@ export const mainApi = createApi({
         return {
           url: "/endpoints/unprotected",
           method: "GET",
-          credentials: "include",
         };
       },
     }),
@@ -69,7 +87,6 @@ export const mainApi = createApi({
         return {
           url: "/users/refresh",
           method: "POST",
-          credentials: "include",
         };
       },
     }),

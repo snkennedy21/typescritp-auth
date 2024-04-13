@@ -14,7 +14,6 @@ const useAuthCheck = (error, refetch) => {
   const dispatch = useDispatch();
   const [refreshTokens] = useRefreshTokenMutation();
   useEffect(() => {
-    console.log("error: ", error);
     if (
       error &&
       error.data &&

@@ -19,10 +19,10 @@ function App() {
     const token = Cookies.get("isAuthenticated");
     const refreshToken = Cookies.get("isRefreshable");
 
-    console.log("token: ", token);
-
     if (!token && refreshToken) {
-      refresh();
+      refresh().then(() => {
+        dispatch(authenticateUser());
+      });
     }
     if (token) {
       dispatch(authenticateUser());

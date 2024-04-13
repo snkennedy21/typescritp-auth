@@ -11,7 +11,6 @@ const Navigation = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const logoutHandler = () => {
-    console.log("HELLO EVERYONE");
     logout();
     dispatch(unauthenticateUser());
     navigate("/");

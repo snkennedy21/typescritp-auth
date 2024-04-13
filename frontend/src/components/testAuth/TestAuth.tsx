@@ -1,11 +1,10 @@
 import { useTestAuthQuery, useRefreshTokenMutation } from "../../store/mainApi";
 import { useSelector, useDispatch } from "react-redux";
-import useAuthCheck from "../../customHooks/useAuthCheck";
+// import useAuthCheck from "../../customHooks/useAuthCheck";
 
 const TestAuth = () => {
-  const { data, error, isLoading, refetch } = useTestAuthQuery();
-  useAuthCheck(error, refetch);
-  
+  const { data, error, isLoading } = useTestAuthQuery();
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   // console.log("data: ", data);

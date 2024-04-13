@@ -12,7 +12,7 @@ interface AuthenticatedRequest extends Request {
 const ACCESS_KEY = "super_secret_access_key";
 
 // Middleware to check if the user is authenticated
-export const loginRequired = (
+export const loginRequired = async (
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction
@@ -20,8 +20,6 @@ export const loginRequired = (
   // Get the access token and refresh token from the cookies
   const accessToken: string | undefined = req.cookies["accessToken"];
   const refreshToken: string | undefined = req.cookies["refreshToken"];
-
-  console.log("I AM MIDDLEWARE");
 
   // If the access token is not provided, but the refresh token is, then the access token has expired
   if (!accessToken && refreshToken) {
@@ -35,6 +33,10 @@ export const loginRequired = (
 
   // Verify the access token
   jwt.verify(accessToken as string, ACCESS_KEY, (err, decoded) => {
+    if (err && refreshToken) {
+      // If the access token is invalid, but the refresh token is provided, then the access token has expired
+      return res.status(403).json({ error: "Forbidden: Access token expired" });
+    }
     if (err) {
       return res.status(403).json({ error: "Forbidden: Invalid token" });
     }

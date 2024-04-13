@@ -79,7 +79,6 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
         res.json(user);
     }
     catch (error) {
-        console.log("Error creating user:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 }));
