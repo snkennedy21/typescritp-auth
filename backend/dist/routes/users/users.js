@@ -79,6 +79,7 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
         res.json(user);
     }
     catch (error) {
+        console.log("Error creating user:", error);
         res.status(500).json({ error: "Internal server error" });
     }
 }));
@@ -170,6 +171,7 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
  *******************************************/
 exports.userRouter.post("/refresh", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies["refreshToken"];
+    console.log("refreshToken: ", refreshToken);
     if (!refreshToken) {
         return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -202,6 +204,8 @@ exports.userRouter.post("/refresh", (req, res) => __awaiter(void 0, void 0, void
         httpOnly: false,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
+    console.log("newAccessToken: ", newAccessToken);
+    console.log("newRefreshToken: ", newRefreshToken);
     res.json({ newAccessToken, newRefreshToken });
 }));
 /********************************************

@@ -17,29 +17,36 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ACCESS_KEY = "super_secret_access_key";
 // Middleware to check if the user is authenticated
 const loginRequired = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    // Get the access token and refresh token from the cookies
     const accessToken = req.cookies["accessToken"];
     const refreshToken = req.cookies["refreshToken"];
-    // If the access token is not provided, but the refresh token is, then the access token has expired
-    if (!accessToken && refreshToken) {
-        return res.status(403).json({ error: "Forbidden: Access token expired" });
-    }
-    // If neither the access token nor the refresh token is provided, then the user is not authenticated
+    // If neither token is present, return unauthorized
     if (!accessToken && !refreshToken) {
-        return res.status(401).json({ error: "Unauthorized: Token not provided" });
+        return res.status(401).json({ error: "Unauthorized: Tokens not provided" });
     }
-    // Verify the access token
-    jsonwebtoken_1.default.verify(accessToken, ACCESS_KEY, (err, decoded) => {
-        if (err && refreshToken) {
-            // If the access token is invalid, but the refresh token is provided, then the access token has expired
-            return res.status(403).json({ error: "Forbidden: Access token expired" });
-        }
-        if (err) {
-            return res.status(403).json({ error: "Forbidden: Invalid token" });
-        }
-        req.user = decoded;
-        next();
-    });
+    // If access token is present, verify it
+    if (accessToken) {
+        jsonwebtoken_1.default.verify(accessToken, ACCESS_KEY, (err, decoded) => {
+            if (err) {
+                if (refreshToken) {
+                    // Instead of directly refreshing here, prompt client to refresh or redirect
+                    return res.status(403).json({
+                        error: "Forbidden: Access token expired, please refresh token",
+                    });
+                }
+                return res.status(403).json({ error: "Forbidden: Invalid token" });
+            }
+            req.user = decoded;
+            next();
+        });
+    }
+    else if (refreshToken) {
+        // Access token is missing but refresh token is present, prompt or redirect to refresh
+        return res
+            .status(403)
+            .json({ error: "Forbidden: Access token expired, please refresh token" });
+    }
 });
 exports.loginRequired = loginRequired;
+// Okay, I think this is helpful as a middleware function. I am using RTK query to make all of my requests to my endpoints. Can you help me set up functionality in RTK query in my api calls that will do the following:
+// If the middleware function returns error: "Forbidden: Access token expired, please refresh token", then RtK query should do the following. It should make a request to my '/refresh/' endpoint 
 //# sourceMappingURL=middleware.js.map

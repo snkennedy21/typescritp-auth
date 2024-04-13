@@ -181,6 +181,8 @@ userRouter.post("/login", async (req: Request, res: Response) => {
 userRouter.post("/refresh", async (req: Request, res: Response) => {
   const refreshToken = req.cookies["refreshToken"];
 
+  console.log("refreshToken: ", refreshToken);
+
   if (!refreshToken) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -221,6 +223,9 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
     httpOnly: false,
     maxAge: REFRESH_COOKIE_EXPIRY,
   });
+
+  console.log("newAccessToken: ", newAccessToken);
+  console.log("newRefreshToken: ", newRefreshToken);
 
   res.json({ newAccessToken, newRefreshToken });
 });

@@ -7,19 +7,38 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
+
   if (
     result.error &&
     result.error.status === 403 &&
-    result.error.data.error === "Forbidden: Access token expired"
+    result.error.data?.error ===
+      "Forbidden: Access token expired, please refresh token"
   ) {
-    // Perform refresh token logic here
-    const refreshResult = await baseQuery("/users/refresh", api, extraOptions);
+    console.log("refreshing tokens");
+    // Attempt to refresh tokens
+    const refreshResult = await baseQuery(
+      { url: "users/refresh", method: "POST" },
+      api,
+      extraOptions
+    );
 
-    if (refreshResult.error) {
-      // Retry the original query with the new access token
+    console.log("refreshResult: ", refreshResult);
+
+    if (refreshResult.data) {
+      // Store the new tokens in your state
+      // api.dispatch(
+      //   authActions.setTokens({
+      //     accessToken: refreshResult.data.newAccessToken,
+      //     refreshToken: refreshResult.data.newRefreshToken,
+      //   })
+      // );
+
+      // Retry the original query with new token
       result = await baseQuery(args, api, extraOptions);
+
+      console.log("result: ", result);
     } else {
-      // Handle case where refresh also fails (e.g., logout the user or redirect to login)
+      // Handle failed refresh here (e.g., redirect to login)
     }
   }
 
@@ -66,6 +85,7 @@ export const mainApi = createApi({
 
     TestAuth: builder.query({
       query: () => {
+        console.log("Testing auth");
         return {
           url: "/endpoints/protected",
           method: "GET",
@@ -84,6 +104,7 @@ export const mainApi = createApi({
 
     refreshToken: builder.mutation({
       query: () => {
+        console.log("refreshing token");
         return {
           url: "/users/refresh",
           method: "POST",
