@@ -9,10 +9,10 @@ export const userRouter: Router = express.Router();
 // Make sure these are put in a .env file
 const ACCESS_KEY = "super_secret_access_key";
 const REFRESH_KEY = "super_seccret_refresh_key";
-const ACCESS_TOKEN_EXPIRY = "20s";
-const REFRESH_TOKEN_EXPIRY = "1m";
-const ACCESS_COOKIE_EXPIRY = 20 * 1000;
-const REFRESH_COOKIE_EXPIRY = 60 * 1000;
+const ACCESS_TOKEN_EXPIRY = "15m";
+const REFRESH_TOKEN_EXPIRY = "1w";
+const ACCESS_COOKIE_EXPIRY = 15 * 60 * 1000; // 15 minutes
+const REFRESH_COOKIE_EXPIRY = 604800000; // 1 week
 
 /****************************************
  * * Get All Users
@@ -65,11 +65,11 @@ userRouter.post("/create", async (req: Request, res: Response) => {
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       maxAge: ACCESS_COOKIE_EXPIRY,
-    }); // Expires in 1 minute
+    });
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: REFRESH_COOKIE_EXPIRY,
-    }); // Expires in 1 minute
+    });
 
     res.json(user);
   } catch (error) {

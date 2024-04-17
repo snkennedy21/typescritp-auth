@@ -1,5 +1,5 @@
 export const setLocalStorageUserData = (userData: object) => {
-  const expirationTime = new Date().getTime() + 20 * 1000;
+  const expirationTime = new Date().getTime() + 15 * 60 * 1000; // 15 minutes
   userData = {
     ...userData,
     expirationTime,
