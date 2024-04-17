@@ -24,8 +24,14 @@ function Login() {
 
   const submitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Set tokens in cookies and retrieve user data
     let userData = await login(formState).unwrap();
+
+    // Set user data in redux store
     dispatch(authenticateUser(userData));
+
+    // Set user data in local storage
     setLocalStorageUserData(userData);
     navigate("/");
   };

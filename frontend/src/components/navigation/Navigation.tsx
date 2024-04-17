@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../store/mainApi";
 import { unauthenticateUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { clearLocalStorageUserData } from "../../utils/localStorageUserData";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -11,8 +12,15 @@ const Navigation = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
 
   const logoutHandler = () => {
+    // clear tokens from cookies
     logout();
+
+    // clear user data from local storage
+    clearLocalStorageUserData();
+
+    // clear user data from redux store
     dispatch(unauthenticateUser());
+
     navigate("/");
   };
 
