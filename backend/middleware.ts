@@ -22,7 +22,9 @@ export const loginRequired = async (
 
   // If neither token is present, return unauthorized
   if (!accessToken && !refreshToken) {
-    return res.status(401).json({ error: "Unauthorized: Tokens not provided" });
+    return res
+      .status(401)
+      .json({ error: "Unauthorized: Please Log In To View This" });
   }
 
   // If access token is present, verify it
@@ -51,4 +53,4 @@ export const loginRequired = async (
 
 // Okay, I think this is helpful as a middleware function. I am using RTK query to make all of my requests to my endpoints. Can you help me set up functionality in RTK query in my api calls that will do the following:
 
-// If the middleware function returns error: "Forbidden: Access token expired, please refresh token", then RtK query should do the following. It should make a request to my '/refresh/' endpoint 
+// If the middleware function returns error: "Forbidden: Access token expired, please refresh token", then RtK query should do the following. It should make a request to my '/refresh/' endpoint

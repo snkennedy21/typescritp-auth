@@ -18,12 +18,13 @@ const prisma_1 = require("../../prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 exports.userRouter = express_1.default.Router();
+// Make sure these are put in a .env file
 const ACCESS_KEY = "super_secret_access_key";
 const REFRESH_KEY = "super_seccret_refresh_key";
-const ACCESS_TOKEN_EXPIRY = "10s";
-const REFRESH_TOKEN_EXPIRY = "5m";
-const ACCESS_COOKIE_EXPIRY = 10 * 1000;
-const REFRESH_COOKIE_EXPIRY = 5 * 60 * 1000;
+const ACCESS_TOKEN_EXPIRY = "20s";
+const REFRESH_TOKEN_EXPIRY = "1m";
+const ACCESS_COOKIE_EXPIRY = 20 * 1000;
+const REFRESH_COOKIE_EXPIRY = 60 * 1000;
 /****************************************
  * * Get All Users
  * @returns {User[]} - Array of all users
@@ -163,7 +164,9 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
         httpOnly: false,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
-    res.json({ accessToken, refreshToken });
+    delete user.password;
+    console.log("user: ", user);
+    res.json(user);
 }));
 /********************************************
  * * Refresh Tokens
@@ -204,9 +207,9 @@ exports.userRouter.post("/refresh", (req, res) => __awaiter(void 0, void 0, void
         httpOnly: false,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
-    console.log("newAccessToken: ", newAccessToken);
-    console.log("newRefreshToken: ", newRefreshToken);
-    res.json({ newAccessToken, newRefreshToken });
+    delete user.password;
+    console.log("user: ", user);
+    res.json(user);
 }));
 /********************************************
  * * Logout User
@@ -216,22 +219,22 @@ exports.userRouter.post("/logout", (req, res) => {
     // Clear the accessToken cookie
     res.cookie("accessToken", "", {
         httpOnly: true,
-        expires: new Date(0), // Set the cookie to expire immediately
+        expires: new Date(0),
     });
     // Clear the refreshToken cookie
     res.cookie("refreshToken", "", {
         httpOnly: true,
-        expires: new Date(0), // Set the cookie to expire immediately
+        expires: new Date(0),
     });
-    // Optionally, clear the isAuthenticated cookie
+    // Clear the isAuthenticated cookie
     res.cookie("isAuthenticated", "", {
         httpOnly: false,
-        expires: new Date(0), // Set the cookie to expire immediately
+        expires: new Date(0),
     });
-    // Optionally, clear the isRefreshable cookie
+    // Clear the isRefreshable cookie
     res.cookie("isRefreshable", "", {
         httpOnly: false,
-        expires: new Date(0), // Set the cookie to expire immediately
+        expires: new Date(0),
     });
     // Send a response indicating the user was logged out
     res.status(200).json({ message: "Logged out successfully" });

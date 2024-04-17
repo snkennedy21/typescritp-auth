@@ -6,12 +6,13 @@ import { User, CreateUserInput } from "./users.d";
 
 export const userRouter: Router = express.Router();
 
+// Make sure these are put in a .env file
 const ACCESS_KEY = "super_secret_access_key";
 const REFRESH_KEY = "super_seccret_refresh_key";
-const ACCESS_TOKEN_EXPIRY = "10s";
-const REFRESH_TOKEN_EXPIRY = "5m";
-const ACCESS_COOKIE_EXPIRY = 10 * 1000;
-const REFRESH_COOKIE_EXPIRY = 5 * 60 * 1000;
+const ACCESS_TOKEN_EXPIRY = "20s";
+const REFRESH_TOKEN_EXPIRY = "1m";
+const ACCESS_COOKIE_EXPIRY = 20 * 1000;
+const REFRESH_COOKIE_EXPIRY = 60 * 1000;
 
 /****************************************
  * * Get All Users
@@ -93,6 +94,7 @@ userRouter.get("/:id", async (req: Request, res: Response) => {
       res.status(404).json({ error: "User not found" });
       return;
     }
+
     delete user.password;
     res.json(user);
   } catch (error) {
@@ -171,7 +173,11 @@ userRouter.post("/login", async (req: Request, res: Response) => {
     maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
-  res.json({ accessToken, refreshToken });
+  delete user.password;
+
+  console.log("user: ", user);
+
+  res.json(user);
 });
 
 /********************************************
@@ -189,7 +195,7 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
 
   const decoded = jwt.verify(refreshToken, REFRESH_KEY) as JwtPayload;
 
-  const user = await prisma.user.findUnique({
+  const user: User | null = await prisma.user.findUnique({
     where: { id: decoded.userId },
   });
 
@@ -224,10 +230,11 @@ userRouter.post("/refresh", async (req: Request, res: Response) => {
     maxAge: REFRESH_COOKIE_EXPIRY,
   });
 
-  console.log("newAccessToken: ", newAccessToken);
-  console.log("newRefreshToken: ", newRefreshToken);
+  delete user.password;
 
-  res.json({ newAccessToken, newRefreshToken });
+  console.log("user: ", user);
+
+  res.json(user);
 });
 
 /********************************************
@@ -238,25 +245,25 @@ userRouter.post("/logout", (req: Request, res: Response) => {
   // Clear the accessToken cookie
   res.cookie("accessToken", "", {
     httpOnly: true,
-    expires: new Date(0), // Set the cookie to expire immediately
+    expires: new Date(0),
   });
 
   // Clear the refreshToken cookie
   res.cookie("refreshToken", "", {
     httpOnly: true,
-    expires: new Date(0), // Set the cookie to expire immediately
+    expires: new Date(0),
   });
 
-  // Optionally, clear the isAuthenticated cookie
+  // Clear the isAuthenticated cookie
   res.cookie("isAuthenticated", "", {
     httpOnly: false,
-    expires: new Date(0), // Set the cookie to expire immediately
+    expires: new Date(0),
   });
 
-  // Optionally, clear the isRefreshable cookie
+  // Clear the isRefreshable cookie
   res.cookie("isRefreshable", "", {
     httpOnly: false,
-    expires: new Date(0), // Set the cookie to expire immediately
+    expires: new Date(0),
   });
 
   // Send a response indicating the user was logged out

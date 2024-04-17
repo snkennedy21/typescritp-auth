@@ -8,7 +8,7 @@ const Navigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [logout] = useLogoutMutation();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
   const logoutHandler = () => {
     logout();
@@ -22,7 +22,7 @@ const Navigation = () => {
         <li>
           <Link to="/">Home</Link>
         </li>
-        {isAuthenticated ? (
+        {currentUser ? (
           <li onClick={logoutHandler}>Logout</li>
         ) : (
           <>

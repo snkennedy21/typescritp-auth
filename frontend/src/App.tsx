@@ -10,25 +10,36 @@ import { authenticateUser, unauthenticateUser } from "./store/authSlice"; // Adj
 import Cookies from "js-cookie";
 import { useRefreshTokenMutation } from "./store/mainApi";
 import UnprotectedEndpoint from "./components/unprotectedEndpoint/unprotectedEndpoint";
+import {
+  setLocalStorageUserData,
+  clearLocalStorage,
+} from "./utils/localStorageUserData";
 
 function App() {
   const dispatch = useDispatch();
   const [refresh] = useRefreshTokenMutation();
 
   useEffect(() => {
-    const token = Cookies.get("isAuthenticated");
-    const refreshToken = Cookies.get("isRefreshable");
+    const initAuth = async () => {
+      // await getLocalStorage(); // Assuming getLocalStorage is asynchronous and returns a Promise
+      const token = Cookies.get("isAuthenticated");
+      const refreshToken = Cookies.get("isRefreshable");
 
-    if (!token && refreshToken) {
-      refresh().then(() => {
-        dispatch(authenticateUser());
-      });
-    }
-    if (token) {
-      dispatch(authenticateUser());
-    } else {
-      dispatch(unauthenticateUser());
-    }
+      // If refresh token is available, refresh the tokens and re-authenticate the user
+      if (refreshToken) {
+        const userData = await refresh().unwrap();
+        setLocalStorageUserData(userData);
+        dispatch(authenticateUser(userData));
+      }
+
+      // If no refresh token, unauthenticate the user
+      else {
+        clearLocalStorage();
+        dispatch(unauthenticateUser());
+      }
+    };
+
+    initAuth();
   }, [dispatch, refresh]);
 
   return (

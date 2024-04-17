@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { useSignupMutation } from "../../store/mainApi";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authenticateUser } from "../../store/authSlice";
 
 function Signup() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const [formState, setFormState] = useState({
     name: "",
@@ -18,7 +23,14 @@ function Signup() {
 
   const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signup(formState);
+    signup(formState)
+      .then(() => {
+        dispatch(authenticateUser());
+        navigate("/");
+      })
+      .catch((error) => {
+        // Handle error
+      });
   };
 
   return (

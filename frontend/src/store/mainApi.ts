@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setLocalStorageUserData } from "../utils/localStorageUserData";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:8000",
@@ -8,13 +9,13 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  // If the error is a 403 with a specific message, attempt to refresh tokens
   if (
     result.error &&
     result.error.status === 403 &&
     result.error.data?.error ===
       "Forbidden: Access token expired, please refresh token"
   ) {
-    console.log("refreshing tokens");
     // Attempt to refresh tokens
     const refreshResult = await baseQuery(
       { url: "users/refresh", method: "POST" },
@@ -22,21 +23,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       extraOptions
     );
 
-    console.log("refreshResult: ", refreshResult);
-
+    // If refresh was successful, reset userData in local storage and retry the original query
     if (refreshResult.data) {
-      // Store the new tokens in your state
-      // api.dispatch(
-      //   authActions.setTokens({
-      //     accessToken: refreshResult.data.newAccessToken,
-      //     refreshToken: refreshResult.data.newRefreshToken,
-      //   })
-      // );
-
-      // Retry the original query with new token
+      setLocalStorageUserData(refreshResult.data);
       result = await baseQuery(args, api, extraOptions);
-
-      console.log("result: ", result);
     } else {
       // Handle failed refresh here (e.g., redirect to login)
     }
@@ -85,7 +75,6 @@ export const mainApi = createApi({
 
     TestAuth: builder.query({
       query: () => {
-        console.log("Testing auth");
         return {
           url: "/endpoints/protected",
           method: "GET",
@@ -104,7 +93,6 @@ export const mainApi = createApi({
 
     refreshToken: builder.mutation({
       query: () => {
-        console.log("refreshing token");
         return {
           url: "/users/refresh",
           method: "POST",

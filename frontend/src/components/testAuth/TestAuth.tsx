@@ -4,27 +4,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 const TestAuth = () => {
   const { data, error, isLoading } = useTestAuthQuery();
+  const currentUser = useSelector((state) => state.auth.currentUser);
 
-  // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-  // console.log("data: ", data);
-  // console.log("isAuthenticated: ", isAuthenticated);
-
-  // console.log("data: ", data);
-  // console.log("error: ", error);
-  // console.log("isLoading: ", isLoading);
+  console.log("currentUser: ", currentUser);
 
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div>{error.data.error}</div>;
   }
-
-  // if (!isAuthenticated || data === undefined) {
-  //   return <div>No, you are not authenticated</div>;
-  // }
 
   return <div>{data.message}</div>;
 };

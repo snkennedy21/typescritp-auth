@@ -3,11 +3,12 @@ import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../store/mainApi";
 import { authenticateUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
+import { setLocalStorageUserData } from "../../utils/localStorageUserData";
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [login] = useLoginMutation();
+  const [login, { data, isLoading, error }] = useLoginMutation();
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -21,10 +22,11 @@ function Login() {
     });
   };
 
-  const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    login(formState);
-    dispatch(authenticateUser());
+    let userData = await login(formState).unwrap();
+    dispatch(authenticateUser(userData));
+    setLocalStorageUserData(userData);
     navigate("/");
   };
 
