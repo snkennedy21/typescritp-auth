@@ -1,12 +1,9 @@
-import { useTestAuthQuery, useRefreshTokenMutation } from "../../store/mainApi";
-import { useSelector, useDispatch } from "react-redux";
-// import useAuthCheck from "../../customHooks/useAuthCheck";
+import { useTestAuthQuery } from "../../store/mainApi";
+import { useSelector } from "react-redux";
 
 const TestAuth = () => {
   const { data, error, isLoading } = useTestAuthQuery();
   const currentUser = useSelector((state) => state.auth.currentUser);
-
-  console.log("currentUser: ", currentUser);
 
   if (isLoading) {
     return <div>Loading...</div>;
