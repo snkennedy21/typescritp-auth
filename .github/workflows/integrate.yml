@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: Create .env files
+      - name: Create .env file for backend
         run: |
           echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> backend/.env
           echo "REFRESH_KEY=${{ secrets.REFRESH_KEY }}" >> backend/.env
@@ -17,6 +17,15 @@ jobs:
           echo "REFRESH_TOKEN_EXPIRY=${{ secrets.REFRESH_TOKEN_EXPIRY }}" >> backend/.env
           echo "ACCESS_COOKIE_EXPIRY=${{ secrets.ACCESS_COOKIE_EXPIRY }}" >> backend/.env
           echo "REFRESH_COOKIE_EXPIRY=${{ secrets.REFRESH_COOKIE_EXPIRY }}" >> backend/.env
+
+      - name: Create .env file for database
+        run: |
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> db/.env
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> db/.env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> db/.env
+          echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" >> db/.env
+          echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> db/.env
+
       - name: Build the stack
         run: docker-compose up -d
       - name: Shutdown Docker Compose
