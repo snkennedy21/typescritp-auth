@@ -19,12 +19,18 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 exports.userRouter = express_1.default.Router();
 // Make sure these are put in a .env file
-const ACCESS_KEY = "super_secret_access_key";
-const REFRESH_KEY = "super_seccret_refresh_key";
-const ACCESS_TOKEN_EXPIRY = "15m";
-const REFRESH_TOKEN_EXPIRY = "1w";
-const ACCESS_COOKIE_EXPIRY = 15 * 60 * 1000; // 15 minutes
-const REFRESH_COOKIE_EXPIRY = 604800000; // 1 week
+const ACCESS_KEY = process.env.ACCESS_KEY;
+const REFRESH_KEY = process.env.REFRESH_KEY;
+const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY;
+const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY;
+const ACCESS_COOKIE_EXPIRY = parseInt(process.env.ACCESS_COOKIE_EXPIRY || "900000", 10); // Convert string to integer
+const REFRESH_COOKIE_EXPIRY = parseInt(process.env.REFRESH_COOKIE_EXPIRY || "604800000", 10); // Convert string to integer
+if (!process.env.ACCESS_KEY) {
+    throw new Error("ACCESS_KEY environment variable is not defined.");
+}
+if (!process.env.REFRESH_KEY) {
+    throw new Error("REFRESH_KEY environment variable is not defined.");
+}
 /****************************************
  * * Get All Users
  * @returns {User[]} - Array of all users
