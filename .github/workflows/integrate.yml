@@ -9,15 +9,15 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
+      - name: Create .env file
+        run: |
+          echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> backend/.env
+          echo "REFRESH_KEY=${{ secrets.REFRESH_KEY }}" >> backend/.env
+          echo "ACCESS_TOKEN_EXPIRY=${{ secrets.ACCESS_TOKEN_EXPIRY }}" >> backend/.env
+          echo "REFRESH_TOKEN_EXPIRY=${{ secrets.REFRESH_TOKEN_EXPIRY }}" >> backend/.env
+          echo "ACCESS_COOKIE_EXPIRY=${{ secrets.ACCESS_COOKIE_EXPIRY }}" >> backend/.env
+          echo "REFRESH_COOKIE_EXPIRY=${{ secrets.REFRESH_COOKIE_EXPIRY }}" >> backend/.env
       - name: Build the stack
         run: docker-compose up -d
-        env:
-          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
-          REFRESH_KEY: ${{ secrets.REFRESH_KEY }}
-          ACCESS_TOKEN_EXPIRY: ${{ secrets.ACCESS_TOKEN_EXPIRY }}
-          REFRESH_TOKEN_EXPIRY: ${{ secrets.REFRESH_TOKEN_EXPIRY }}
-          ACCESS_COOKIE_EXPIRY: ${{ secrets.ACCESS_COOKIE_EXPIRY }}
-          REFRESH_COOKIE_EXPIRY: ${{ secrets.REFRESH_COOKIE_EXPIRY }}
-
       - name: Shutdown Docker Compose
         run: docker-compose down
