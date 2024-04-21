@@ -11,6 +11,13 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the stack
         run: docker-compose up -d
+        env:
+          ACCESS_KEY: ${{ secrets.ACCESS_KEY }}
+          REFRESH_KEY: ${{ secrets.REFRESH_KEY }}
+          ACCESS_TOKEN_EXPIRY: ${{ secrets.ACCESS_TOKEN_EXPIRY }}
+          REFRESH_TOKEN_EXPIRY: ${{ secrets.REFRESH_TOKEN_EXPIRY }}
+          ACCESS_COOKIE_EXPIRY: ${{ secrets.ACCESS_COOKIE_EXPIRY }}
+          REFRESH_COOKIE_EXPIRY: ${{ secrets.REFRESH_COOKIE_EXPIRY }}
 
       - name: Shutdown Docker Compose
         run: docker-compose down
