@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 const port = 8000;
 
-const app: Express = express();
+export const app: Express = express();
 
 const corsOptions = {
   origin: "http://localhost:8080",
