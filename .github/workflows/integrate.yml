@@ -2,7 +2,7 @@ name: Docker Compose Actions Workflow
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   test:
@@ -28,5 +28,9 @@ jobs:
 
       - name: Build the stack
         run: docker-compose up -d
+
+      - name: Run tests
+        run: docker-compose exec backend npm run test
+
       - name: Shutdown Docker Compose
         run: docker-compose down
