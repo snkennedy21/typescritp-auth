@@ -29,9 +29,6 @@ jobs:
       - name: Build application with docker compose
         run: docker-compose up -d
 
-      - name: Install NPM dependencies for backend
-        run: docker exec backend npm install
-
       - name: Run unit tests for backend
         run: docker exec backend npm run test
 
