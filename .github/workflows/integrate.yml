@@ -34,8 +34,7 @@ jobs:
         working-directory: ./backend
 
       - name: Run unit tests
-        run: npm run test
-        working-directory: ./backend
+        run: docker exec -it backend npm run test
 
       - name: Shutdown Docker Compose
         run: docker-compose down
