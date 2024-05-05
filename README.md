@@ -1,4 +1,10 @@
 # Environment Variable Setup
+
+Environment variables are used to manage configuration options and settings in an application's runtime environment without hard-coding them into the source code. This makes the application more secure and adaptable to different environments.
+
+### Important!
+All of these `.env` files are just examples to get you started. You should <strong>NEVER</strong> use these .env files for your final project. You should modify all these environment variables and <strong>NEVER</strong> check them into GitHub
+
 ### 1. Setting Up Prisma
 - This `.env` file is used by Prisma to connect to the database
 - Put this file here `typescript-auth/backend/prisma/.env`
@@ -35,11 +41,14 @@ POSTGRES_DB=postgres
 PGADMIN_DEFAULT_EMAIL=user@email.com
 PGADMIN_DEFAULT_PASSWORD=password
 ```
-
 ### Important!
 - Make sure the database information in `typescript-auth/backend/.env` matches the information in `typescript-auth/backend/prisma/.env`
-- 
+
+
 # Starting The Application
+
+The application is managed using docker and docker compose
+
 ### 1. Create a volume for persistent data
 ```
 docker volume create postgres_data
@@ -48,32 +57,16 @@ docker volume create postgres_data
 ```
 docker compose up -d
 ```
+- This should be enough to get the application up and running
+- `typescript-auth/backend/Dockerfile` and `typescript-auth/docker-compose.yml` will do the following for you
+  - It will run `npx prisma generate` which will ensure that the Prisma Client is in sync with your latest schema definitions
+  - It will run `npx prisma migrate dev` which will create and apply new migration files based on the changes you've made to your Prisma schema file (schema.prisma)
+  - It will run `npm run dev` which will start the backend api in development mode
 
 # Database Setup and Management
-- Prisma is used to manage the tables in your database
-- If you are starting a new project there are a few steps you need to take
-### 1. Create Your Schema
-- Create a schema for your tables in `typescript-auth/backend/prisma/schema.prisma`
-- Here is an example:
-```
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-
-  @@index([email, name])
-}
-```
+Prisma is used to manage the tables in your database. If you want to make changes to your database you need to do the following
+### 1. Modify Your Schema
+- Schema for your tables is located at `typescript-auth/backend/prisma/schema.prisma`
 
 ### 2. Generate and Apply Database Migrations
 #### Generate Database Migration File and Apply Migrations
@@ -81,9 +74,9 @@ model User {
 npx prisma migrate dev --name <migration_name>
 ```
 - This command does three things
-  1. It checks the schema for changes.
-  2. It creates SQL migration files in the `typescript-auth/backend/prisma/migrations` directory.
-  3. It applies the migrations to your development database.
+  - It checks the schema for changes.
+  - It creates SQL migration files in the `typescript-auth/backend/prisma/migrations` directory.
+  - It applies the migrations to your development database.
 #### Generate Database Migration File (Does Not Apply Migrations)
 ```
 npx prisma migrate dev --name <migration_name> --create-only
