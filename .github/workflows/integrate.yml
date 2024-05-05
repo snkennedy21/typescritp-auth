@@ -38,8 +38,25 @@ jobs:
       - name: Report Docker resource usage
         run: docker stats --no-stream
 
-      - name: Run unit tests for backend
-        run: docker exec backend npm run test
+      - name: Run unit tests with periodic resource logging
+        run: |
+          # Start the tests in the background
+          docker exec backend npm run test &
+
+          # Wait for the test process to start
+          sleep 10
+
+          # Log memory and CPU usage at intervals during test execution
+          for i in {1..6}
+          do
+            echo "Logging system resources (attempt $i)..."
+            free -m
+            docker stats --no-stream
+            sleep 10
+          done
+
+          # Wait for the test process to complete
+          wait
 
       - name: Shutdown Docker Compose
         run: docker-compose down
