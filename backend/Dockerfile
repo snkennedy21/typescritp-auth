@@ -4,7 +4,7 @@ WORKDIR /usr/src/backend
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm cache cleane --force && npm install --verbose
 
 COPY . .
 

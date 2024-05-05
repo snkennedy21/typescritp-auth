@@ -30,7 +30,7 @@ jobs:
           echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> db/.env
 
       - name: Build application with docker compose
-        run: docker-compose up -d
+        run: docker-compose build --no-cache && docker-compose up -d
 
       - name: List installed npm packages
         run: docker exec backend npm list --depth=0
