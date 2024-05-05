@@ -8,8 +8,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/usr/src/backend
     env_file:
       - ./backend/.env
     command: sh -c "npx prisma migrate dev && npm run dev"
@@ -24,8 +22,6 @@ services:
       - ./db/.env
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin4_container
@@ -43,8 +39,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    volumes:
-      - ./frontend/src:/usr/src/backend/src
 
 volumes:
   postgres_data:
