@@ -32,23 +32,11 @@ jobs:
       - name: Build application with docker compose
         run: docker-compose -f docker-compose-production.yml up -d
 
-      - name: Start Docker Compose and check logs
-        run: |
-          docker-compose -f docker-compose-production.yml up -d
-          sleep 5  # Give some time for containers to initialize
-          docker-compose logs
-
       - name: Check backend container logs
-        run: docker logs backend || true  # Use || true to ensure this command does not fail the workflow
+        run: docker logs backend || true
 
-      - name: Check available system memory
-        run: free -m
-      
-      - name: Report Docker resource usage
-        run: docker stats --no-stream
-
-      - name: Check running containers
-        run: docker ps
+      - name: run backend tests
+        run: docker exec backend npm run test
 
       - name: Shutdown Docker Compose
         run: docker-compose down
