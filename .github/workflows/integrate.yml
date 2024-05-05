@@ -32,9 +32,11 @@ jobs:
       - name: Build application with docker compose
         run: docker-compose up -d
 
-      - name: List installed npm packages
-        run: docker exec backend npm list --depth=0
+      # - name: List installed npm packages
+      #   run: docker exec backend npm list --depth=0
 
+      - name: Check for node_modules
+        run: docker exec backend ls -la
 
       - name: Run unit tests for backend
         run: docker exec backend npm run test
