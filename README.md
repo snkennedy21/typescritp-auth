@@ -27,8 +27,18 @@ REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
 ### Important!
 - Make sure the database information in `typescript-auth/backend/.env` matches the information in `typescript-auth/backend/prisma/.env`
+- 
+# Starting The Application
+### 1. Create a volume for persistent data
+```
+docker volume create postgres_data
+```
+### 2. Start the containers
+```
+docker compose up -d
+```
 
-# Database Management
+# Database Setup and Management
 - Prisma is used to manage the tables in your database
 - If you are starting a new project there are a few steps you need to take
 ### 1. Create Your Schema
