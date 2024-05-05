@@ -26,15 +26,11 @@ jobs:
           echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" >> db/.env
           echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> db/.env
 
-      - name: Build the stack
+      - name: Build application with docker compose
         run: docker-compose up -d
 
-      - name: Install npm dependencies
-        run: npm install
-        working-directory: ./backend
-
-      - name: Run unit tests
-        run: docker exec -it backend npm run test
+      - name: Run unit tests for backend
+        run: docker exec backend npm run test
 
       - name: Shutdown Docker Compose
         run: docker-compose down
