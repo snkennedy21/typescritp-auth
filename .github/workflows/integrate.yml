@@ -41,5 +41,8 @@ jobs:
       - name: run backend tests
         run: docker exec backend npm run test
 
+      - name: check running containers
+        run: docker ps
+
       - name: Shutdown Docker Compose
         run: docker-compose down
