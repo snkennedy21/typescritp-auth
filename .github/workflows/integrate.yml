@@ -8,6 +8,9 @@ jobs:
   test:
     runs-on: ubuntu-22.04
     steps:
+      - name: Set Node environment to development
+        run: export NODE_ENV=development
+
       - uses: actions/checkout@v2
       - name: Create .env file for backend
         run: |
