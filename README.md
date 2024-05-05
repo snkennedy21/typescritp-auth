@@ -25,7 +25,7 @@ REFRESH_TOKEN_EXPIRY=1w
 ACCESS_COOKIE_EXPIRY=900000 # 15 minutes
 REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
-### 2. Setting Up Postgres
+### 3. Setting Up Postgres
 - This `.env` file is used to create the PostgreSQL database
 - Put this file at `typescript-auth/db/.env`
 ```
