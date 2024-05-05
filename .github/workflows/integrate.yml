@@ -38,8 +38,31 @@ jobs:
       - name: check running containers
         run: docker ps
 
-      - name: run backend tests
-        run: docker exec backend npm run test
+      - name: Check backend container logs
+        run: docker logs backend || true  # Use || true to ensure this command does not fail the workflow
+
+      - name: Run unit tests with periodic resource logging
+        run: |
+          # Start the tests in the background
+          docker exec backend npm run test &
+
+          # Wait for the test process to start
+          sleep 10
+
+          # Log memory and CPU usage at intervals during test execution
+          for i in {1..6}
+          do
+            echo "Logging system resources (attempt $i)..."
+            free -m
+            docker stats --no-stream
+            sleep 10
+          done
+
+          # Wait for the test process to complete
+          wait
+
+      # - name: run backend tests
+      #   run: docker exec backend npm run test
 
       - name: check running containers
         run: docker ps
