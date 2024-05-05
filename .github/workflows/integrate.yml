@@ -2,7 +2,7 @@ name: Docker Compose Actions Workflow
 on:
   push:
     branches:
-      - develop
+      - feature/pipeline
 
 jobs:
   test:
