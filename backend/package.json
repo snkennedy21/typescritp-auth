@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --max-old-space-size=4096 node_modules/.bin/vitest",
+    "test": "vitest",
     "build": "rimraf dist && npx tsc",
     "prestart": "npm run build",
     "start": "node dist/index.js",
