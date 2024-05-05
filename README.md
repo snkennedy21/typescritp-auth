@@ -25,6 +25,17 @@ REFRESH_TOKEN_EXPIRY=1w
 ACCESS_COOKIE_EXPIRY=900000 # 15 minutes
 REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
+### 2. Setting Up Postgres
+- This `.env` file is used to create the PostgreSQL database
+- Put this file at `typescript-auth/db/.env`
+```
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=postgres
+PGADMIN_DEFAULT_EMAIL=user@email.com
+PGADMIN_DEFAULT_PASSWORD=password
+```
+
 ### Important!
 - Make sure the database information in `typescript-auth/backend/.env` matches the information in `typescript-auth/backend/prisma/.env`
 - 
