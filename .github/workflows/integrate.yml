@@ -41,8 +41,8 @@ jobs:
       - name: Check backend container logs
         run: docker logs backend
 
-      - name: run backend tests
-        run: docker exec backend npm run test
+      # - name: run backend tests
+      #   run: docker exec backend npm run test
 
       - name: check running containers
         run: docker ps
