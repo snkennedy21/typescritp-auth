@@ -53,8 +53,8 @@ jobs:
       - name: Memory usage after tests
         run: cat /proc/meminfo | grep MemAvailable
 
-      - name: check running containers
-        run: docker ps
+      # - name: check running containers
+      #   run: docker ps
 
       - name: Shutdown Docker Compose
         run: docker-compose down
