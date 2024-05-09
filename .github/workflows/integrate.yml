@@ -37,12 +37,15 @@ jobs:
 
       - name: Check Docker container settings
         run: docker inspect backend --format='{{.HostConfig.Memory}}'
-        
+
       - name: Install utilities
         run: sudo apt-get update && sudo apt-get install -y procps
 
       - name: Memory usage before tests
         run: cat /proc/meminfo | grep MemAvailable
+
+      - name: Check backend container logs
+        run: docker logs backend || true
 
       - name: Run backend tests
         run: docker exec backend npm run test
