@@ -29,6 +29,10 @@ jobs:
           echo "PGADMIN_DEFAULT_EMAIL=${{ secrets.PGADMIN_DEFAULT_EMAIL }}" >> db/.env
           echo "PGADMIN_DEFAULT_PASSWORD=${{ secrets.PGADMIN_DEFAULT_PASSWORD }}" >> db/.env
 
+      - name: Create .env file for prisma
+        run: |
+          echo "DATABASE_URL=postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@db:5432/${{ secrets.POSTGRES_DB }}?schema=public" >> backend/prisma/.env
+
       - name: Build application with docker compose
         run: docker-compose -f docker-compose-production.yml up -d
 
