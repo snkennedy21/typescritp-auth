@@ -48,6 +48,11 @@ jobs:
       - name: Memory usage before tests
         run: cat /proc/meminfo | grep MemAvailable
 
+      - name: Print DATABASE_URL for debugging
+        run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Check backend container logs
         run: docker logs backend || true
 
