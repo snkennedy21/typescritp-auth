@@ -32,17 +32,23 @@ jobs:
       - name: Build application with docker compose
         run: docker-compose -f docker-compose-production.yml up -d
 
-      - name: Check backend container logs
-        run: docker logs backend || true
-
       - name: check running containers
         run: docker ps
 
-      - name: Check backend container logs
-        run: docker logs backend
+      - name: Check Docker container settings
+        run: docker inspect backend --format='{{.HostConfig.Memory}}'
+        
+      - name: Install utilities
+        run: sudo apt-get update && sudo apt-get install -y procps
 
-      # - name: run backend tests
-      #   run: docker exec backend npm run test
+      - name: Memory usage before tests
+        run: cat /proc/meminfo | grep MemAvailable
+
+      - name: Run backend tests
+        run: docker exec backend npm run test
+
+      - name: Memory usage after tests
+        run: cat /proc/meminfo | grep MemAvailable
 
       - name: check running containers
         run: docker ps
