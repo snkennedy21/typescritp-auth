@@ -13,7 +13,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const port = 8000;
 exports.app = (0, express_1.default)();
 const corsOptions = {
-    origin: "http://localhost:8080",
+    origin: "http://react:8080",
     credentials: true, // Needed for cookies, authorization headers with HTTPS
     optionsSuccessStatus: 200,
 };
