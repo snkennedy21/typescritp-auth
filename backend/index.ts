@@ -10,7 +10,7 @@ const port = 8000;
 export const app: Express = express();
 
 const corsOptions = {
-  origin: "http://react:8080",
+  origin: "http://ec2-54-163-65-78.compute-1.amazonaws.com",
   credentials: true, // Needed for cookies, authorization headers with HTTPS
   optionsSuccessStatus: 200,
 };

@@ -81,3 +81,21 @@ npx prisma migrate dev --name <migration_name>
 ```
 npx prisma migrate dev --name <migration_name> --create-only
 ```
+
+
+#### Deploying to AWS
+```
+docker network create my_bridge_network
+```
+```
+docker build -t react-image ./frontend
+```
+```
+docker build -t express-image ./backend
+```
+```
+docker run -d --name react -p 80:8080 --network my_bridge_network react-image
+```
+```
+docker run -d --name express -p 8000:8000 --network my_bridge_network express-image
+```
