@@ -83,19 +83,39 @@ npx prisma migrate dev --name <migration_name> --create-only
 ```
 
 
-#### Deploying to AWS
+# Deploying to AWS
+
+### Create Docker Network
 ```
 docker network create my_bridge_network
 ```
+
+### Build React Image
 ```
 docker build -t react-image ./frontend
 ```
+
+### Build Express Image
 ```
 docker build -t express-image ./backend
 ```
+
+### Run React Container
 ```
 docker run -d --name react -p 80:8080 --network my_bridge_network react-image
 ```
+
+### Run Express Container
 ```
 docker run -d --name express -p 8000:8000 --network my_bridge_network express-image
+```
+
+### Build Postgres Image
+```
+docker pull postgres:latest
+```
+
+### Run Postgres Image
+```
+docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
 ```
