@@ -84,7 +84,6 @@ npx prisma migrate dev --name <migration_name> --create-only
 
 
 # Deploying to AWS
-
 ### Create Docker Network
 ```
 docker network create my_bridge_network
@@ -118,4 +117,9 @@ docker pull postgres:latest
 ### Run Postgres Image
 ```
 docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
+```
+
+### Run Prisma Migrations
+```
+docker exec -it express npx prisma migrate dev
 ```
