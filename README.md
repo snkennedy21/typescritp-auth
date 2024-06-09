@@ -89,6 +89,37 @@ npx prisma migrate dev --name <migration_name> --create-only
 docker network create my_bridge_network
 ```
 
+### Build Postgres Image
+```
+docker pull postgres:latest
+```
+
+### Create Environment Variables
+##### typescript-auth/backend/.env
+```
+# Database
+POSTGRES_USER=user
+POSTGRES_PASSWORD=password
+POSTGRES_DB=postgres
+
+# Express
+ACCESS_KEY=super_secret_access_key
+REFRESH_KEY=super_seccret_refresh_key
+ACCESS_TOKEN_EXPIRY=15m
+REFRESH_TOKEN_EXPIRY=1w
+ACCESS_COOKIE_EXPIRY=900000 # 15 minutes
+REFRESH_COOKIE_EXPIRY=604800000 # 1 week
+```
+##### typescript-auth/backend/prisma/.env
+```
+DATABASE_URL="postgresql://user:password@db:5432/postgres"
+```
+
+### Run Postgres Image
+```
+docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
+```
+
 ### Build React Image
 ```
 docker build -t react-image ./frontend
@@ -108,17 +139,6 @@ docker run -d --name react -p 80:8080 --network my_bridge_network react-image
 ```
 docker run -d --name express -p 8000:8000 --network my_bridge_network express-image
 ```
-
-### Build Postgres Image
-```
-docker pull postgres:latest
-```
-
-### Run Postgres Image
-```
-docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
-```
-
 ### Run Prisma Migrations
 ```
 docker exec -it express npx prisma migrate dev
