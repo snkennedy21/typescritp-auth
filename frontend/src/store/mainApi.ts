@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setLocalStorageUserData } from "../utils/localStorageUserData";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://ec2-54-163-65-78.compute-1.amazonaws.com:8000",
+  baseUrl: "/api",
   credentials: "include",
 });
 
