@@ -80,8 +80,19 @@ userRouter.post("/create", async (req: Request, res: Response) => {
       httpOnly: true,
       maxAge: ACCESS_COOKIE_EXPIRY,
     });
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
+      maxAge: REFRESH_COOKIE_EXPIRY,
+    });
+
+    res.cookie("isAuthenticated", accessToken, {
+      httpOnly: false,
+      maxAge: ACCESS_COOKIE_EXPIRY,
+    });
+
+    res.cookie("isRefreshable", refreshToken, {
+      httpOnly: false,
       maxAge: REFRESH_COOKIE_EXPIRY,
     });
 

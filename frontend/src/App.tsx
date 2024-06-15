@@ -17,7 +17,6 @@ import {
 import AuthProvider from "./components/authProvider/AuthProvider";
 
 function App() {
-
   return (
     <React.Fragment>
       <BrowserRouter>

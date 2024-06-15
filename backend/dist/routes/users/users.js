@@ -83,6 +83,14 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
             httpOnly: true,
             maxAge: REFRESH_COOKIE_EXPIRY,
         });
+        res.cookie("isAuthenticated", accessToken, {
+            httpOnly: false,
+            maxAge: ACCESS_COOKIE_EXPIRY,
+        });
+        res.cookie("isRefreshable", refreshToken, {
+            httpOnly: false,
+            maxAge: REFRESH_COOKIE_EXPIRY,
+        });
         res.json(user);
     }
     catch (error) {

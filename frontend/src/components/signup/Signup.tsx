@@ -24,8 +24,10 @@ function Signup() {
   const submitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     signup(formState)
-      .then(() => {
-        dispatch(authenticateUser());
+      .then((response) => {
+        console.log("RESPONSE: ", response);
+        const userData = response.data;
+        dispatch(authenticateUser(userData));
         navigate("/");
       })
       .catch((error) => {
