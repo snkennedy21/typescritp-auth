@@ -9,15 +9,17 @@ const port = 8000;
 
 export const app: Express = express();
 
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS as string;
+
 const corsOptions = {
-  origin: "http://ec2-54-163-65-78.compute-1.amazonaws.com",
+  origin: ALLOWED_ORIGINS,
   credentials: true, // Needed for cookies, authorization headers with HTTPS
   optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 
-app.use(function (req, res, next) {
+app.use(function (req: Request, res: Response, next) {
   res.header("Content-Type", "application/json;charset=UTF-8");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(

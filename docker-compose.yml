@@ -14,7 +14,7 @@ services:
       - ./backend:/usr/src/backend
     env_file:
       - ./backend/.env
-        #    command: sh -c "npx prisma migrate dev && npm run dev"
+    command: sh -c "npx prisma migrate dev && npm run dev"
     depends_on:
       - db
 
@@ -31,13 +31,22 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5050:80"
+
   react:
     container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "80:8080"
+      - "8080:8080"
     networks:
       - my_network
     volumes:

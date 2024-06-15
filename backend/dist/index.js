@@ -12,8 +12,9 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const port = 8000;
 exports.app = (0, express_1.default)();
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS;
 const corsOptions = {
-    origin: "http://react:8080",
+    origin: ALLOWED_ORIGINS,
     credentials: true, // Needed for cookies, authorization headers with HTTPS
     optionsSuccessStatus: 200,
 };
