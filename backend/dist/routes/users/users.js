@@ -83,11 +83,11 @@ exports.userRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
             httpOnly: true,
             maxAge: REFRESH_COOKIE_EXPIRY,
         });
-        res.cookie("isAuthenticated", accessToken, {
+        res.cookie("isAuthenticated", "True", {
             httpOnly: false,
             maxAge: ACCESS_COOKIE_EXPIRY,
         });
-        res.cookie("isRefreshable", refreshToken, {
+        res.cookie("isRefreshable", "True", {
             httpOnly: false,
             maxAge: REFRESH_COOKIE_EXPIRY,
         });
@@ -170,11 +170,11 @@ exports.userRouter.post("/login", (req, res) => __awaiter(void 0, void 0, void 0
         httpOnly: true,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
-    res.cookie("isAuthenticated", accessToken, {
+    res.cookie("isAuthenticated", 'True', {
         httpOnly: false,
         maxAge: ACCESS_COOKIE_EXPIRY,
     });
-    res.cookie("isRefreshable", refreshToken, {
+    res.cookie("isRefreshable", 'True', {
         httpOnly: false,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
@@ -213,11 +213,11 @@ exports.userRouter.post("/refresh", (req, res) => __awaiter(void 0, void 0, void
         httpOnly: true,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
-    res.cookie("isAuthenticated", newAccessToken, {
+    res.cookie("isAuthenticated", 'True', {
         httpOnly: false,
         maxAge: ACCESS_COOKIE_EXPIRY,
     });
-    res.cookie("isRefreshable", newRefreshToken, {
+    res.cookie("isRefreshable", 'True', {
         httpOnly: false,
         maxAge: REFRESH_COOKIE_EXPIRY,
     });
