@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../../store/mainApi";
 import { unauthenticateUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { clearLocalStorageUserData } from "../../utils/localStorageUserData";
+import styles from "./css/Navigation.module.css";
 
 const Navigation = () => {
   const navigate = useNavigate();
@@ -11,7 +12,9 @@ const Navigation = () => {
   const [logout] = useLogoutMutation();
   const currentUser = useSelector((state) => state.auth.currentUser);
 
-  const logoutHandler = () => {
+  const logoutHandler = (event) => {
+    event.preventDefault();
+
     // clear tokens from cookies
     logout();
 
@@ -25,30 +28,60 @@ const Navigation = () => {
   };
 
   return (
-    <nav>
-      <ul style={{ display: "flex", gap: "5rem" }}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
+    <nav className="m-2">
+      <ul className="flex gap-10">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? styles.activeNavLink : styles.navLink
+          }
+        >
+          Home
+        </NavLink>
         {currentUser ? (
-          <li onClick={logoutHandler}>Logout</li>
+          <NavLink
+            to="/logout"
+            className={styles.navLink}
+            onClick={logoutHandler}
+          >
+            Logout
+          </NavLink>
         ) : (
           <>
-            <li>
-              <Link to="/signup">Signup</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
+            <NavLink
+              to="/signup"
+              className={({ isActive }) =>
+                isActive ? styles.activeNavLink : styles.navLink
+              }
+            >
+              Signup
+            </NavLink>
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive ? styles.activeNavLink : styles.navLink
+              }
+            >
+              Login
+            </NavLink>
           </>
         )}
-
-        <li>
-          <Link to="/protected">Protected</Link>
-        </li>
-        <li>
-          <Link to="/unprotected">Unprotected</Link>
-        </li>
+        <NavLink
+          to="/protected"
+          className={({ isActive }) =>
+            isActive ? styles.activeNavLink : styles.navLink
+          }
+        >
+          Protected
+        </NavLink>
+        <NavLink
+          to="/unprotected"
+          className={({ isActive }) =>
+            isActive ? styles.activeNavLink : styles.navLink
+          }
+        >
+          Unprotected
+        </NavLink>
       </ul>
     </nav>
   );
