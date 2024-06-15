@@ -4,3 +4,8 @@
 /prisma/env
 /dist
 /frontend/node_modules
+
+*.key
+*.pem
+
+certbot/
