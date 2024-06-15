@@ -38,6 +38,22 @@ const Navigation = () => {
         >
           Home
         </NavLink>
+        <NavLink
+          to="/protected"
+          className={({ isActive }) =>
+            isActive ? styles.activeNavLink : styles.navLink
+          }
+        >
+          {"Protected Endpoint (Login Required)"}
+        </NavLink>
+        <NavLink
+          to="/unprotected"
+          className={({ isActive }) =>
+            isActive ? styles.activeNavLink : styles.navLink
+          }
+        >
+          {"Unprotected Endpoint (Login Not Required)"}
+        </NavLink>
         {currentUser ? (
           <NavLink
             to="/logout"
@@ -66,22 +82,6 @@ const Navigation = () => {
             </NavLink>
           </>
         )}
-        <NavLink
-          to="/protected"
-          className={({ isActive }) =>
-            isActive ? styles.activeNavLink : styles.navLink
-          }
-        >
-          Protected
-        </NavLink>
-        <NavLink
-          to="/unprotected"
-          className={({ isActive }) =>
-            isActive ? styles.activeNavLink : styles.navLink
-          }
-        >
-          Unprotected
-        </NavLink>
       </ul>
     </nav>
   );

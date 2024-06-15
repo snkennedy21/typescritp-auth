@@ -4,7 +4,7 @@ import Signup from "./components/signup/Signup";
 import Navigation from "./components/navigation/Navigation";
 import Login from "./components/login/Login";
 import Home from "./components/home/Home";
-import TestAuth from "./components/testAuth/TestAuth";
+import TestAuth from "./components/protectedEndpoint/ProtectedEndpoint";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { authenticateUser, unauthenticateUser } from "./store/authSlice"; // Adjust the path as necessary
 import Cookies from "js-cookie";

@@ -3,6 +3,8 @@ import { useSignupMutation } from "../../store/mainApi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authenticateUser } from "../../store/authSlice";
+import FormInput from "../formInput/FormInput";
+import Button from "../button/Button";
 
 function Signup() {
   const navigate = useNavigate();
@@ -36,39 +38,35 @@ function Signup() {
   };
 
   return (
-    <React.Fragment>
-      <h1>Signup</h1>
+    <div className="m-2">
+      <h1 className="font-bold mb-4">Signup Page</h1>
       <form onSubmit={submitFormHandler}>
-        <div>
-          <label>name</label>
-          <input
-            name="name"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.name}
-          />
-        </div>
-        <div>
-          <label>email</label>
-          <input
-            name="email"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.email}
-          />
-        </div>
-        <div>
-          <label>password</label>
-          <input
-            name="password"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.password}
-          />
-        </div>
-        <button type="submit">Signup</button>
+        <FormInput
+          label="name"
+          name="name"
+          type="text"
+          onChange={inputChangeHandler}
+          value={formState.name}
+        />
+        <FormInput
+          label="email"
+          name="email"
+          type="text"
+          onChange={inputChangeHandler}
+          value={formState.email}
+        />
+        <FormInput
+          label="password"
+          name="password"
+          type="password"
+          onChange={inputChangeHandler}
+          value={formState.password}
+        />
+        <Button type="submit" variant="primary">
+          Signup
+        </Button>
       </form>
-    </React.Fragment>
+    </div>
   );
 }
 

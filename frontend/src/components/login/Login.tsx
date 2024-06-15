@@ -4,6 +4,8 @@ import { useLoginMutation } from "../../store/mainApi";
 import { authenticateUser } from "../../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import { setLocalStorageUserData } from "../../utils/localStorageUserData";
+import FormInput from "../formInput/FormInput";
+import Button from "../button/Button";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,15 +17,15 @@ function Login() {
     password: "",
   });
 
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({
       ...formState,
-      [e.target.name]: e.target.value,
+      [event.target.name]: event.target.value,
     });
   };
 
-  const submitFormHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
     // Set tokens in cookies and retrieve user data
     let userData = await login(formState).unwrap();
@@ -37,39 +39,35 @@ function Login() {
   };
 
   return (
-    <React.Fragment>
-      <h1>Login</h1>
+    <div className="m-2">
+      <h1 className="font-bold mb-4">Login Page</h1>
       <form onSubmit={submitFormHandler}>
-        <div>
-          <label>name</label>
-          <input
-            name="name"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.name}
-          />
-        </div>
-        <div>
-          <label>email</label>
-          <input
-            name="email"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.email}
-          />
-        </div>
-        <div>
-          <label>password</label>
-          <input
-            name="password"
-            type="text"
-            onChange={inputChangeHandler}
-            value={formState.password}
-          />
-        </div>
-        <button type="submit">Login</button>
+        <FormInput
+          label="name"
+          name="name"
+          type="text"
+          onChange={inputChangeHandler}
+          value={formState.name}
+        />
+        <FormInput
+          label="email"
+          name="email"
+          type="text"
+          onChange={inputChangeHandler}
+          value={formState.email}
+        />
+        <FormInput
+          label="password"
+          name="password"
+          type="password"
+          onChange={inputChangeHandler}
+          value={formState.password}
+        />
+        <Button type="submit" variant="primary">
+          Login
+        </Button>
       </form>
-    </React.Fragment>
+    </div>
   );
 }
 

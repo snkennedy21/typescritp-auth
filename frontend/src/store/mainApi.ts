@@ -73,13 +73,14 @@ export const mainApi = createApi({
       invalidatesTags: ["User"],
     }),
 
-    TestAuth: builder.query({
+    ProtectedEndpoint: builder.query({
       query: () => {
         return {
           url: "/endpoints/protected",
           method: "GET",
         };
       },
+      providesTags: ["User"],
     }),
 
     UnprotectedEndpoint: builder.query({
@@ -107,6 +108,6 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useUnprotectedEndpointQuery,
-  useTestAuthQuery,
+  useProtectedEndpointQuery,
   useRefreshTokenMutation,
 } = mainApi;
