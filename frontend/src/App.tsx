@@ -5,6 +5,7 @@ import Navigation from './components/navigation/Navigation';
 import Login from './components/login/Login';
 import Home from './components/home/Home';
 import TestAuth from './components/protectedEndpoint/ProtectedEndpoint';
+import NotFound from './components/notFound/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { authenticateUser, unauthenticateUser } from './store/authSlice'; // Adjust the path as necessary
 import Cookies from 'js-cookie';
@@ -31,6 +32,7 @@ function App() {
 							path="/unprotected"
 							element={<UnprotectedEndpoint />}
 						/>
+						<Route path="*" element={<NotFound />} />
 					</Routes>
 				</AuthProvider>
 			</BrowserRouter>
