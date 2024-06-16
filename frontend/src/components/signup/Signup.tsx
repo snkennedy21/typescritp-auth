@@ -27,7 +27,6 @@ function Signup() {
 		e.preventDefault();
 		signup(formState)
 			.then((response) => {
-				console.log('RESPONSE: ', response);
 				const userData = response.data;
 				dispatch(authenticateUser(userData));
 				navigate('/');

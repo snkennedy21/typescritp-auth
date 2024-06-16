@@ -3,30 +3,14 @@ import { prisma } from '../../prisma';
 import bcrypt from 'bcrypt';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { User, CreateUserInput } from './users.d';
+import {
+	generateAuthTokens,
+	setAuthCookies,
+} from '../../utils/users/usersUtils';
 
 export const userRouter: Router = express.Router();
 
-// Make sure these are put in a .env file
-const ACCESS_KEY = process.env.ACCESS_KEY as string;
 const REFRESH_KEY = process.env.REFRESH_KEY as string;
-const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY;
-const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY;
-const ACCESS_COOKIE_EXPIRY = parseInt(
-	process.env.ACCESS_COOKIE_EXPIRY || '900000',
-	10,
-); // Convert string to integer
-const REFRESH_COOKIE_EXPIRY = parseInt(
-	process.env.REFRESH_COOKIE_EXPIRY || '604800000',
-	10,
-); // Convert string to integer
-
-if (!process.env.ACCESS_KEY) {
-	throw new Error('ACCESS_KEY environment variable is not defined.');
-}
-
-if (!process.env.REFRESH_KEY) {
-	throw new Error('REFRESH_KEY environment variable is not defined.');
-}
 
 /****************************************
  * * Get All Users
@@ -70,37 +54,9 @@ userRouter.post('/create', async (req: Request, res: Response) => {
 		});
 		delete user.password;
 
-		// Tokens are created to authenticate the user
-		const accessToken: string = jwt.sign({ userId: user.id }, ACCESS_KEY, {
-			expiresIn: ACCESS_TOKEN_EXPIRY,
-		});
-		const refreshToken: string = jwt.sign(
-			{ userId: user.id },
-			REFRESH_KEY,
-			{
-				expiresIn: REFRESH_TOKEN_EXPIRY,
-			},
-		);
+		const { accessToken, refreshToken } = generateAuthTokens(user.id);
 
-		res.cookie('accessToken', accessToken, {
-			httpOnly: true,
-			maxAge: ACCESS_COOKIE_EXPIRY,
-		});
-
-		res.cookie('refreshToken', refreshToken, {
-			httpOnly: true,
-			maxAge: REFRESH_COOKIE_EXPIRY,
-		});
-
-		res.cookie('isAuthenticated', 'True', {
-			httpOnly: false,
-			maxAge: ACCESS_COOKIE_EXPIRY,
-		});
-
-		res.cookie('isRefreshable', 'True', {
-			httpOnly: false,
-			maxAge: REFRESH_COOKIE_EXPIRY,
-		});
+		setAuthCookies(res, accessToken, refreshToken);
 
 		res.json(user);
 	} catch (error) {
@@ -180,36 +136,11 @@ userRouter.post('/login', async (req: Request, res: Response) => {
 		return res.status(401).json({ message: 'Invalid credentials' });
 	}
 
-	const accessToken: string = jwt.sign({ userId: user.id }, ACCESS_KEY, {
-		expiresIn: ACCESS_TOKEN_EXPIRY,
-	});
-	const refreshToken: string = jwt.sign({ userId: user.id }, REFRESH_KEY, {
-		expiresIn: REFRESH_TOKEN_EXPIRY,
-	});
+	const { accessToken, refreshToken } = generateAuthTokens(user.id);
 
-	res.cookie('accessToken', accessToken, {
-		httpOnly: true,
-		maxAge: ACCESS_COOKIE_EXPIRY,
-	});
-
-	res.cookie('refreshToken', refreshToken, {
-		httpOnly: true,
-		maxAge: REFRESH_COOKIE_EXPIRY,
-	});
-
-	res.cookie('isAuthenticated', 'True', {
-		httpOnly: false,
-		maxAge: ACCESS_COOKIE_EXPIRY,
-	});
-
-	res.cookie('isRefreshable', 'True', {
-		httpOnly: false,
-		maxAge: REFRESH_COOKIE_EXPIRY,
-	});
+	setAuthCookies(res, accessToken, refreshToken);
 
 	delete user.password;
-
-	console.log('user: ', user);
 
 	res.json(user);
 });
@@ -220,8 +151,6 @@ userRouter.post('/login', async (req: Request, res: Response) => {
  *******************************************/
 userRouter.post('/refresh', async (req: Request, res: Response) => {
 	const refreshToken = req.cookies['refreshToken'];
-
-	console.log('refreshToken: ', refreshToken);
 
 	if (!refreshToken) {
 		return res.status(401).json({ message: 'Invalid credentials' });
@@ -237,36 +166,12 @@ userRouter.post('/refresh', async (req: Request, res: Response) => {
 		throw new Error('User not found');
 	}
 
-	const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_KEY, {
-		expiresIn: ACCESS_TOKEN_EXPIRY,
-	});
-	const newRefreshToken = jwt.sign({ userId: user.id }, REFRESH_KEY, {
-		expiresIn: REFRESH_TOKEN_EXPIRY,
-	});
+	const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+		generateAuthTokens(user.id);
 
-	res.cookie('accessToken', newAccessToken, {
-		httpOnly: true,
-		maxAge: ACCESS_COOKIE_EXPIRY,
-	});
-
-	res.cookie('refreshToken', newRefreshToken, {
-		httpOnly: true,
-		maxAge: REFRESH_COOKIE_EXPIRY,
-	});
-
-	res.cookie('isAuthenticated', 'True', {
-		httpOnly: false,
-		maxAge: ACCESS_COOKIE_EXPIRY,
-	});
-
-	res.cookie('isRefreshable', 'True', {
-		httpOnly: false,
-		maxAge: REFRESH_COOKIE_EXPIRY,
-	});
+	setAuthCookies(res, newAccessToken, newRefreshToken);
 
 	delete user.password;
-
-	console.log('user: ', user);
 
 	res.json(user);
 });

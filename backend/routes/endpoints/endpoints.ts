@@ -7,7 +7,7 @@ endpointsRouter.get(
 	'/protected',
 	loginRequired,
 	async (req: Request, res: Response) => {
-		console.log('HELLO');
+		console.log('BANANA');
 		res.json({
 			message: 'Yes, you can view this content because you are logged in',
 		});

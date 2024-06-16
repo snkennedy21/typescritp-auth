@@ -17,7 +17,7 @@ const express_1 = __importDefault(require("express"));
 const middleware_1 = require("../../middleware");
 exports.endpointsRouter = express_1.default.Router();
 exports.endpointsRouter.get('/protected', middleware_1.loginRequired, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('HELLO');
+    console.log('BANANA');
     res.json({
         message: 'Yes, you can view this content because you are logged in',
     });

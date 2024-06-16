@@ -17,20 +17,9 @@ const express_1 = __importDefault(require("express"));
 const prisma_1 = require("../../prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const usersUtils_1 = require("../../utils/users/usersUtils");
 exports.userRouter = express_1.default.Router();
-// Make sure these are put in a .env file
-const ACCESS_KEY = process.env.ACCESS_KEY;
 const REFRESH_KEY = process.env.REFRESH_KEY;
-const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY;
-const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY;
-const ACCESS_COOKIE_EXPIRY = parseInt(process.env.ACCESS_COOKIE_EXPIRY || '900000', 10); // Convert string to integer
-const REFRESH_COOKIE_EXPIRY = parseInt(process.env.REFRESH_COOKIE_EXPIRY || '604800000', 10); // Convert string to integer
-if (!process.env.ACCESS_KEY) {
-    throw new Error('ACCESS_KEY environment variable is not defined.');
-}
-if (!process.env.REFRESH_KEY) {
-    throw new Error('REFRESH_KEY environment variable is not defined.');
-}
 /****************************************
  * * Get All Users
  * @returns {User[]} - Array of all users
@@ -70,29 +59,8 @@ exports.userRouter.post('/create', (req, res) => __awaiter(void 0, void 0, void 
             },
         });
         delete user.password;
-        // Tokens are created to authenticate the user
-        const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
-            expiresIn: ACCESS_TOKEN_EXPIRY,
-        });
-        const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
-            expiresIn: REFRESH_TOKEN_EXPIRY,
-        });
-        res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-            maxAge: ACCESS_COOKIE_EXPIRY,
-        });
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            maxAge: REFRESH_COOKIE_EXPIRY,
-        });
-        res.cookie('isAuthenticated', 'True', {
-            httpOnly: false,
-            maxAge: ACCESS_COOKIE_EXPIRY,
-        });
-        res.cookie('isRefreshable', 'True', {
-            httpOnly: false,
-            maxAge: REFRESH_COOKIE_EXPIRY,
-        });
+        const { accessToken, refreshToken } = (0, usersUtils_1.generateAuthTokens)(user.id);
+        (0, usersUtils_1.setAuthCookies)(res, accessToken, refreshToken);
         res.json(user);
     }
     catch (error) {
@@ -158,30 +126,9 @@ exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
     if (!passwordMatch) {
         return res.status(401).json({ message: 'Invalid credentials' });
     }
-    const accessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
-        expiresIn: ACCESS_TOKEN_EXPIRY,
-    });
-    const refreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
-        expiresIn: REFRESH_TOKEN_EXPIRY,
-    });
-    res.cookie('accessToken', accessToken, {
-        httpOnly: true,
-        maxAge: ACCESS_COOKIE_EXPIRY,
-    });
-    res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        maxAge: REFRESH_COOKIE_EXPIRY,
-    });
-    res.cookie('isAuthenticated', 'True', {
-        httpOnly: false,
-        maxAge: ACCESS_COOKIE_EXPIRY,
-    });
-    res.cookie('isRefreshable', 'True', {
-        httpOnly: false,
-        maxAge: REFRESH_COOKIE_EXPIRY,
-    });
+    const { accessToken, refreshToken } = (0, usersUtils_1.generateAuthTokens)(user.id);
+    (0, usersUtils_1.setAuthCookies)(res, accessToken, refreshToken);
     delete user.password;
-    console.log('user: ', user);
     res.json(user);
 }));
 /********************************************
@@ -190,7 +137,6 @@ exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
  *******************************************/
 exports.userRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies['refreshToken'];
-    console.log('refreshToken: ', refreshToken);
     if (!refreshToken) {
         return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -201,30 +147,9 @@ exports.userRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void
     if (!user) {
         throw new Error('User not found');
     }
-    const newAccessToken = jsonwebtoken_1.default.sign({ userId: user.id }, ACCESS_KEY, {
-        expiresIn: ACCESS_TOKEN_EXPIRY,
-    });
-    const newRefreshToken = jsonwebtoken_1.default.sign({ userId: user.id }, REFRESH_KEY, {
-        expiresIn: REFRESH_TOKEN_EXPIRY,
-    });
-    res.cookie('accessToken', newAccessToken, {
-        httpOnly: true,
-        maxAge: ACCESS_COOKIE_EXPIRY,
-    });
-    res.cookie('refreshToken', newRefreshToken, {
-        httpOnly: true,
-        maxAge: REFRESH_COOKIE_EXPIRY,
-    });
-    res.cookie('isAuthenticated', 'True', {
-        httpOnly: false,
-        maxAge: ACCESS_COOKIE_EXPIRY,
-    });
-    res.cookie('isRefreshable', 'True', {
-        httpOnly: false,
-        maxAge: REFRESH_COOKIE_EXPIRY,
-    });
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = (0, usersUtils_1.generateAuthTokens)(user.id);
+    (0, usersUtils_1.setAuthCookies)(res, newAccessToken, newRefreshToken);
     delete user.password;
-    console.log('user: ', user);
     res.json(user);
 }));
 /********************************************
