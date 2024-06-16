@@ -4,7 +4,7 @@ const config_1 = require("vitest/config");
 exports.default = (0, config_1.defineConfig)({
     test: {
         globals: true,
-        environment: "node",
+        environment: 'node',
         // setupFiles: ["./test/setup.ts"],
     },
 });

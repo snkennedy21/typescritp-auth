@@ -16,13 +16,13 @@ exports.endpointsRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const middleware_1 = require("../../middleware");
 exports.endpointsRouter = express_1.default.Router();
-exports.endpointsRouter.get("/protected", middleware_1.loginRequired, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("HELLO");
+exports.endpointsRouter.get('/protected', middleware_1.loginRequired, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('HELLO');
     res.json({
-        message: "Yes, you can view this content because you are logged in",
+        message: 'Yes, you can view this content because you are logged in',
     });
 }));
-exports.endpointsRouter.get("/unprotected", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.endpointsRouter.get('/unprotected', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.json({
         message: `
       This content is not protected. 

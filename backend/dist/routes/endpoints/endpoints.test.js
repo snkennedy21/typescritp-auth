@@ -18,14 +18,14 @@ const supertest_1 = __importDefault(require("supertest"));
 const endpoints_1 = require("../../routes/endpoints/endpoints");
 const app = (0, express_1.default)();
 app.use(endpoints_1.endpointsRouter);
-(0, vitest_1.describe)("Endpoints Route", () => {
-    (0, vitest_1.it)("GET /unprotected should return a message indicating that the content is not protected", () => __awaiter(void 0, void 0, void 0, function* () {
+(0, vitest_1.describe)('Endpoints Route', () => {
+    (0, vitest_1.it)('GET /unprotected should return a message indicating that the content is not protected', () => __awaiter(void 0, void 0, void 0, function* () {
         yield (0, supertest_1.default)(app)
-            .get("/unprotected")
+            .get('/unprotected')
             .expect(200)
             .then((response) => {
             (0, vitest_1.expect)(response.body).toEqual({
-                message: "This content is not protected",
+                message: 'This content is not protected',
             });
         });
     }));

@@ -14,16 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loginRequired = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const ACCESS_KEY = "super_secret_access_key";
+const ACCESS_KEY = 'super_secret_access_key';
 // Middleware to check if the user is authenticated
 const loginRequired = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const accessToken = req.cookies["accessToken"];
-    const refreshToken = req.cookies["refreshToken"];
+    const accessToken = req.cookies['accessToken'];
+    const refreshToken = req.cookies['refreshToken'];
     // If neither token is present, return unauthorized
     if (!accessToken && !refreshToken) {
         return res
             .status(401)
-            .json({ error: "Unauthorized: Please Log In To View This" });
+            .json({ error: 'Unauthorized: Please Log In To View This' });
     }
     // If access token is present, verify it
     if (accessToken) {
@@ -32,10 +32,12 @@ const loginRequired = (req, res, next) => __awaiter(void 0, void 0, void 0, func
                 if (refreshToken) {
                     // Instead of directly refreshing here, prompt client to refresh or redirect
                     return res.status(403).json({
-                        error: "Forbidden: Access token expired, please refresh token",
+                        error: 'Forbidden: Access token expired, please refresh token',
                     });
                 }
-                return res.status(403).json({ error: "Forbidden: Invalid token" });
+                return res
+                    .status(403)
+                    .json({ error: 'Forbidden: Invalid token' });
             }
             req.user = decoded;
             next();
@@ -45,7 +47,9 @@ const loginRequired = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         // Access token is missing but refresh token is present, prompt or redirect to refresh
         return res
             .status(403)
-            .json({ error: "Forbidden: Access token expired, please refresh token" });
+            .json({
+            error: 'Forbidden: Access token expired, please refresh token',
+        });
     }
 });
 exports.loginRequired = loginRequired;

@@ -1,12 +1,12 @@
 export interface CreateUserInput {
-  name: string;
-  email: string;
-  password: string;
+	name: string;
+	email: string;
+	password: string;
 }
 
 export interface User {
-  id: number;
-  name: string;
-  email: string;
-  password?: string;
+	id: number;
+	name: string;
+	email: string;
+	password?: string;
 }

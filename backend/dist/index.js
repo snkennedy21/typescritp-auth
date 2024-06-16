@@ -20,16 +20,16 @@ const corsOptions = {
 };
 exports.app.use((0, cors_1.default)(corsOptions));
 exports.app.use(function (req, res, next) {
-    res.header("Content-Type", "application/json;charset=UTF-8");
-    res.header("Access-Control-Allow-Credentials", "true");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Content-Type', 'application/json;charset=UTF-8');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
 exports.app.use(body_parser_1.default.json());
 exports.app.use((0, cookie_parser_1.default)());
-exports.app.use("/users", users_1.userRouter);
-exports.app.use("/endpoints", endpoints_1.endpointsRouter);
+exports.app.use('/users', users_1.userRouter);
+exports.app.use('/endpoints', endpoints_1.endpointsRouter);
 exports.app.listen(port, () => {
-    console.log("now Listening on port 8000...");
+    console.log('now Listening on port 8000...');
 });
 //# sourceMappingURL=index.js.map
