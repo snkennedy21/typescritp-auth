@@ -13,11 +13,11 @@ interface CreateUserInput {
 	password: string;
 }
 
-interface CreateUserResponse {
-	id: string;
-	name: string;
-	email: string;
-}
+// interface CreateUserResponse {
+// 	id: string;
+// 	name: string;
+// 	email: string;
+// }
 
 interface LoginUserInput {
 	name: string;
@@ -33,6 +33,24 @@ interface LoginUserResponse {
 
 interface LogoutResponse {
 	message: string;
+}
+
+interface ProtectedEndpointResponse {
+	message: string;
+}
+
+interface UnprotectedEndpointResponse {
+	message: string;
+}
+
+interface UserData {
+	id: string;
+	name: string;
+	email: string;
+}
+
+interface CreateUserResponse {
+	data: UserData;
 }
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -102,7 +120,7 @@ export const mainApi = createApi({
 			invalidatesTags: ['User'],
 		}),
 
-		ProtectedEndpoint: builder.query<void, void>({
+		ProtectedEndpoint: builder.query<ProtectedEndpointResponse, void>({
 			query: () => {
 				return {
 					url: '/endpoints/protected',
@@ -112,7 +130,7 @@ export const mainApi = createApi({
 			providesTags: ['User'],
 		}),
 
-		UnprotectedEndpoint: builder.query<void, void>({
+		UnprotectedEndpoint: builder.query<UnprotectedEndpointResponse, void>({
 			query: () => {
 				return {
 					url: '/endpoints/unprotected',

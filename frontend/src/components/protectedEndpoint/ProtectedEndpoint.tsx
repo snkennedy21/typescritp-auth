@@ -10,7 +10,7 @@ const TestAuth = () => {
 	return (
 		<div className="m-2 mb-4">
 			<h1 className="font-bold">Protected Page</h1>
-			{error ? <div>{error.data.error}</div> : <div>{data.message}</div>}
+			{error ? <div>{error.data.error}</div> : <div>{data?.message}</div>}
 		</div>
 	);
 };

@@ -10,7 +10,7 @@ const UnprotectedEndpoint = () => {
 	return (
 		<div className="m-2 mb-4">
 			<h1 className="font-bold">Unprotected Page</h1>
-			<div>{data.message}</div>
+			<div>{data?.message}</div>
 		</div>
 	);
 };
