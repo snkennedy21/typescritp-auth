@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './css/Button.module.css';
+import { ButtonProps } from './Button.types';
 
-const Button = ({
+const Button: React.FC<ButtonProps> = ({
 	type = 'button',
 	variant = 'primary',
 	children,
@@ -19,7 +20,7 @@ const Button = ({
 		<button
 			type={type}
 			className={`${baseClasses} ${variantClasses[variant]} ${styles.customButton}`}
-			onClick={onClick}
+			onClick={onClick || undefined}
 		>
 			{children}
 		</button>
