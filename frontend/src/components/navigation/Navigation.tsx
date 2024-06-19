@@ -5,25 +5,30 @@ import { unauthenticateUser } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { clearLocalStorageUserData } from '../../utils/localStorageUserData';
 import styles from './css/Navigation.module.css';
+import { RootState } from '../../store/store';
 
 const Navigation = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [logout] = useLogoutMutation();
-	const currentUser = useSelector((state) => state.auth.currentUser);
+	const currentUser = useSelector(
+		(state: RootState) => state.auth.currentUser,
+	);
 
-	const logoutHandler = (event) => {
+	const logoutHandler = (event: React.MouseEvent<HTMLElement>) => {
+		// Prevent default navigation
 		event.preventDefault();
 
-		// clear tokens from cookies
+		// Clear tokens from cookies
 		logout();
 
-		// clear user data from local storage
+		// Clear user data from local storage
 		clearLocalStorageUserData();
 
-		// clear user data from redux store
+		// Clear user data from redux store
 		dispatch(unauthenticateUser());
 
+		// Navigate to home page
 		navigate('/');
 	};
 

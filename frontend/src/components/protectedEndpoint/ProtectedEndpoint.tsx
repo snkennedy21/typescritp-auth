@@ -1,9 +1,7 @@
 import { useProtectedEndpointQuery } from '../../store/mainApi';
-import { useSelector } from 'react-redux';
 
 const TestAuth = () => {
 	const { data, error, isLoading } = useProtectedEndpointQuery();
-	const currentUser = useSelector((state) => state.auth.currentUser);
 
 	if (isLoading) {
 		return <div>Loading...</div>;

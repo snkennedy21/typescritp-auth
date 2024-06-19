@@ -18,3 +18,6 @@ export const authSliceActions = authSlice.actions;
 // export const userSliceActions = userSlice.actions;
 
 setupListeners(store.dispatch);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

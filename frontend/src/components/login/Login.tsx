@@ -7,10 +7,16 @@ import { setLocalStorageUserData } from '../../utils/localStorageUserData';
 import FormInput from '../formInput/FormInput';
 import Button from '../button/Button';
 
+interface UserData {
+	email: string;
+	id: string;
+	name: string;
+}
+
 function Login() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [login, { data, isLoading, error }] = useLoginMutation();
+	const [login] = useLoginMutation();
 	const [formState, setFormState] = useState({
 		name: '',
 		email: '',
@@ -30,7 +36,7 @@ function Login() {
 		event.preventDefault();
 
 		// Set tokens in cookies and retrieve user data
-		let userData = await login(formState).unwrap();
+		const userData: UserData = await login(formState).unwrap();
 
 		// Set user data in redux store
 		dispatch(authenticateUser(userData));

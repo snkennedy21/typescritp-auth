@@ -7,6 +7,34 @@ const baseQuery = fetchBaseQuery({
 	credentials: 'include',
 });
 
+interface CreateUserInput {
+	name: string;
+	email: string;
+	password: string;
+}
+
+interface CreateUserResponse {
+	id: string;
+	name: string;
+	email: string;
+}
+
+interface LoginUserInput {
+	name: string;
+	email: string;
+	password: string;
+}
+
+interface LoginUserResponse {
+	id: string;
+	name: string;
+	email: string;
+}
+
+interface LogoutResponse {
+	message: string;
+}
+
 const baseQueryWithReauth = async (args, api, extraOptions) => {
 	let result = await baseQuery(args, api, extraOptions);
 
@@ -42,7 +70,7 @@ export const mainApi = createApi({
 	tagTypes: ['User'],
 
 	endpoints: (builder) => ({
-		signup: builder.mutation({
+		signup: builder.mutation<CreateUserResponse, CreateUserInput>({
 			query: (data) => {
 				return {
 					url: '/users/create',
@@ -53,7 +81,7 @@ export const mainApi = createApi({
 			invalidatesTags: ['User'],
 		}),
 
-		login: builder.mutation({
+		login: builder.mutation<LoginUserResponse, LoginUserInput>({
 			query: (data) => {
 				return {
 					url: '/users/login',
@@ -64,7 +92,7 @@ export const mainApi = createApi({
 			invalidatesTags: ['User'],
 		}),
 
-		logout: builder.mutation({
+		logout: builder.mutation<LogoutResponse, void>({
 			query: () => {
 				return {
 					url: '/users/logout',
@@ -74,7 +102,7 @@ export const mainApi = createApi({
 			invalidatesTags: ['User'],
 		}),
 
-		ProtectedEndpoint: builder.query({
+		ProtectedEndpoint: builder.query<void, void>({
 			query: () => {
 				return {
 					url: '/endpoints/protected',
@@ -84,7 +112,7 @@ export const mainApi = createApi({
 			providesTags: ['User'],
 		}),
 
-		UnprotectedEndpoint: builder.query({
+		UnprotectedEndpoint: builder.query<void, void>({
 			query: () => {
 				return {
 					url: '/endpoints/unprotected',
