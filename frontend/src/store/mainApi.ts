@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setLocalStorageUserData } from '../utils/localStorageUserData';
+import { RefreshResponse } from '../types/common.types';
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: import.meta.env.VITE_API_URL,
@@ -92,7 +93,7 @@ export const mainApi = createApi({
 			},
 		}),
 
-		refreshToken: builder.mutation({
+		refreshToken: builder.mutation<RefreshResponse, void>({
 			query: () => {
 				return {
 					url: '/users/refresh',

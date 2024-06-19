@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Cookies from 'js-cookie';
+// React Imports
+import { useEffect, useState } from 'react';
+
+// Redux Toolkit Imports
 import { useDispatch } from 'react-redux';
 import { useRefreshTokenMutation } from '../../store/mainApi';
 import { authenticateUser, unauthenticateUser } from '../../store/authSlice';
@@ -8,9 +10,16 @@ import {
 	clearLocalStorageUserData,
 } from '../../utils/localStorageUserData';
 
-const AuthProvider = ({ children }) => {
+// Typescript Interfaces Imports
+import { RefreshResponse } from '../../types/common.types';
+import { AuthProviderProps } from './AuthProvider.types';
+
+// External Library Imports
+import Cookies from 'js-cookie';
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const dispatch = useDispatch();
-	const [refresh] = useRefreshTokenMutation();
+	const [refresh] = useRefreshTokenMutation<RefreshResponse>();
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -32,7 +41,6 @@ const AuthProvider = ({ children }) => {
 
 			setLoading(false);
 		};
-
 		initAuth();
 	}, [dispatch, refresh]);
 
