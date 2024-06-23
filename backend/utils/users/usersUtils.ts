@@ -15,6 +15,8 @@ const REFRESH_COOKIE_EXPIRY = parseInt(
 	10,
 ); // Convert string to integer
 
+console.log('ACCESS_COOKIE_EXPIRY: ', ACCESS_COOKIE_EXPIRY);
+
 if (!process.env.ACCESS_KEY) {
 	throw new Error('ACCESS_KEY environment variable is not defined.');
 }
