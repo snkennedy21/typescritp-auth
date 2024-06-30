@@ -12,10 +12,10 @@ export const userRouter: Router = express.Router();
 
 const REFRESH_KEY = process.env.REFRESH_KEY as string;
 
-/****************************************
+/*********************************************************************
  * * Get All Users
  * @returns {User[]} - Array of all users
- ****************************************/
+ ********************************************************************/
 userRouter.get('/', async (req: Request, res: Response) => {
 	try {
 		const users: User[] = await prisma.user.findMany();
@@ -26,10 +26,10 @@ userRouter.get('/', async (req: Request, res: Response) => {
 	}
 });
 
-/******************************************
+/*********************************************************************
  * * Create New User
  * @returns {User} - The newly created user
- ******************************************/
+ ********************************************************************/
 userRouter.post('/create', async (req: Request, res: Response) => {
 	const { name, email, password }: CreateUserInput = req.body;
 	try {
@@ -65,10 +65,10 @@ userRouter.post('/create', async (req: Request, res: Response) => {
 	}
 });
 
-/**************************************************
+/*********************************************************************
  * * Get A User By ID
  * @returns {User} - The user with the specified ID
- **************************************************/
+ ********************************************************************/
 userRouter.get('/:id', async (req: Request, res: Response) => {
 	const { id } = req.params;
 
@@ -90,10 +90,10 @@ userRouter.get('/:id', async (req: Request, res: Response) => {
 	}
 });
 
-/************************************
+/*********************************************************************
  * * Delete A User By ID
  * @returns {User} - The deleted user
- ***********************************/
+ ********************************************************************/
 userRouter.delete('/:id', async (req: Request, res: Response) => {
 	const { id } = req.params;
 
@@ -108,10 +108,10 @@ userRouter.delete('/:id', async (req: Request, res: Response) => {
 	}
 });
 
-/********************************************
+/*********************************************************************
  * * Login User
  * @returns {newAccessToken, newRefreshToken}
- *******************************************/
+ ********************************************************************/
 userRouter.post('/login', async (req: Request, res: Response) => {
 	const { email, password } = req.body;
 
@@ -145,10 +145,10 @@ userRouter.post('/login', async (req: Request, res: Response) => {
 	res.json(user);
 });
 
-/********************************************
+/*********************************************************************
  * * Refresh Tokens
  * @returns {newAccessToken, newRefreshToken}
- *******************************************/
+ ********************************************************************/
 userRouter.post('/refresh', async (req: Request, res: Response) => {
 	const refreshToken = req.cookies['refreshToken'];
 
@@ -176,10 +176,10 @@ userRouter.post('/refresh', async (req: Request, res: Response) => {
 	res.json(user);
 });
 
-/********************************************
+/*********************************************************************
  * * Logout User
  * @returns {message}
- *******************************************/
+ ********************************************************************/
 userRouter.post('/logout', (req: Request, res: Response) => {
 	// Clear the accessToken cookie
 	res.cookie('accessToken', '', {

@@ -20,10 +20,10 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const usersUtils_1 = require("../../utils/users/usersUtils");
 exports.userRouter = express_1.default.Router();
 const REFRESH_KEY = process.env.REFRESH_KEY;
-/****************************************
+/*********************************************************************
  * * Get All Users
  * @returns {User[]} - Array of all users
- ****************************************/
+ ********************************************************************/
 exports.userRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield prisma_1.prisma.user.findMany();
@@ -34,10 +34,10 @@ exports.userRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
-/******************************************
+/*********************************************************************
  * * Create New User
  * @returns {User} - The newly created user
- ******************************************/
+ ********************************************************************/
 exports.userRouter.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
     try {
@@ -68,10 +68,10 @@ exports.userRouter.post('/create', (req, res) => __awaiter(void 0, void 0, void 
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
-/**************************************************
+/*********************************************************************
  * * Get A User By ID
  * @returns {User} - The user with the specified ID
- **************************************************/
+ ********************************************************************/
 exports.userRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -90,10 +90,10 @@ exports.userRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, f
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
-/************************************
+/*********************************************************************
  * * Delete A User By ID
  * @returns {User} - The deleted user
- ***********************************/
+ ********************************************************************/
 exports.userRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -107,10 +107,10 @@ exports.userRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
-/********************************************
+/*********************************************************************
  * * Login User
  * @returns {newAccessToken, newRefreshToken}
- *******************************************/
+ ********************************************************************/
 exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     const user = yield prisma_1.prisma.user.findUnique({
@@ -131,10 +131,10 @@ exports.userRouter.post('/login', (req, res) => __awaiter(void 0, void 0, void 0
     delete user.password;
     res.json(user);
 }));
-/********************************************
+/*********************************************************************
  * * Refresh Tokens
  * @returns {newAccessToken, newRefreshToken}
- *******************************************/
+ ********************************************************************/
 exports.userRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies['refreshToken'];
     if (!refreshToken) {
@@ -152,10 +152,10 @@ exports.userRouter.post('/refresh', (req, res) => __awaiter(void 0, void 0, void
     delete user.password;
     res.json(user);
 }));
-/********************************************
+/*********************************************************************
  * * Logout User
  * @returns {message}
- *******************************************/
+ ********************************************************************/
 exports.userRouter.post('/logout', (req, res) => {
     // Clear the accessToken cookie
     res.cookie('accessToken', '', {
