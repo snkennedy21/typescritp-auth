@@ -9,25 +9,54 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UnprotectedEndpoint from './components/unprotectedEndpoint/unprotectedEndpoint';
 import AuthProvider from './components/authProvider/AuthProvider';
 
+import Sidebar from './components/sidebar/Sidebar';
+import MainContent from './components/mainContent/MainContent';
+import AdditionalLinks from './components/additionalLinks/AdditionalLinks';
+import HamburgerMenu from './components/hamburgerMenu/HamburgerMenu';
+
 function App() {
 	return (
 		<React.Fragment>
-			<BrowserRouter>
-				<AuthProvider>
-					<Navigation />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/signup" element={<Signup />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/protected" element={<TestAuth />} />
-						<Route
-							path="/unprotected"
-							element={<UnprotectedEndpoint />}
-						/>
-						<Route path="*" element={<NotFound />} />
-					</Routes>
-				</AuthProvider>
-			</BrowserRouter>
+			<div className="flex flex-col h-screen">
+				{/* Desktop and Tablet View */}
+				<div className="hidden lg:flex flex-row h-full">
+					<div className="lg:w-1/6 bg-gray-200">
+						<Sidebar />
+					</div>
+					<div className="flex-1 overflow-auto">
+						<MainContent />
+					</div>
+					<div className="lg:w-1/6 bg-gray-100">
+						<AdditionalLinks />
+					</div>
+				</div>
+
+				{/* Tablet View */}
+				<div className="hidden md:flex lg:hidden flex-col h-full">
+					<div className="flex flex-row h-full">
+						<div className="md:w-1/4 bg-gray-200">
+							<Sidebar />
+						</div>
+						<div className="flex-1 overflow-auto">
+							<MainContent />
+						</div>
+					</div>
+					{/* <div className="bg-gray-100">
+						<AdditionalLinks />
+					</div> */}
+				</div>
+
+				{/* Mobile View */}
+				<div className="block md:hidden">
+					<HamburgerMenu />
+					<div className="overflow-auto">
+						<MainContent />
+					</div>
+					{/* <div className="bg-gray-100">
+						<AdditionalLinks />
+					</div> */}
+				</div>
+			</div>
 		</React.Fragment>
 	);
 }
