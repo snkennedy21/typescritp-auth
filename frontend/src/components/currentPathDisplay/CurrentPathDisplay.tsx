@@ -14,9 +14,21 @@ const CurrentPathDisplay = () => {
 			{pathArray.map((section, index) => {
 				fullPath += `/${section}`;
 
+				// Check if it's the last element
+				const isLast = index === pathArray.length - 1;
+
 				return (
 					<span key={index}>
-						<NavLink to={fullPath}>{section}</NavLink>
+						{isLast ? (
+							<span className="font-bold">{section}</span> // Not a clickable link
+						) : (
+							<NavLink
+								to={fullPath}
+								className="hover:text-blue-300"
+							>
+								{section}
+							</NavLink>
+						)}
 						{index < pathArray.length - 1 && ' / '}
 					</span>
 				);

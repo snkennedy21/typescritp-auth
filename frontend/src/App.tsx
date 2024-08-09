@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Signup from './components/signup/Signup';
 import Navigation from './components/navigation/Navigation';
 import Login from './components/login/Login';
@@ -15,26 +15,20 @@ import AdditionalLinks from './components/additionalLinks/AdditionalLinks';
 import HamburgerMenu from './components/hamburgerMenu/HamburgerMenu';
 
 function App() {
+	const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+	const openMobileNavHandler = () => {
+		setMobileNavOpen(true);
+	};
+
+	const closeMobileNavHandler = () => {
+		setMobileNavOpen(false);
+	};
+
 	return (
 		<React.Fragment>
 			<BrowserRouter>
 				<AuthProvider>
-					{/* <BrowserRouter>
-				<AuthProvider>
-					<Navigation />
-					<Routes>
-						<Route path="/" element={<Home />} />
-						<Route path="/signup" element={<Signup />} />
-						<Route path="/login" element={<Login />} />
-						<Route path="/protected" element={<TestAuth />} />
-						<Route
-							path="/unprotected"
-							element={<UnprotectedEndpoint />}
-						/>
-						<Route path="*" element={<NotFound />} />
-					</Routes>
-				</AuthProvider>
-			</BrowserRouter> */}
 					<div className="flex flex-col h-screen">
 						{/* Desktop and Tablet View */}
 						<div className="hidden lg:flex flex-row h-full">
@@ -66,15 +60,21 @@ function App() {
 									</div>
 								</div>
 							</div>
-							{/* <div className="bg-gray-100">
-						<AdditionalLinks />
-					</div> */}
 						</div>
 
 						{/* Mobile View */}
 						<div className="block md:hidden">
-							<HamburgerMenu />
+							<HamburgerMenu
+								openMobileNav={openMobileNavHandler}
+							/>
 							<div className="flex-1 overflow-auto flex flex-col">
+								<div className="md:w-1/6 bg-gray-200">
+									<Sidebar
+										isMobile={true}
+										mobileNavOpen={mobileNavOpen}
+										closeMobileNav={closeMobileNavHandler}
+									/>
+								</div>
 								<div className="lg:flex-1">
 									<MainContent />
 								</div>
@@ -82,9 +82,6 @@ function App() {
 									<AdditionalLinks />
 								</div>
 							</div>
-							{/* <div className="bg-gray-100">
-						<AdditionalLinks />
-					</div> */}
 						</div>
 					</div>
 				</AuthProvider>

@@ -7,7 +7,7 @@ import {
 	faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 
-const Accordion = ({ text, navLink, open, subsections }) => {
+const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
 	const [isOpen, setIsOpen] = useState(open);
 	const contentRef = useRef(null);
 

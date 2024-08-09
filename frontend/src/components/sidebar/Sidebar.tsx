@@ -10,7 +10,7 @@ import { clearLocalStorageUserData } from '../../utils/localStorageUserData';
 import { RootState } from '../../store/store';
 import Accordion from '../accordion/Accordion';
 
-function Sidebar() {
+function Sidebar({ isMobile = false, mobileNavOpen, closeMobileNav }) {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [logout] = useLogoutMutation();
@@ -152,6 +152,102 @@ function Sidebar() {
 	// const accordions = [
 
 	// ];
+
+	if (isMobile) {
+		return (
+			<div
+				className={`
+				p-4 h-full flex flex-col overflow-y-scroll 
+				absolute bg-gray-300 top-0 z-20 w-1/2 
+				transition-transform duration-300 
+				${mobileNavOpen ? '' : '-translate-x-full'}
+				`}
+			>
+				<h2 className="text-xl font-bold text-left">Nav Links</h2>
+				<button onClick={closeMobileNav}>X</button>
+				<ul className="mt-4">
+					<li className="my-2">
+						<NavLink
+							to="/"
+							className={({ isActive }) =>
+								isActive ? styles.activeNavLink : styles.navLink
+							}
+						>
+							Home
+						</NavLink>
+					</li>
+					<li className="my-2">
+						<NavLink
+							to="/protected"
+							className={({ isActive }) =>
+								isActive ? styles.activeNavLink : styles.navLink
+							}
+						>
+							{'Protected'}
+						</NavLink>
+					</li>
+					<li className="my-2">
+						<NavLink
+							to="/unprotected"
+							className={({ isActive }) =>
+								isActive ? styles.activeNavLink : styles.navLink
+							}
+						>
+							{'Unprotected'}
+						</NavLink>
+					</li>
+					{currentUser ? (
+						<li className="my-2">
+							<NavLink
+								to="/logout"
+								className={styles.navLink}
+								onClick={logoutHandler}
+							>
+								Logout
+							</NavLink>
+						</li>
+					) : (
+						<>
+							<li className="my-2">
+								<NavLink
+									to="/signup"
+									className={({ isActive }) =>
+										isActive
+											? styles.activeNavLink
+											: styles.navLink
+									}
+								>
+									Signup
+								</NavLink>
+							</li>
+							<li className="my-2">
+								<NavLink
+									to="/login"
+									className={({ isActive }) =>
+										isActive
+											? styles.activeNavLink
+											: styles.navLink
+									}
+								>
+									Login
+								</NavLink>
+							</li>
+						</>
+					)}
+					{accordions.map((accordion) => {
+						return (
+							<Accordion
+								text={accordion.text}
+								navLink={accordion.link}
+								open={accordion.open}
+								subsections={accordion.subsections}
+							/>
+						);
+					})}
+				</ul>
+			</div>
+		);
+	}
 
 	return (
 		<div className="p-4 h-full flex flex-col overflow-y-scroll">
