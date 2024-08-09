@@ -21,7 +21,7 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 	}, [open]);
 
 	useEffect(() => {
-		const estimatedHeightPerSubsection = 80; // Estimate height for each subsection
+		const estimatedHeightPerSubsection = 80;
 		const totalHeight = subsections.length * estimatedHeightPerSubsection;
 		if (contentRef.current) {
 			contentRef.current.style.maxHeight = isOpen

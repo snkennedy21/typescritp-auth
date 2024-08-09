@@ -22,6 +22,8 @@ import B2 from '../accordion/subsections/B2';
 import B2a from '../accordion/subsections/B2a';
 import B2ai from '../accordion/subsections/B2ai';
 
+import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
+
 import AuthProvider from '../../components/authProvider/AuthProvider';
 
 import Sidebar from '../../components/sidebar/Sidebar';
@@ -32,6 +34,7 @@ function MainContent() {
 	return (
 		<>
 			<div className="p-4">
+				<CurrentPathDisplay />
 				<h1 className="text-3xl font-bold">Main Content of the page</h1>
 				{/* <BrowserRouter> */}
 				{/* <AuthProvider> */}
@@ -46,20 +49,20 @@ function MainContent() {
 					/>
 
 					{/* Test Routes */}
-					<Route path="/a" element={<A />} />
-					<Route path="/a/1" element={<A1 />} />
-					<Route path="/a/1/a" element={<A1a />} />
-					<Route path="/a/1/a/i" element={<A1ai />} />
-					<Route path="/a/1/b" element={<A1b />} />
-					<Route path="/a/2" element={<A2 />} />
-					<Route path="/a/3" element={<A3 />} />
-					<Route path="/a/3/a" element={<A3a />} />
+					<Route path="/A" element={<A />} />
+					<Route path="/A/1" element={<A1 />} />
+					<Route path="/A/1/a" element={<A1a />} />
+					<Route path="/A/1/a/i" element={<A1ai />} />
+					<Route path="/A/1/b" element={<A1b />} />
+					<Route path="/A/2" element={<A2 />} />
+					<Route path="/A/3" element={<A3 />} />
+					<Route path="/A/3/a" element={<A3a />} />
 
-					<Route path="/b" element={<B />} />
-					<Route path="/b/1" element={<B1 />} />
-					<Route path="/b/2" element={<B2 />} />
-					<Route path="/b/2/a" element={<B2a />} />
-					<Route path="/b/2/a/i" element={<B2ai />} />
+					<Route path="/B" element={<B />} />
+					<Route path="/B/1" element={<B1 />} />
+					<Route path="/B/2" element={<B2 />} />
+					<Route path="/B/2/a" element={<B2a />} />
+					<Route path="/B/2/a/i" element={<B2ai />} />
 
 					<Route path="*" element={<NotFound />} />
 				</Routes>

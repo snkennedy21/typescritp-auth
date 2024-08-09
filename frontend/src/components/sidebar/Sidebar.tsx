@@ -17,37 +17,37 @@ function Sidebar() {
 	const [accordions, setAccordions] = useState([
 		{
 			text: 'A',
-			link: '/a',
+			link: '/A',
 			open: false,
 			subsections: [
 				{
 					text: 'A1',
-					link: '/a/1',
+					link: '/A/1',
 					open: false,
 					subsections: [
 						{
 							text: 'A1a',
-							link: '/a/1/a',
+							link: '/A/1/a',
 						},
 						{
 							text: 'A1b',
-							link: '/a/1/b',
+							link: '/A/1/b',
 						},
 					],
 				},
 				{
 					text: 'A2',
-					link: '/a/2',
+					link: '/A/2',
 					open: false,
 				},
 				{
 					text: 'A3',
-					link: '/a/3',
+					link: '/A/3',
 					open: false,
 					subsections: [
 						{
 							text: 'A3a',
-							link: '/a/3/a',
+							link: '/A/3/a',
 						},
 					],
 				},
@@ -55,27 +55,27 @@ function Sidebar() {
 		},
 		{
 			text: 'B',
-			link: '/b',
+			link: '/B',
 			open: false,
 			subsections: [
 				{
 					text: 'B1',
-					link: '/b/1',
+					link: '/B/1',
 					open: false,
 				},
 				{
 					text: 'B2',
-					link: '/b/2',
+					link: '/B/2',
 					open: false,
 					subsections: [
 						{
 							text: 'B2a',
-							link: '/b/2/a',
+							link: '/B/2/a',
 							open: false,
 							subsections: [
 								{
 									text: 'B2ai',
-									link: '/b/2/a/i',
+									link: '/B/2/a/i',
 									open: false,
 								},
 							],
@@ -84,7 +84,7 @@ function Sidebar() {
 				},
 				{
 					text: 'B3',
-					link: '/b/3',
+					link: '/B/3',
 					open: false,
 				},
 			],
