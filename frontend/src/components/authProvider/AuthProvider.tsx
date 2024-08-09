@@ -40,8 +40,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 				const now = Date.now();
 
-				console.log('DIFFERENCE: ', userData?.expirationTime - now);
-
 				// If the user is going to expire in 10 seconds, refresh the tokens
 				if (userData?.expirationTime - now < 10000 || !userData) {
 					try {

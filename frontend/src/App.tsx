@@ -41,11 +41,13 @@ function App() {
 							<div className="lg:w-1/6 bg-gray-200">
 								<Sidebar />
 							</div>
-							<div className="flex-1 overflow-auto">
-								<MainContent />
-							</div>
-							<div className="lg:w-1/6 bg-gray-100">
-								<AdditionalLinks />
+							<div className="flex-1 overflow-auto flex">
+								<div className="lg:flex-1">
+									<MainContent />
+								</div>
+								<div className="lg:w-1/6 bg-gray-100 sticky top-0">
+									<AdditionalLinks />
+								</div>
 							</div>
 						</div>
 
@@ -55,8 +57,13 @@ function App() {
 								<div className="md:w-1/6 bg-gray-200">
 									<Sidebar />
 								</div>
-								<div className="flex-1 overflow-auto">
-									<MainContent />
+								<div className="flex-1 overflow-auto flex flex-col">
+									<div className="lg:flex-1">
+										<MainContent />
+									</div>
+									<div className="lg:w-1/6 bg-gray-100 sticky top-0">
+										<AdditionalLinks />
+									</div>
 								</div>
 							</div>
 							{/* <div className="bg-gray-100">
@@ -67,8 +74,13 @@ function App() {
 						{/* Mobile View */}
 						<div className="block md:hidden">
 							<HamburgerMenu />
-							<div className="overflow-auto">
-								<MainContent />
+							<div className="flex-1 overflow-auto flex flex-col">
+								<div className="lg:flex-1">
+									<MainContent />
+								</div>
+								<div className="lg:w-1/6 bg-gray-100 sticky top-0">
+									<AdditionalLinks />
+								</div>
 							</div>
 							{/* <div className="bg-gray-100">
 						<AdditionalLinks />

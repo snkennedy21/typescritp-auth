@@ -1,0 +1,13 @@
+.accordion {
+	margin-bottom: 10px; /* Add margin to prevent overlap */
+}
+
+.accordion-content {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease-in-out;
+}
+
+.accordion-content div {
+	padding: 5px 0;
+}

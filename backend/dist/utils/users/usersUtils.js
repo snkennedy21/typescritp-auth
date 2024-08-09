@@ -12,7 +12,6 @@ const ACCESS_TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRY;
 const REFRESH_TOKEN_EXPIRY = process.env.REFRESH_TOKEN_EXPIRY;
 const ACCESS_COOKIE_EXPIRY = parseInt(process.env.ACCESS_COOKIE_EXPIRY || '900000', 10); // Convert string to integer
 const REFRESH_COOKIE_EXPIRY = parseInt(process.env.REFRESH_COOKIE_EXPIRY || '604800000', 10); // Convert string to integer
-console.log('ACCESS_COOKIE_EXPIRY: ', ACCESS_COOKIE_EXPIRY);
 if (!process.env.ACCESS_KEY) {
     throw new Error('ACCESS_KEY environment variable is not defined.');
 }

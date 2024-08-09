@@ -1,5 +1,6 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import styles from './css/Sidebar.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../../store/mainApi';
@@ -7,14 +8,129 @@ import { unauthenticateUser } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { clearLocalStorageUserData } from '../../utils/localStorageUserData';
 import { RootState } from '../../store/store';
+import Accordion from '../accordion/Accordion';
 
 function Sidebar() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [logout] = useLogoutMutation();
+	const [accordions, setAccordions] = useState([
+		{
+			text: 'A',
+			link: '/a',
+			open: false,
+			subsections: [
+				{
+					text: 'A1',
+					link: '/a/1',
+					open: false,
+					subsections: [
+						{
+							text: 'A1a',
+							link: '/a/1/a',
+						},
+						{
+							text: 'A1b',
+							link: '/a/1/b',
+						},
+					],
+				},
+				{
+					text: 'A2',
+					link: '/a/2',
+					open: false,
+				},
+				{
+					text: 'A3',
+					link: '/a/3',
+					open: false,
+					subsections: [
+						{
+							text: 'A3a',
+							link: '/a/3/a',
+						},
+					],
+				},
+			],
+		},
+		{
+			text: 'B',
+			link: '/b',
+			open: false,
+			subsections: [
+				{
+					text: 'B1',
+					link: '/b/1',
+					open: false,
+				},
+				{
+					text: 'B2',
+					link: '/b/2',
+					open: false,
+					subsections: [
+						{
+							text: 'B2a',
+							link: '/b/2/a',
+							open: false,
+							subsections: [
+								{
+									text: 'B2ai',
+									link: '/b/2/a/i',
+									open: false,
+								},
+							],
+						},
+					],
+				},
+				{
+					text: 'B3',
+					link: '/b/3',
+					open: false,
+				},
+			],
+		},
+	]);
 	const currentUser = useSelector(
 		(state: RootState) => state.auth.currentUser,
 	);
+	const location = useLocation();
+
+	const updateAccordionState = (accordions, path, basePath = '') => {
+		const segments = path.split('/').filter(Boolean); // split the path and filter out empty strings
+
+		return accordions.map((accordion) => {
+			// Build the current path by appending the next segment
+			const currentPath = `${basePath}/${segments[0]}`.replace('//', '/');
+
+			// Remove the first segment as it has been used
+			const remainingSegments = segments.slice(1);
+
+			if (accordion.link === currentPath) {
+				accordion.open = true;
+
+				// If there are remaining segments and subsections, recurse
+				if (accordion.subsections && remainingSegments.length > 0) {
+					accordion.subsections = updateAccordionState(
+						accordion.subsections,
+						remainingSegments.join('/'),
+						currentPath, // Pass down the currentPath to the next level
+					);
+				}
+			} else {
+				accordion.open = false;
+			}
+
+			return accordion;
+		});
+	};
+
+	useEffect(() => {
+		const updatedAccordions = updateAccordionState(
+			accordions,
+			location.pathname,
+		);
+		setAccordions(updatedAccordions); // Assuming you have a state setter for accordions
+	}, [location.pathname]);
 
 	const logoutHandler = (event: React.MouseEvent<HTMLElement>) => {
 		// Prevent default navigation
@@ -33,10 +149,14 @@ function Sidebar() {
 		navigate('/');
 	};
 
+	// const accordions = [
+
+	// ];
+
 	return (
-		<div className="p-4 h-full flex flex-col bg-orange-300">
+		<div className="p-4 h-full flex flex-col overflow-y-scroll">
 			<h2 className="text-xl font-bold text-right">Nav Links</h2>
-			<ul className="mt-4 bg-blue-300">
+			<ul className="mt-4 ml-auto">
 				<li className="my-2">
 					<NavLink
 						to="/"
@@ -105,6 +225,16 @@ function Sidebar() {
 						</li>
 					</>
 				)}
+				{accordions.map((accordion) => {
+					return (
+						<Accordion
+							text={accordion.text}
+							navLink={accordion.link}
+							open={accordion.open}
+							subsections={accordion.subsections}
+						/>
+					);
+				})}
 			</ul>
 		</div>
 	);
