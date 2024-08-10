@@ -163,8 +163,10 @@ function Sidebar({ isMobile = false, mobileNavOpen, closeMobileNav }) {
 				${mobileNavOpen ? '' : '-translate-x-full'}
 				`}
 			>
-				<h2 className="text-xl font-bold text-left">Nav Links</h2>
-				<button onClick={closeMobileNav}>X</button>
+				<div className="flex justify-between">
+					<h2 className="text-xl font-bold text-left">Nav Links</h2>
+					<button onClick={closeMobileNav}>X</button>
+				</div>
 				<ul className="mt-4">
 					<li className="my-2">
 						<NavLink
@@ -241,6 +243,7 @@ function Sidebar({ isMobile = false, mobileNavOpen, closeMobileNav }) {
 								navLink={accordion.link}
 								open={accordion.open}
 								subsections={accordion.subsections}
+								closeMobileNav={closeMobileNav}
 							/>
 						);
 					})}

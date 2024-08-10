@@ -36,6 +36,7 @@ const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
 				<NavLink
 					className="hover:text-blue-300 transition-color duration-200 cursor-pointer"
 					onClick={() => {
+						closeMobileNav();
 						if (!isOpen) {
 							toggleAccordion();
 						}
@@ -65,12 +66,17 @@ const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
 							navLink={subsection.link}
 							open={subsection.open}
 							subsections={subsection.subsections}
+							closeMobileNav={closeMobileNav}
 						/>
 					) : (
 						<div>
 							<NavLink
 								to={subsection.link}
-								className="hover:text-blue-300 "
+								className="hover:text-blue-300"
+								onClick={() => {
+									closeMobileNav();
+									console.log('HELLO');
+								}}
 							>
 								{subsection.text}
 							</NavLink>
