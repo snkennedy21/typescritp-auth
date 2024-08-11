@@ -1,5 +1,4 @@
-import React from 'react';
-import { UseDispatch, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { openMobileNavigation } from '../../store/navigationSlice';
 
 function HamburgerMenu() {
@@ -13,7 +12,6 @@ function HamburgerMenu() {
 			>
 				☰
 			</button>
-			{/* Implement the menu toggle functionality here */}
 		</div>
 	);
 }

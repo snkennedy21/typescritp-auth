@@ -1,12 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { UseDispatch, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
-import {
-	faChevronRight,
-	faChevronDown,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { closeMobileNavigation } from '../../store/navigationSlice';
 
 const Accordion = ({ text, navLink, open, subsections }) => {
