@@ -84,16 +84,6 @@ npx prisma migrate dev --name <migration_name> --create-only
 
 
 # Deploying to AWS
-### Create Docker Network
-```
-docker network create my_bridge_network
-```
-
-### Build Postgres Image
-```
-docker pull postgres:latest
-```
-
 ### Create Environment Variables
 ##### typescript-auth/backend/.env
 ```
@@ -114,32 +104,7 @@ REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
 DATABASE_URL="postgresql://user:password@db:5432/postgres"
 ```
-
-### Run Postgres Image
+### Run the containers
 ```
-docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
-```
-
-### Build React Image
-```
-docker build -t react-image ./frontend
-```
-
-### Build Express Image
-```
-docker build -t express-image ./backend
-```
-
-### Run React Container
-```
-docker run -d --name react -p 80:8080 --network my_bridge_network react-image
-```
-
-### Run Express Container
-```
-docker run -d --name express -p 8000:8000 --network my_bridge_network express-image
-```
-### Run Prisma Migrations
-```
-docker exec -it express npx prisma migrate dev
+docker compose -f docker-compose-prod.yml up -d
 ```
