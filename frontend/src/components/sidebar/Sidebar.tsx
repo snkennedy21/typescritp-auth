@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { UseDispatch } from 'react-redux';
 import { closeMobileNavigation } from '../../store/navigationSlice';
-import { UseSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import styles from './css/Sidebar.module.css';
 import { useSelector, useDispatch } from 'react-redux';
