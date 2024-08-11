@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { UseDispatch, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
@@ -6,8 +7,10 @@ import {
 	faChevronRight,
 	faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { closeMobileNavigation } from '../../store/navigationSlice';
 
-const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
+const Accordion = ({ text, navLink, open, subsections }) => {
+	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(open);
 	const contentRef = useRef(null);
 
@@ -36,6 +39,7 @@ const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
 				<NavLink
 					className="hover:text-blue-300 transition-color duration-200 cursor-pointer"
 					onClick={() => {
+						dispatch(closeMobileNavigation());
 						if (!isOpen) {
 							toggleAccordion();
 						}
@@ -67,7 +71,7 @@ const Accordion = ({ text, navLink, open, subsections, closeMobileNav }) => {
 							subsections={subsection.subsections}
 						/>
 					) : (
-						<div>
+						<div onClick={() => dispatch(closeMobileNavigation())}>
 							<NavLink
 								to={subsection.link}
 								className="hover:text-blue-300 "

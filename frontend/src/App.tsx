@@ -15,16 +15,6 @@ import AdditionalLinks from './components/additionalLinks/AdditionalLinks';
 import HamburgerMenu from './components/hamburgerMenu/HamburgerMenu';
 
 function App() {
-	const [mobileNavOpen, setMobileNavOpen] = useState(false);
-
-	const openMobileNavHandler = () => {
-		setMobileNavOpen(true);
-	};
-
-	const closeMobileNavHandler = () => {
-		setMobileNavOpen(false);
-	};
-
 	return (
 		<React.Fragment>
 			<BrowserRouter>
@@ -64,16 +54,10 @@ function App() {
 
 						{/* Mobile View */}
 						<div className="block md:hidden">
-							<HamburgerMenu
-								openMobileNav={openMobileNavHandler}
-							/>
+							<HamburgerMenu />
 							<div className="flex-1 overflow-auto flex flex-col">
 								<div className="md:w-1/6 bg-gray-200">
-									<Sidebar
-										isMobile={true}
-										mobileNavOpen={mobileNavOpen}
-										closeMobileNav={closeMobileNavHandler}
-									/>
+									<Sidebar isMobile={true} />
 								</div>
 								<div className="lg:flex-1">
 									<MainContent />

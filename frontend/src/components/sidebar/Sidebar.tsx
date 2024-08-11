@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { UseDispatch } from 'react-redux';
+import { closeMobileNavigation } from '../../store/navigationSlice';
+import { UseSelector } from 'react-redux';
 import { NavLink, useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import styles from './css/Sidebar.module.css';
@@ -10,7 +13,11 @@ import { clearLocalStorageUserData } from '../../utils/localStorageUserData';
 import { RootState } from '../../store/store';
 import Accordion from '../accordion/Accordion';
 
-function Sidebar({ isMobile = false, mobileNavOpen, closeMobileNav }) {
+function Sidebar({ isMobile = false }) {
+	const mobileNavOpen = useSelector(
+		(state: RootState) => state.navigationSlice.mobileNavOpen,
+	);
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [logout] = useLogoutMutation();
@@ -164,7 +171,9 @@ function Sidebar({ isMobile = false, mobileNavOpen, closeMobileNav }) {
 				`}
 			>
 				<h2 className="text-xl font-bold text-left">Nav Links</h2>
-				<button onClick={closeMobileNav}>X</button>
+				<button onClick={() => dispatch(closeMobileNavigation())}>
+					X
+				</button>
 				<ul className="mt-4">
 					<li className="my-2">
 						<NavLink

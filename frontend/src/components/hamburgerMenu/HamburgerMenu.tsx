@@ -1,9 +1,16 @@
 import React from 'react';
+import { UseDispatch, useDispatch } from 'react-redux';
+import { openMobileNavigation } from '../../store/navigationSlice';
 
-function HamburgerMenu({ openMobileNav }) {
+function HamburgerMenu() {
+	const dispatch = useDispatch();
+
 	return (
 		<div className="p-4 bg-gray-200">
-			<button onClick={openMobileNav} className="text-xl font-bold">
+			<button
+				onClick={() => dispatch(openMobileNavigation())}
+				className="text-xl font-bold"
+			>
 				☰
 			</button>
 			{/* Implement the menu toggle functionality here */}
