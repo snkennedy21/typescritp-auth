@@ -1,99 +1,10 @@
 const Home = () => {
 	return (
-		<div className="m-2 mb-4">
+		<div>
 			<h1 className="font-bold">Home</h1>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
-			<p>This is the home page</p>
+			<section className="">
+				<article></article>
+			</section>
 		</div>
 	);
 };
