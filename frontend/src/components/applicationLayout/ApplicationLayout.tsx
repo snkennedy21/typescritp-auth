@@ -3,6 +3,8 @@ import MainContent from '../../components/mainContent/MainContent';
 import AdditionalLinks from '../../components/additionalLinks/AdditionalLinks';
 import HamburgerMenu from '../../components/hamburgerMenu/HamburgerMenu';
 
+// TODO: Changing Screen Sizes Causes Components To Be Rendered As New. This Means All Their State Is Recalculated. Must Fix
+
 const ApplicationLayout = () => {
 	return (
 		<div className="flex flex-col h-screen">

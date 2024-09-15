@@ -12,13 +12,11 @@ import { RootState } from '../../store/store';
 import Accordion from '../accordion/Accordion';
 
 function Sidebar({ isMobile = false }) {
+	const location = useLocation();
 	const mobileNavOpen = useSelector(
 		(state: RootState) => state.navigationSlice.mobileNavOpen,
 	);
-
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const [logout] = useLogoutMutation();
 	const [accordions, setAccordions] = useState([
 		{
 			text: 'Kubernetes',
@@ -95,12 +93,9 @@ function Sidebar({ isMobile = false }) {
 			],
 		},
 	]);
-	const currentUser = useSelector(
-		(state: RootState) => state.auth.currentUser,
-	);
-	const location = useLocation();
 
 	const updateAccordionState = (accordions, path, basePath = '') => {
+		console.log('RUNNING');
 		const segments = path.split('/').filter(Boolean); // split the path and filter out empty strings
 
 		return accordions.map((accordion) => {
@@ -136,27 +131,6 @@ function Sidebar({ isMobile = false }) {
 		);
 		setAccordions(updatedAccordions); // Assuming you have a state setter for accordions
 	}, [location.pathname]);
-
-	const logoutHandler = (event: React.MouseEvent<HTMLElement>) => {
-		// Prevent default navigation
-		event.preventDefault();
-
-		// Clear tokens from cookies
-		logout();
-
-		// Clear user data from local storage
-		clearLocalStorageUserData();
-
-		// Clear user data from redux store
-		dispatch(unauthenticateUser());
-
-		// Navigate to home page
-		navigate('/');
-	};
-
-	// const accordions = [
-
-	// ];
 
 	if (isMobile) {
 		return (
