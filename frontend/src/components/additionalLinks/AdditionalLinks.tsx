@@ -5,8 +5,12 @@ function AdditionalLinks() {
 		<div className="p-4 h-full">
 			<h2 className="text-xl font-bold">Other Links</h2>
 			<ul>
-				<li className="my-2">Other Link</li>
-				<li className="my-2">Other Link</li>
+				<li className="my-2">Coming Soon</li>
+				<li className="my-2">Coming Soon</li>
+				<li className="my-2">Coming Soon</li>
+				<li className="my-2">Coming Soon</li>
+				<li className="my-2">Coming Soon</li>
+				<li className="my-2">Coming Soon</li>
 			</ul>
 		</div>
 	);

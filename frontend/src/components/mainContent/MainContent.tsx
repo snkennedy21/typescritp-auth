@@ -1,43 +1,32 @@
-import React from 'react';
 import Signup from '../../components/signup/Signup';
-import Navigation from '../../components/navigation/Navigation';
 import Login from '../../components/login/Login';
 import Home from '../../components/home/Home';
 import TestAuth from '../../components/protectedEndpoint/ProtectedEndpoint';
 import NotFound from '../../components/notFound/NotFound';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import UnprotectedEndpoint from '../../components/unprotectedEndpoint/unprotectedEndpoint';
 
-import A from '../accordion/subsections/A';
-import A1 from '../accordion/subsections/A1';
-import A1a from '../accordion/subsections/A1a';
-import A1ai from '../accordion/subsections/A1ai';
-import A1b from '../accordion/subsections/A1b';
-import A2 from '../accordion/subsections/A2';
-import A3 from '../accordion/subsections/A3';
-import A3a from '../accordion/subsections/A3a';
-import B from '../accordion/subsections/B';
-import B1 from '../accordion/subsections/B1';
-import B2 from '../accordion/subsections/B2';
-import B2a from '../accordion/subsections/B2a';
-import B2ai from '../accordion/subsections/B2ai';
+import KubernetesSection from '../accordion/learningResources/kubernetesNotes/KubernetesSection';
+import PodsSection from '../accordion/learningResources/kubernetesNotes/PodsSection';
+import A1a from '../accordion/learningResources/kubernetesNotes/A1a';
+import A1ai from '../accordion/learningResources/kubernetesNotes/A1ai';
+import A1b from '../accordion/learningResources/kubernetesNotes/A1b';
+import A2 from '../accordion/learningResources/kubernetesNotes/A2';
+import A3 from '../accordion/learningResources/kubernetesNotes/A3';
+import A3a from '../accordion/learningResources/kubernetesNotes/A3a';
+import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
+import B1 from '../accordion/learningResources/otherNotes/B1';
+import B2 from '../accordion/learningResources/otherNotes/B2';
+import B2a from '../accordion/learningResources/otherNotes/B2a';
+import B2ai from '../accordion/learningResources/otherNotes/B2ai';
 
 import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
-
-import AuthProvider from '../../components/authProvider/AuthProvider';
-
-import Sidebar from '../../components/sidebar/Sidebar';
-import AdditionalLinks from '../../components/additionalLinks/AdditionalLinks';
-import HamburgerMenu from '../../components/hamburgerMenu/HamburgerMenu';
 
 function MainContent() {
 	return (
 		<>
-			<div className="p-4">
+			<div className="p-2 bg-purple-500 h-[5000px]">
 				<CurrentPathDisplay />
-				<h1 className="text-3xl font-bold">Main Content of the page</h1>
-				{/* <BrowserRouter> */}
-				{/* <AuthProvider> */}
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/signup" element={<Signup />} />
@@ -49,29 +38,24 @@ function MainContent() {
 					/>
 
 					{/* Test Routes */}
-					<Route path="/A" element={<A />} />
-					<Route path="/A/1" element={<A1 />} />
-					<Route path="/A/1/a" element={<A1a />} />
-					<Route path="/A/1/a/i" element={<A1ai />} />
-					<Route path="/A/1/b" element={<A1b />} />
-					<Route path="/A/2" element={<A2 />} />
-					<Route path="/A/3" element={<A3 />} />
-					<Route path="/A/3/a" element={<A3a />} />
+					<Route path="/kubernetes" element={<KubernetesSection />} />
+					<Route path="/kubernetes/pods" element={<PodsSection />} />
+					<Route path="/kubernetes/pods/a" element={<A1a />} />
+					<Route path="/kubernetes/pods/a/i" element={<A1ai />} />
+					<Route path="/kubernetes/pods/b" element={<A1b />} />
+					<Route path="/kubernetes/2" element={<A2 />} />
+					<Route path="/kubernetes/3" element={<A3 />} />
+					<Route path="/kubernetes/3/a" element={<A3a />} />
 
-					<Route path="/B" element={<B />} />
-					<Route path="/B/1" element={<B1 />} />
-					<Route path="/B/2" element={<B2 />} />
-					<Route path="/B/2/a" element={<B2a />} />
-					<Route path="/B/2/a/i" element={<B2ai />} />
+					<Route path="/other" element={<OtherSection />} />
+					<Route path="/other/1" element={<B1 />} />
+					<Route path="/other/2" element={<B2 />} />
+					<Route path="/other/2/a" element={<B2a />} />
+					<Route path="/other/2/a/i" element={<B2ai />} />
 
 					<Route path="*" element={<NotFound />} />
 				</Routes>
-				{/* </AuthProvider> */}
-				{/* </BrowserRouter> */}
 			</div>
-			{/* <div className="bg-gray-100 lg:hidden">
-				<AdditionalLinks />
-			</div> */}
 		</>
 	);
 }

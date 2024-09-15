@@ -20,7 +20,7 @@ const CurrentPathDisplay = () => {
 				return (
 					<span key={index}>
 						{isLast ? (
-							<span className="font-bold">{section}</span> // Not a clickable link
+							<span className="font-bold">{section}</span>
 						) : (
 							<NavLink
 								to={fullPath}

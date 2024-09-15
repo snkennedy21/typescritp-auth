@@ -17,7 +17,7 @@ const MainLayout = () => {
 
 	return (
 		<div className="flex flex-col h-screen">
-			{/* Desktop and Tablet View */}
+			{/* Desktop View */}
 			<div className="hidden lg:flex flex-row h-full">
 				<div className="lg:w-1/6 bg-gray-200">
 					<Sidebar />
