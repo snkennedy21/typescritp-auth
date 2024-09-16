@@ -1,0 +1,66 @@
+.layout-container {
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr; /* Default layout (e.g., Desktop) */
+}
+
+/* Sidebar styles */
+.sidebar {
+	background-color: rgb(255, 96, 96);
+	grid-column: 1;
+}
+
+/* Main content styles */
+.main-content {
+	background-color: rgb(108, 255, 108);
+	grid-column: 2;
+}
+
+/* Additional links styles */
+.additional-links {
+	background-color: rgb(116, 116, 255);
+	grid-column: 3;
+}
+
+/* Mobile view (e.g., under 768px) */
+@media (max-width: 768px) {
+	.layout-container {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto 1fr auto;
+	}
+
+	.sidebar,
+	.additional-links {
+		display: none; /* Hide sidebar and additional links on mobile */
+	}
+
+	.hamburger-menu {
+		display: block; /* Show hamburger menu on mobile */
+	}
+
+	.main-content {
+		grid-column: 1 / -1;
+	}
+}
+
+/* Tablet view (e.g., 768px to 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+	.layout-container {
+		grid-template-columns: 1fr 4fr; /* Adjust grid for tablet */
+	}
+
+	.sidebar {
+		grid-column: 1;
+	}
+
+	.main-content {
+		grid-column: 2;
+	}
+
+	.additional-links {
+		display: none; /* Hide additional links on tablet */
+	}
+
+	.hamburger-menu {
+		display: none; /* Hide hamburger menu on tablet */
+	}
+}

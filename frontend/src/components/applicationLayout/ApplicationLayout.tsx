@@ -2,57 +2,34 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import MainContent from '../../components/mainContent/MainContent';
 import AdditionalLinks from '../../components/additionalLinks/AdditionalLinks';
 import HamburgerMenu from '../../components/hamburgerMenu/HamburgerMenu';
+import './applicationLayout.css';
 
 // TODO: Changing Screen Sizes Causes Components To Be Rendered As New. This Means All Their State Is Recalculated. Must Fix
 
 const ApplicationLayout = () => {
 	return (
-		<div className="flex flex-col h-screen">
-			{/* Desktop View */}
-			<div className="hidden lg:flex flex-row h-full">
-				<div className="lg:w-1/6 bg-gray-200">
+		<div className="flex flex-col">
+			{/* Mobile Specific Elements */}
+			<div className="block md:hidden">
+				{/* Hamburger Menu */}
+				<HamburgerMenu />
+			</div>
+
+			{/* Main Layout for All Screen Sizes */}
+			<div className="flex flex-row h-full">
+				{/* Sidebar - Shown on Desktop/Tablet, hidden on Mobile */}
+				<div className="w-1/6 bg-orange-500 sticky top-0 h-screen hidden md:block">
 					<Sidebar />
 				</div>
-				<div className="flex-1 overflow-auto flex">
-					<div className="lg:flex-1">
-						<MainContent />
-					</div>
-					<div className="lg:w-1/6 bg-gray-100 sticky top-0">
-						<AdditionalLinks />
-					</div>
-				</div>
-			</div>
 
-			{/* Tablet View */}
-			<div className="hidden md:flex lg:hidden flex-col h-full">
-				<div className="flex flex-row h-full">
-					<div className="md:w-1/6 bg-gray-200">
-						<Sidebar />
-					</div>
-					<div className="flex-1 overflow-auto flex flex-col">
-						<div className="lg:flex-1">
-							<MainContent />
-						</div>
-						<div className="lg:w-1/6 bg-gray-100 sticky top-0">
-							<AdditionalLinks />
-						</div>
-					</div>
+				{/* Main Content - Single Instance, Scrollable */}
+				<div className="flex-1 overflow-y-auto bg-purple-500">
+					<MainContent />
 				</div>
-			</div>
 
-			{/* Mobile View */}
-			<div className="block md:hidden">
-				<HamburgerMenu />
-				<div className="flex-1 overflow-auto flex flex-col">
-					<div className="md:w-1/6 bg-gray-200">
-						<Sidebar isMobile={true} />
-					</div>
-					<div className="lg:flex-1">
-						<MainContent />
-					</div>
-					<div className="lg:w-1/6 bg-gray-100 sticky top-0">
-						<AdditionalLinks />
-					</div>
+				{/* Additional Links - Shown on Desktop/Tablet, hidden on Mobile */}
+				<div className="w-1/6 bg-green-500 sticky top-0 h-screen hidden lg:block">
+					<AdditionalLinks />
 				</div>
 			</div>
 		</div>

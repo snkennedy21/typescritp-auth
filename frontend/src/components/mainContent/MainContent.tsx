@@ -25,7 +25,7 @@ import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
 function MainContent() {
 	return (
 		<>
-			<div className="p-2 bg-purple-500 h-[5000px]">
+			<div className="p-2 h-[5000px]">
 				<CurrentPathDisplay />
 				<Routes>
 					<Route path="/" element={<Home />} />
