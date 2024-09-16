@@ -4,10 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import styles from './css/Sidebar.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLogoutMutation } from '../../store/mainApi';
-import { unauthenticateUser } from '../../store/authSlice';
-import { useNavigate } from 'react-router-dom';
-import { clearLocalStorageUserData } from '../../utils/localStorageUserData';
+import { setAccordions } from '../../store/sidebarSlice';
 import { RootState } from '../../store/store';
 import Accordion from '../accordion/Accordion';
 
@@ -17,85 +14,11 @@ function Sidebar({ isMobile = false }) {
 		(state: RootState) => state.navigationSlice.mobileNavOpen,
 	);
 	const dispatch = useDispatch();
-	const [accordions, setAccordions] = useState([
-		{
-			text: 'Kubernetes',
-			link: '/kubernetes',
-			open: false,
-			subsections: [
-				{
-					text: 'Pods',
-					link: '/kubernetes/pods',
-					open: false,
-					subsections: [
-						{
-							text: 'Pods A',
-							link: '/kubernetes/pods/a',
-						},
-						{
-							text: 'Pods B',
-							link: '/kubernetes/pods/b',
-						},
-					],
-				},
-				{
-					text: 'A2',
-					link: '/kubernetes/2',
-					open: false,
-				},
-				{
-					text: 'A3',
-					link: '/kubernetes/3',
-					open: false,
-					subsections: [
-						{
-							text: 'A3a',
-							link: '/kubernetes/3/a',
-						},
-					],
-				},
-			],
-		},
-		{
-			text: 'Other Tech',
-			link: '/other',
-			open: false,
-			subsections: [
-				{
-					text: 'B1',
-					link: '/other/1',
-					open: false,
-				},
-				{
-					text: 'B2',
-					link: '/other/2',
-					open: false,
-					subsections: [
-						{
-							text: 'B2a',
-							link: '/other/2/a',
-							open: false,
-							subsections: [
-								{
-									text: 'B2ai',
-									link: '/other/2/a/i',
-									open: false,
-								},
-							],
-						},
-					],
-				},
-				{
-					text: 'B3',
-					link: '/other/3',
-					open: false,
-				},
-			],
-		},
-	]);
+	const accordions = useSelector(
+		(state: RootState) => state.sidebarSlice.accordions,
+	);
 
 	const updateAccordionState = (accordions, path, basePath = '') => {
-		console.log('RUNNING');
 		const segments = path.split('/').filter(Boolean); // split the path and filter out empty strings
 
 		return accordions.map((accordion) => {
@@ -105,22 +28,25 @@ function Sidebar({ isMobile = false }) {
 			// Remove the first segment as it has been used
 			const remainingSegments = segments.slice(1);
 
-			if (accordion.link === currentPath) {
-				accordion.open = true;
+			// Create a new accordion object instead of modifying the existing one
+			const newAccordion = { ...accordion };
+
+			if (newAccordion.link === currentPath) {
+				newAccordion.open = true;
 
 				// If there are remaining segments and subsections, recurse
-				if (accordion.subsections && remainingSegments.length > 0) {
-					accordion.subsections = updateAccordionState(
-						accordion.subsections,
+				if (newAccordion.subsections && remainingSegments.length > 0) {
+					newAccordion.subsections = updateAccordionState(
+						newAccordion.subsections,
 						remainingSegments.join('/'),
 						currentPath, // Pass down the currentPath to the next level
 					);
 				}
 			} else {
-				accordion.open = false;
+				newAccordion.open = false;
 			}
 
-			return accordion;
+			return newAccordion;
 		});
 	};
 
@@ -129,7 +55,7 @@ function Sidebar({ isMobile = false }) {
 			accordions,
 			location.pathname,
 		);
-		setAccordions(updatedAccordions); // Assuming you have a state setter for accordions
+		dispatch(setAccordions(updatedAccordions)); // Assuming you have a state setter for accordions
 	}, [location.pathname]);
 
 	if (isMobile) {
