@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { closeMobileNavigation } from '../../store/navigationSlice';
+import { updateAccordionState } from '../../store/sidebarSlice'; // Import the action
 
 const Accordion = ({ text, navLink, open, subsections }) => {
 	const dispatch = useDispatch();
@@ -12,10 +13,11 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
+		dispatch(updateAccordionState({ navLink, open: !isOpen })); // Use navLink as the unique identifier
 	};
 
 	useEffect(() => {
-		// Synchronize isOpen state with open prop
+		// Synchronize isOpen state with open prop from Redux
 		setIsOpen(open);
 	}, [open]);
 
@@ -57,10 +59,10 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 				ref={contentRef}
 				className={`accordion-content overflow-hidden transition-max-height duration-300 ease-in-out ml-2`}
 			>
-				{subsections.map((subsection, index) =>
+				{subsections.map((subsection, subIndex) =>
 					subsection.subsections ? (
 						<Accordion
-							key={index}
+							key={subsection.navLink}
 							text={subsection.text}
 							navLink={subsection.link}
 							open={subsection.open}

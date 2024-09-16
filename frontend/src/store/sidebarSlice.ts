@@ -86,7 +86,33 @@ export const sidebarSlice = createSlice({
 		setAccordions: (state, actions) => {
 			state.accordions = actions.payload;
 		},
+		updateAccordionState: (state, { payload }) => {
+			const { navLink, open } = payload;
+
+			// Recursive function to find and update the accordion by navLink
+			const updateAccordion = (accordions) => {
+				return accordions.map((accordion) => {
+					// If the current accordion matches the navLink, update its open state
+					if (accordion.link === navLink) {
+						return { ...accordion, open };
+					}
+
+					// If there are subsections, recurse
+					if (accordion.subsections) {
+						return {
+							...accordion,
+							subsections: updateAccordion(accordion.subsections),
+						};
+					}
+
+					return accordion;
+				});
+			};
+
+			// Update the accordions in the state
+			state.accordions = updateAccordion(state.accordions);
+		},
 	},
 });
 
-export const { setAccordions } = sidebarSlice.actions;
+export const { setAccordions, updateAccordionState } = sidebarSlice.actions;
