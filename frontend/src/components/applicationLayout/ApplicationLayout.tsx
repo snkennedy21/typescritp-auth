@@ -13,6 +13,9 @@ const ApplicationLayout = () => {
 			<div className="block md:hidden">
 				{/* Hamburger Menu */}
 				<HamburgerMenu />
+				<div className="md:w-1/6 bg-gray-200">
+					<Sidebar isMobile={true} />
+				</div>
 			</div>
 
 			{/* Main Layout for All Screen Sizes */}
