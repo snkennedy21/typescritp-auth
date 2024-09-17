@@ -5,19 +5,16 @@
 
 /* Sidebar styles */
 .sidebar {
-	background-color: rgb(255, 96, 96);
 	grid-column: 1;
 }
 
 /* Main content styles */
 .main-content {
-	background-color: rgb(108, 255, 108);
 	grid-column: 2;
 }
 
 /* Additional links styles */
 .additional-links {
-	background-color: rgb(116, 116, 255);
 	grid-column: 3;
 }
 

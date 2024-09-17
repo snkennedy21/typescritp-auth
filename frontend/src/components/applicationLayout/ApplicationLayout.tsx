@@ -13,7 +13,7 @@ const ApplicationLayout = () => {
 			<div className="block md:hidden">
 				{/* Hamburger Menu */}
 				<HamburgerMenu />
-				<div className="md:w-1/6 bg-gray-200">
+				<div className="md:w-1/6">
 					<Sidebar isMobile={true} />
 				</div>
 			</div>
@@ -21,17 +21,17 @@ const ApplicationLayout = () => {
 			{/* Main Layout for All Screen Sizes */}
 			<div className="flex flex-row h-full">
 				{/* Sidebar - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/6 bg-orange-500 sticky top-0 h-screen hidden md:block">
+				<div className="w-1/6 sticky top-0 h-screen hidden md:block">
 					<Sidebar />
 				</div>
 
 				{/* Main Content - Single Instance, Scrollable */}
-				<div className="flex-1 overflow-y-auto bg-purple-500">
+				<div className="flex-1 overflow-y-auto">
 					<MainContent />
 				</div>
 
 				{/* Additional Links - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/6 bg-green-500 sticky top-0 h-screen hidden lg:block">
+				<div className="w-1/6 sticky top-0 h-screen hidden lg:block">
 					<AdditionalLinks />
 				</div>
 			</div>

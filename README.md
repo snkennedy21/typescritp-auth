@@ -3,18 +3,24 @@
 Environment variables are used to manage configuration options and settings in an application's runtime environment without hard-coding them into the source code. This makes the application more secure and adaptable to different environments.
 
 ### Important!
+
 All of these `.env` files are just examples to get you started. You should <strong>NEVER</strong> use these .env files for your final project. You should modify all these environment variables and <strong>NEVER</strong> check them into GitHub
 
 ### 1. Setting Up Prisma
+
 - This `.env` file is used by Prisma to connect to the database
 - Put this file here `typescript-auth/backend/prisma/.env`
+
 ```
 DATABASE_URL="postgresql://user:password@db:5432/postgres"
 ```
+
 ### 2. Setting Up Express
+
 - This `.env` file is used by Express to set up secrets for authentication
 - These secrets are used by Express to create JWT tokens
 - Put this file at `typescript-auth/backend/.env`
+
 ```
 # Database
 POSTGRES_USER=user
@@ -31,9 +37,12 @@ REFRESH_TOKEN_EXPIRY=1w
 ACCESS_COOKIE_EXPIRY=900000 # 15 minutes
 REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
+
 ### 3. Setting Up Postgres
+
 - This `.env` file is used to create the PostgreSQL database
 - Put this file at `typescript-auth/db/.env`
+
 ```
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
@@ -41,22 +50,27 @@ POSTGRES_DB=postgres
 PGADMIN_DEFAULT_EMAIL=user@email.com
 PGADMIN_DEFAULT_PASSWORD=password
 ```
-### Important!
-- Make sure the database information in `typescript-auth/backend/.env` matches the information in `typescript-auth/backend/prisma/.env`
 
+### Important!
+
+- Make sure the database information in `typescript-auth/backend/.env` matches the information in `typescript-auth/backend/prisma/.env`
 
 # Starting The Application
 
 The application is managed using docker and docker compose
 
 ### 1. Create a volume for persistent data
+
 ```
 docker volume create postgres_data
 ```
+
 ### 2. Start the containers
+
 ```
 docker compose up -d
 ```
+
 - This should be enough to get the application up and running
 - `typescript-auth/backend/Dockerfile` and `typescript-auth/docker-compose.yml` will do the following for you
   - It will run `npx prisma generate` which will ensure that the Prisma Client is in sync with your latest schema definitions
@@ -64,28 +78,50 @@ docker compose up -d
   - It will run `npm run dev` which will start the backend api in development mode
 
 # Database Setup and Management
+
 Prisma is used to manage the tables in your database. If you want to make changes to your database you need to do the following
+
 ### 1. Modify Your Schema
+
 - Schema for your tables is located at `typescript-auth/backend/prisma/schema.prisma`
 
 ### 2. Generate and Apply Database Migrations
+
 #### Generate Database Migration File and Apply Migrations
+
 ```
 npx prisma migrate dev --name <migration_name>
 ```
+
 - This command does three things
   - It checks the schema for changes.
   - It creates SQL migration files in the `typescript-auth/backend/prisma/migrations` directory.
   - It applies the migrations to your development database.
+
 #### Generate Database Migration File (Does Not Apply Migrations)
+
 ```
 npx prisma migrate dev --name <migration_name> --create-only
 ```
 
-
 # Deploying to AWS
+
+### Create Docker Network
+
+```
+docker network create my_bridge_network
+```
+
+### Build Postgres Image
+
+```
+docker pull postgres:latest
+```
+
 ### Create Environment Variables
+
 ##### typescript-auth/backend/.env
+
 ```
 # Database
 POSTGRES_USER=user
@@ -100,11 +136,70 @@ REFRESH_TOKEN_EXPIRY=1w
 ACCESS_COOKIE_EXPIRY=900000 # 15 minutes
 REFRESH_COOKIE_EXPIRY=604800000 # 1 week
 ```
+
 ##### typescript-auth/backend/prisma/.env
+
 ```
 DATABASE_URL="postgresql://user:password@db:5432/postgres"
 ```
 ### Run the containers
 ```
 docker compose -f docker-compose-prod.yml up -d
+
+### Run Postgres Image
+
+```
+docker run --name db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=postgres --network my_bridge_network -p 5432:5432 -d postgres:latest
+```
+
+### Build React Image
+
+```
+docker build -t react-image ./frontend
+```
+
+### Build Express Image
+
+```
+docker build -t express-image ./backend
+```
+
+### Run React Container
+
+```
+docker run -d --name react -p 80:8080 --network my_bridge_network react-image
+```
+
+### Run Express Container
+
+```
+docker run -d --name express -p 8000:8000 --network my_bridge_network express-image
+```
+
+### Run Prisma Migrations
+
+```
+docker exec -it express npx prisma migrate dev
+```
+
+# Renewing Letsencrypt Cert With Certbot
+
+### You installed certbot in the docker container that is running nginx
+
+### Exec Into Nginx
+
+```
+docker exec -it nginx /bin/bash
+```
+
+### Renew The Certificate
+
+```
+certbot renew --nginx
+```
+
+### Restart Nginx (Should happen automatically, but if not run this)
+
+```
+nginx -s reload
 ```

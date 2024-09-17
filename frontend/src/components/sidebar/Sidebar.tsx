@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { closeMobileNavigation } from '../../store/navigationSlice';
 import { NavLink } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -63,15 +65,21 @@ function Sidebar({ isMobile = false }) {
 			<div
 				className={`
 				p-4 h-full flex flex-col overflow-y-scroll 
-				absolute bg-gray-300 top-0 z-20 w-1/2 
+				absolute bg-gray-100 top-0 z-20 w-1/2 
 				transition-transform duration-300 
 				${mobileNavOpen ? '' : '-translate-x-full'}
 				`}
 			>
-				<div className="flex justify-between align-center">
-					<h2 className="text-xl font-bold text-left">Resources</h2>
-					<button onClick={() => dispatch(closeMobileNavigation())}>
-						X
+				<div className="flex justify-between items-center">
+					<h2 className="text-xl font-bold">Resources</h2>
+					<button
+						onClick={() => dispatch(closeMobileNavigation())}
+						className="flex items-center justify-center"
+					>
+						<FontAwesomeIcon
+							icon={faTimes}
+							className="w-6 h-6 hover:text-blue-400 transition duration-200"
+						/>
 					</button>
 				</div>
 				<ul className="mt-4">
