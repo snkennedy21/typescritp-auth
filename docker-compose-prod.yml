@@ -11,7 +11,8 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/kennedycodes.conf:/etc/nginx/conf.d/kennedycodes.conf
       - ./nginx/certbot/www:/var/www/certbot
-      - ./nginx/certbot/letsencrypt:/etc/letsencrypt
+        # - ./nginx/certbot/letsencrypt:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
     networks:
       - my_network
     depends_on:
