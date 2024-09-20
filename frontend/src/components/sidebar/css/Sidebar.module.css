@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 .navLink {
-	@apply my-2 text-right;
+	@apply text-right;
+}
+
+.navLink:hover {
+	@apply text-blue-400;
 }
 
 .activeNavLink {
-	@apply text-blue-600;
+	@apply text-blue-400;
 }

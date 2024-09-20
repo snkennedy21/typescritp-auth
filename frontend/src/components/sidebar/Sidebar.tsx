@@ -67,6 +67,7 @@ function Sidebar({ isMobile = false }) {
 				p-4 h-full flex flex-col overflow-y-scroll 
 				absolute bg-gray-100 top-0 z-20 w-1/2 
 				transition-transform duration-300 
+				dark:bg-gray-800
 				${mobileNavOpen ? '' : '-translate-x-full'}
 				`}
 			>
@@ -89,6 +90,7 @@ function Sidebar({ isMobile = false }) {
 							className={({ isActive }) =>
 								isActive ? styles.activeNavLink : styles.navLink
 							}
+							onClick={() => dispatch(closeMobileNavigation())}
 						>
 							Home
 						</NavLink>
@@ -161,27 +163,42 @@ function Sidebar({ isMobile = false }) {
 							/>
 						);
 					})}
+					<div className="flex items-center gap-2">
+						<i className="fa-solid fa-gear"></i>
+						<NavLink
+							to="/settings"
+							className={({ isActive }) =>
+								isActive ? styles.activeNavLink : styles.navLink
+							}
+							onClick={() => dispatch(closeMobileNavigation())}
+						>
+							Settings
+						</NavLink>
+					</div>
 				</ul>
 			</div>
 		);
 	}
 
 	return (
-		<div className="h-full flex flex-col overflow-y-scroll">
-			<div className="ml-auto p-2">
-				<h2 className="text-xl font-bold ml-auto">Resources</h2>
-				<ul>
-					<li className="">
-						<NavLink
-							to="/"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-						>
-							Home
-						</NavLink>
-					</li>
-					{/* <li className="my-2">
+		<div className="h-full flex overflow-y-scroll border-r border-gray-300">
+			<div className="ml-auto p-2 flex flex-col items-start justify-between">
+				<div>
+					<h2 className="text-xl font-bold">Resources</h2>
+					<ul>
+						<li className="">
+							<NavLink
+								to="/"
+								className={({ isActive }) =>
+									isActive
+										? styles.activeNavLink
+										: styles.navLink
+								}
+							>
+								Home
+							</NavLink>
+						</li>
+						{/* <li className="my-2">
 						<NavLink
 							to="/protected"
 							className={({ isActive }) =>
@@ -239,17 +256,29 @@ function Sidebar({ isMobile = false }) {
 							</li>
 						</>
 					)} */}
-					{accordions.map((accordion) => {
-						return (
-							<Accordion
-								text={accordion.text}
-								navLink={accordion.link}
-								open={accordion.open}
-								subsections={accordion.subsections}
-							/>
-						);
-					})}
-				</ul>
+						{accordions.map((accordion) => {
+							return (
+								<Accordion
+									text={accordion.text}
+									navLink={accordion.link}
+									open={accordion.open}
+									subsections={accordion.subsections}
+								/>
+							);
+						})}
+					</ul>
+				</div>
+				<div className="flex items-center gap-2">
+					<i className="fa-solid fa-gear"></i>
+					<NavLink
+						to="/settings"
+						className={({ isActive }) =>
+							isActive ? styles.activeNavLink : styles.navLink
+						}
+					>
+						Settings
+					</NavLink>
+				</div>
 			</div>
 		</div>
 	);

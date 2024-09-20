@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
@@ -10,6 +11,9 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(open);
 	const contentRef = useRef(null);
+	const location = useLocation();
+
+	const isActive = location.pathname === navLink;
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
@@ -35,7 +39,9 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 		<div className="accordion">
 			<div className="flex justify-between items-center gap-2">
 				<NavLink
-					className="hover:text-blue-300 transition-color duration-200 cursor-pointer"
+					className={`transition-color duration-200 cursor-pointer ${
+						isActive ? 'text-blue-400' : 'hover:text-blue-400'
+					}`}
 					onClick={() => {
 						dispatch(closeMobileNavigation());
 						if (!isOpen) {
@@ -51,7 +57,7 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 					icon={faChevronRight}
 					className={`
 					transform transition-all duration-200 
-					ease-in-out w-3 h-3 cursor-pointer hover:bg-blue-300 
+					ease-in-out w-3 h-3 cursor-pointer hover:bg-blue-400 
 					p-[3px] rounded-full ${isOpen ? 'rotate-90' : ''}`}
 				/>
 			</div>
@@ -72,7 +78,11 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 						<div onClick={() => dispatch(closeMobileNavigation())}>
 							<NavLink
 								to={subsection.link}
-								className="hover:text-blue-300 "
+								className={`transition-color duration-200 cursor-pointer ${
+									location.pathname === subsection.link
+										? 'text-blue-400'
+										: 'hover:text-blue-400'
+								}`}
 							>
 								{subsection.text}
 							</NavLink>

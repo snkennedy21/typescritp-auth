@@ -4,9 +4,9 @@ import profilePicture from '../../assets/profilePicture.png';
 const Home = () => {
 	return (
 		<div>
-			<div className="flex items-center justify-center gap-10 mt-32">
+			<div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-32">
 				<img src={profilePicture} alt="picture" className="h-52 w-52" />
-				<div className="ml-4">
+				<div className="ml-4 flex flex-col items-center md:block">
 					<h2 className="text-[52px] font-bold">Sean Kennedy</h2>
 					<p className="text-[32px]">Full Stack Developer</p>
 				</div>

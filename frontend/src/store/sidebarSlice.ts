@@ -13,28 +13,27 @@ const initialState = {
 					open: false,
 					subsections: [
 						{
-							text: 'Pods A',
+							text: 'Section A',
 							link: '/kubernetes/pods/a',
 						},
 						{
-							text: 'Pods B',
+							text: 'Section B',
 							link: '/kubernetes/pods/b',
 						},
 					],
 				},
 				{
-					text: 'A2',
-					link: '/kubernetes/2',
-					open: false,
-				},
-				{
-					text: 'A3',
-					link: '/kubernetes/3',
+					text: 'Deployments',
+					link: '/kubernetes/deployments',
 					open: false,
 					subsections: [
 						{
-							text: 'A3a',
-							link: '/kubernetes/3/a',
+							text: 'Section A',
+							link: '/kubernetes/deployments/a',
+						},
+						{
+							text: 'Section B',
+							link: '/kubernetes/deployments/b',
 						},
 					],
 				},
@@ -46,32 +45,8 @@ const initialState = {
 			open: false,
 			subsections: [
 				{
-					text: 'B1',
-					link: '/other/1',
-					open: false,
-				},
-				{
-					text: 'B2',
-					link: '/other/2',
-					open: false,
-					subsections: [
-						{
-							text: 'B2a',
-							link: '/other/2/a',
-							open: false,
-							subsections: [
-								{
-									text: 'B2ai',
-									link: '/other/2/a/i',
-									open: false,
-								},
-							],
-						},
-					],
-				},
-				{
-					text: 'B3',
-					link: '/other/3',
+					text: 'Subsection',
+					link: '/other/subsection',
 					open: false,
 				},
 			],

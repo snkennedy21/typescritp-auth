@@ -1,10 +1,8 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function AdditionalLinks() {
 	return (
-		<div className="p-2 h-full">
+		<div className="p-2 h-full border-l border-gray-300">
 			<h2 className="text-xl font-bold">Social Links</h2>
 			<ul>
 				<li className="my-2">

@@ -1,5 +1,5 @@
 const PodsSection = () => {
-	return <div>Pods Section</div>;
+	return <div>This will be a section for pods</div>;
 };
 
 export default PodsSection;

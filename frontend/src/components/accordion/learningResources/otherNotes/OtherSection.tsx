@@ -1,7 +1,7 @@
 const OtherSection = () => {
 	return (
 		<div>
-			I don't know. This will be some other technology later I guess
+			This will be some other technology later 🤷🏻‍♂️
 		</div>
 	);
 };
