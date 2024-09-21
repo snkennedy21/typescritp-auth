@@ -13,12 +13,8 @@ const initialState = {
 					open: false,
 					subsections: [
 						{
-							text: 'Section A',
-							link: '/kubernetes/pods/a',
-						},
-						{
-							text: 'Section B',
-							link: '/kubernetes/pods/b',
+							text: 'Commands',
+							link: '/kubernetes/pods/commands',
 						},
 					],
 				},
@@ -28,12 +24,8 @@ const initialState = {
 					open: false,
 					subsections: [
 						{
-							text: 'Section A',
+							text: 'Commands',
 							link: '/kubernetes/deployments/a',
-						},
-						{
-							text: 'Section B',
-							link: '/kubernetes/deployments/b',
 						},
 					],
 				},

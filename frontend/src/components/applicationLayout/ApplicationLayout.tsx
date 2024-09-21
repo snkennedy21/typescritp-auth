@@ -21,7 +21,7 @@ const ApplicationLayout = () => {
 			{/* Main Layout for All Screen Sizes */}
 			<div className="flex flex-row h-full">
 				{/* Sidebar - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/6 sticky top-0 h-screen hidden md:block">
+				<div className="w-1/5 sticky top-0 h-screen hidden md:block">
 					<Sidebar />
 				</div>
 
@@ -31,7 +31,7 @@ const ApplicationLayout = () => {
 				</div>
 
 				{/* Additional Links - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/6 sticky top-0 h-screen hidden lg:block">
+				<div className="w-1/5 sticky top-0 h-screen hidden lg:block">
 					<AdditionalLinks />
 				</div>
 			</div>

@@ -7,13 +7,10 @@ import { Routes, Route } from 'react-router-dom';
 import UnprotectedEndpoint from '../../components/unprotectedEndpoint/unprotectedEndpoint';
 
 import KubernetesSection from '../accordion/learningResources/kubernetesNotes/KubernetesSection';
-import PodsSection from '../accordion/learningResources/kubernetesNotes/PodsSection';
-import A1a from '../accordion/learningResources/kubernetesNotes/A1a';
-import A1ai from '../accordion/learningResources/kubernetesNotes/A1ai';
-import A1b from '../accordion/learningResources/kubernetesNotes/A1b';
+import PodsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsSection';
+import A1a from '../accordion/learningResources/kubernetesNotes/pods/PodsCommandsSection';
 import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/DeploymentsSection';
-import A3 from '../accordion/learningResources/kubernetesNotes/A3';
-import A3a from '../accordion/learningResources/kubernetesNotes/A3a';
+import PodsCommandsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsCommandsSection';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
 import B2 from '../accordion/learningResources/otherNotes/B2';
@@ -26,7 +23,7 @@ import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
 function MainContent() {
 	return (
 		<>
-			<div className="p-2 h-[5000px]">
+			<div className="p-2">
 				<CurrentPathDisplay />
 				<Routes>
 					<Route path="/" element={<Home />} />
@@ -42,9 +39,10 @@ function MainContent() {
 					{/* Test Routes */}
 					<Route path="/kubernetes" element={<KubernetesSection />} />
 					<Route path="/kubernetes/pods" element={<PodsSection />} />
-					<Route path="/kubernetes/pods/a" element={<A1a />} />
-					<Route path="/kubernetes/pods/a/i" element={<A1ai />} />
-					<Route path="/kubernetes/pods/b" element={<A1b />} />
+					<Route
+						path="/kubernetes/pods/commands"
+						element={<PodsCommandsSection />}
+					/>
 
 					<Route
 						path="/kubernetes/deployments"

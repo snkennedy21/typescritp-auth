@@ -5,23 +5,24 @@ import copyToClipboard from 'copy-to-clipboard';
 
 type CodeBlockProps = {
 	language: string;
-	code: string;
+	children: string;
 };
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
+const CodeBlock: React.FC<CodeBlockProps> = ({ language, children }) => {
 	const [copied, setCopied] = useState(false);
 
 	const handleCopy = () => {
-		copyToClipboard(code);
+		copyToClipboard(children);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
 	};
 
 	return (
-		<div style={{ position: 'relative', marginBottom: '1rem' }}>
+		<div style={{ position: 'relative' }}>
 			{/* SyntaxHighlighter for displaying the code */}
+			<div className="bg-gray-500 h-8 w-full -mb-2"></div>
 			<SyntaxHighlighter language={language} style={darcula}>
-				{code}
+				{children}
 			</SyntaxHighlighter>
 
 			{/* Copy button */}
@@ -29,12 +30,11 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, code }) => {
 				onClick={handleCopy}
 				style={{
 					position: 'absolute',
-					top: '10px',
+					top: '5px',
 					right: '10px',
-					background: 'transparent',
 					border: 'none',
 					cursor: 'pointer',
-					color: copied ? 'green' : 'gray',
+					color: 'white',
 				}}
 			>
 				{copied ? <div>COPIED</div> : <div>COPY</div>}
