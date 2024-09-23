@@ -13,8 +13,8 @@ const initialState = {
 					open: false,
 					subsections: [
 						{
-							text: 'Commands',
-							link: '/kubernetes/pods/commands',
+							text: 'Syntax',
+							link: '/kubernetes/pods/syntax',
 						},
 					],
 				},
@@ -24,8 +24,8 @@ const initialState = {
 					open: false,
 					subsections: [
 						{
-							text: 'Commands',
-							link: '/kubernetes/deployments/commands',
+							text: 'Syntax',
+							link: '/kubernetes/deployments/syntax',
 						},
 					],
 				},

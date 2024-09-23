@@ -14,27 +14,27 @@ const PodsSection = () => {
 
 			<img src={podsPicture} alt="picture" className="w-2/3 mx-auto" />
 
-			<h2 className="text-xl font-semibold mb-2">Understanding Pods:</h2>
+			<h2 className="text-xl font-semibold mb-2">Understanding Pods</h2>
 
 			<ul className="list-disc list-outside pl-6 mb-4 space-y-2">
 				<li>
-					<strong>Single Container Pods:</strong> Most pods contain a
+					<strong>Single Container Pods</strong> Most pods contain a
 					single container, making it a wrapper around a single
 					container.
 				</li>
 				<li>
-					<strong>Multi-Container Pods:</strong> Pods can also contain
+					<strong>Multi-Container Pods</strong> Pods can also contain
 					multiple containers that need to work closely together.
 					These containers share storage and network resources and can
 					communicate via inter-process communication (IPC).
 				</li>
 			</ul>
 
-			<h2 className="text-xl font-semibold mb-2">Key Features:</h2>
+			<h2 className="text-xl font-semibold mb-2">Key Features</h2>
 
 			<ul className="list-disc list-outside pl-6 mb-4 space-y-2">
 				<li>
-					<strong>Shared Networking:</strong> All containers in a pod
+					<strong>Shared Networking</strong> All containers in a pod
 					share the same IP address and network namespace. They can
 					communicate with each other using <code>localhost</code>.
 				</li>
