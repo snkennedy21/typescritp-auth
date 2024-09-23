@@ -2,10 +2,10 @@ import podsPicture from '../../../../../assets/podsPicture.png';
 
 const PodsSection = () => {
 	return (
-		<section className="mt-10 max-w-3xl mx-auto">
+		<section className="mt-10 px-4 mx-auto">
 			<h1 className="text-[42px] font-bold">Pods</h1>
 
-			<p className="text-[24px]">
+			<p className="text-xl">
 				A pod is the smallest and most basic deployable unit in
 				Kubernetes. It represents a single instance of a running process
 				in your cluster and can contain one or more tightly coupled

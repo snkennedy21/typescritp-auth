@@ -8,8 +8,8 @@ import UnprotectedEndpoint from '../../components/unprotectedEndpoint/unprotecte
 
 import KubernetesSection from '../accordion/learningResources/kubernetesNotes/KubernetesSection';
 import PodsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsSection';
-import A1a from '../accordion/learningResources/kubernetesNotes/pods/PodsCommandsSection';
-import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/DeploymentsSection';
+import DeploymentCommands from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentCommands';
+import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentsSection';
 import PodsCommandsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsCommandsSection';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
@@ -47,6 +47,10 @@ function MainContent() {
 					<Route
 						path="/kubernetes/deployments"
 						element={<DeploymentsSection />}
+					/>
+					<Route
+						path="/kubernetes/deployments/commands"
+						element={<DeploymentCommands />}
 					/>
 
 					<Route path="/other" element={<OtherSection />} />

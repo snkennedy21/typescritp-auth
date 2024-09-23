@@ -2,11 +2,10 @@ import CodeBlock from '../../../../codeblockExample/CodeblockExample';
 
 const PodsCommandsSection = () => {
 	return (
-		<section className="mt-10 max-w-3xl mx-auto">
+		<section className="mt-10 px-4 mx-auto">
 			<h2 className="text-[42px] font-bold">Pod Commands</h2>
-			<p className="text-[24px]">
-				Check out some of the most useful CLI commands for interacting
-				with pods in Kubernetes.
+			<p className="text-xl">
+				Common CLI commands for interacting with pods in Kubernetes.
 			</p>
 
 			<h2 className="text-2xl font-semibold mb-2 mt-6">Viewing Pods:</h2>
@@ -40,14 +39,10 @@ const PodsCommandsSection = () => {
 				{'kubectl edit pod <pod-name>'}
 			</CodeBlock>
 
-			<h2 className="text-2xl font-semibold mb-2 mt-6">
-				Interacting with Pod Logs:
-			</h2>
+			<h2 className="text-2xl font-semibold mb-2 mt-6">Debugging:</h2>
 
 			<h3 className="text-lg">View logs of a pod</h3>
 			<CodeBlock language="linux">{'kubectl logs <pod-name>'}</CodeBlock>
-
-			<h2 className="text-2xl font-semibold mb-2 mt-6">Debugging:</h2>
 
 			<h3 className="text-lg">Get events related to pods </h3>
 			<CodeBlock language="linux">{'kubectl get events'}</CodeBlock>

@@ -20,8 +20,15 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, children }) => {
 	return (
 		<div style={{ position: 'relative' }}>
 			{/* SyntaxHighlighter for displaying the code */}
-			<div className="bg-gray-500 h-8 w-full -mb-2"></div>
-			<SyntaxHighlighter language={language} style={darcula}>
+			<div className="bg-gray-500 h-8 w-full -mb-2 rounded-t-lg"></div>
+			<SyntaxHighlighter
+				language={language}
+				style={darcula}
+				customStyle={{
+					borderBottomLeftRadius: '8px',
+					borderBottomRightRadius: '8px',
+				}}
+			>
 				{children}
 			</SyntaxHighlighter>
 

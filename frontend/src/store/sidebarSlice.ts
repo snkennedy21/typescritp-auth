@@ -25,7 +25,7 @@ const initialState = {
 					subsections: [
 						{
 							text: 'Commands',
-							link: '/kubernetes/deployments/a',
+							link: '/kubernetes/deployments/commands',
 						},
 					],
 				},

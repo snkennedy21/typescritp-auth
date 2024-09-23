@@ -2,9 +2,9 @@ import kubernetesArchitechture from '../../../../assets/components-of-kubernetes
 
 const KubernetesSection = () => {
 	return (
-		<section className="mt-10 max-w-3xl mx-auto">
+		<section className="mt-10 px-4 mx-auto">
 			<h2 className="text-[42px] font-bold">Kubernetes</h2>
-			<p className="text-[24px]">
+			<p className="text-xl">
 				Kubernetes is an open source container orchestration engine for
 				automating deployment, scaling, and management of containerized
 				applications.
