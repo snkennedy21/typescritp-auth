@@ -14,7 +14,7 @@ const PodsSection = () => {
 
 			<img src={podsPicture} alt="picture" className="w-2/3 mx-auto" />
 
-			<h2 className="text-xl font-semibold mb-2">Understanding Pods</h2>
+			<h2 className="text-xl font-semibold mb-2">Understanding Pods:</h2>
 
 			<ul className="list-disc list-outside pl-6 mb-4 space-y-2">
 				<li>
@@ -30,7 +30,7 @@ const PodsSection = () => {
 				</li>
 			</ul>
 
-			<h2 className="text-xl font-semibold mb-2">Key Features</h2>
+			<h2 className="text-xl font-semibold mb-2">Key Features:</h2>
 
 			<ul className="list-disc list-outside pl-6 mb-4 space-y-2">
 				<li>
