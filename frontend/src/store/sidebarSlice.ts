@@ -19,6 +19,17 @@ const initialState = {
 					],
 				},
 				{
+					text: 'ReplicaSets',
+					link: '/kubernetes/replicasets',
+					open: false,
+					subsections: [
+						{
+							text: 'Syntax',
+							link: '/kubernetes/replicasets/syntax',
+						},
+					],
+				},
+				{
 					text: 'Deployments',
 					link: '/kubernetes/deployments',
 					open: false,

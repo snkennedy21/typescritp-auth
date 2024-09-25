@@ -10,6 +10,10 @@ import KubernetesSection from '../accordion/learningResources/kubernetesNotes/Ku
 import PodsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsSection';
 import DeploymentSyntax from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentSyntax';
 import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentsSection';
+
+import ReplicaSetSection from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicaSetSection';
+import ReplicaSetSyntax from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicasetSyntax';
+
 import PodSyntax from '../accordion/learningResources/kubernetesNotes/pods/PodSyntax';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
@@ -42,6 +46,16 @@ function MainContent() {
 					<Route
 						path="/kubernetes/pods/syntax"
 						element={<PodSyntax />}
+					/>
+
+					<Route
+						path="/kubernetes/replicasets"
+						element={<ReplicaSetSection />}
+					/>
+
+					<Route
+						path="/kubernetes/replicasets/syntax"
+						element={<ReplicaSetSyntax />}
 					/>
 
 					<Route

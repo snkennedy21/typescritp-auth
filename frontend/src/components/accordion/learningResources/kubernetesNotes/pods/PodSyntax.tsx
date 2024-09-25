@@ -71,9 +71,11 @@ spec:
 			<h3 className="text-lg">Get events related to pods </h3>
 			<CodeBlock language="linux">{'kubectl get events'}</CodeBlock>
 
-			<h3 className="text-lg">Get detailed YAML output of a pod</h3>
+			<h3 className="text-lg">
+				Get detailed YAML output of a pod and output to file
+			</h3>
 			<CodeBlock language="linux">
-				{'kubectl get pod <pod-name> -o yaml'}
+				{'kubectl get pod <pod-name> -o yaml > pod-definition.yaml'}
 			</CodeBlock>
 		</section>
 	);
