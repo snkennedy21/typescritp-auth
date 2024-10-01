@@ -14,6 +14,15 @@ import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/d
 import ReplicaSetSection from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicaSetSection';
 import ReplicaSetSyntax from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicasetSyntax';
 
+import VariablesSection from '../accordion/learningResources/kubernetesNotes/variables/VariablesSection';
+import ConfigMapsSection from '../accordion/learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSection';
+import ConfigMapSyntax from '../accordion/learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSyntax';
+
+import SecretsSection from '../accordion/learningResources/kubernetesNotes/variables/secrets/SecretsSection';
+import SecretsSyntax from '../accordion/learningResources/kubernetesNotes/variables/secrets/SecretsSyntax';
+
+import ExamTips from '../accordion/learningResources/kubernetesNotes/examTips/ExamTips';
+
 import PodSyntax from '../accordion/learningResources/kubernetesNotes/pods/PodSyntax';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
@@ -39,25 +48,20 @@ function MainContent() {
 						path="/unprotected"
 						element={<UnprotectedEndpoint />}
 					/>
-
-					{/* Test Routes */}
 					<Route path="/kubernetes" element={<KubernetesSection />} />
 					<Route path="/kubernetes/pods" element={<PodsSection />} />
 					<Route
 						path="/kubernetes/pods/syntax"
 						element={<PodSyntax />}
 					/>
-
 					<Route
 						path="/kubernetes/replicasets"
 						element={<ReplicaSetSection />}
 					/>
-
 					<Route
 						path="/kubernetes/replicasets/syntax"
 						element={<ReplicaSetSyntax />}
 					/>
-
 					<Route
 						path="/kubernetes/deployments"
 						element={<DeploymentsSection />}
@@ -66,7 +70,30 @@ function MainContent() {
 						path="/kubernetes/deployments/syntax"
 						element={<DeploymentSyntax />}
 					/>
-
+					<Route
+						path="/kubernetes/exam-tips"
+						element={<ExamTips />}
+					/>
+					<Route
+						path="/kubernetes/variables"
+						element={<VariablesSection />}
+					/>
+					<Route
+						path="/kubernetes/variables/configmaps"
+						element={<ConfigMapsSection />}
+					/>
+					<Route
+						path="/kubernetes/variables/configmaps/syntax"
+						element={<ConfigMapSyntax />}
+					/>
+					<Route
+						path="/kubernetes/variables/secrets"
+						element={<SecretsSection />}
+					/>
+					<Route
+						path="/kubernetes/variables/secrets/syntax"
+						element={<SecretsSyntax />}
+					/>
 					<Route path="/other" element={<OtherSection />} />
 					<Route path="/other/1" element={<B1 />} />
 					<Route path="/other/2" element={<B2 />} />

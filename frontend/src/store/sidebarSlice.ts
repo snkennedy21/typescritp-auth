@@ -40,6 +40,40 @@ const initialState = {
 						},
 					],
 				},
+				{
+					text: 'Exam Tips',
+					link: '/kubernetes/exam-tips',
+					open: false,
+				},
+				{
+					text: 'Variables',
+					link: '/kubernetes/variables',
+					open: false,
+					subsections: [
+						{
+							text: 'ConfigMaps',
+							link: '/kubernetes/variables/configmaps',
+							open: false,
+							subsections: [
+								{
+									text: 'Syntax',
+									link: '/kubernetes/variables/configmaps/syntax',
+								},
+							],
+						},
+						{
+							text: 'Secrets',
+							link: '/kubernetes/variables/secrets',
+							open: false,
+							subsections: [
+								{
+									text: 'Syntax',
+									link: '/kubernetes/variables/secrets/syntax',
+								},
+							],
+						},
+					],
+				},
 			],
 		},
 		{
