@@ -1,5 +1,3 @@
-import podsPicture from '../../../../../assets/podsPicture.png';
-
 const PodsSection = () => {
 	return (
 		<section className="mt-10 px-4 mx-auto">
@@ -11,8 +9,6 @@ const PodsSection = () => {
 				in your cluster and can contain one or more tightly coupled
 				containers that share the same resources and network namespace.
 			</p>
-
-			<img src={podsPicture} alt="picture" className="w-2/3 mx-auto" />
 
 			<h2 className="text-xl font-semibold mb-2">Understanding Pods:</h2>
 

@@ -74,6 +74,17 @@ const initialState = {
 						},
 					],
 				},
+				{
+					text: 'Resources',
+					link: '/kubernetes/resources',
+					open: false,
+					subsections: [
+						{
+							text: 'Syntax',
+							link: '/kubernetes/resources/syntax',
+						},
+					],
+				},
 			],
 		},
 		{

@@ -1,5 +1,3 @@
-import replicaSetsPicture from '../../../../../assets/replicaSet.png';
-
 const ReplicaSetSection = () => {
 	return (
 		<section className="mt-10 px-4 mx-auto">
@@ -11,12 +9,6 @@ const ReplicaSetSection = () => {
 				maintain the desired number of pod copies to ensure availability
 				and reliability.
 			</p>
-
-			<img
-				src={replicaSetsPicture}
-				alt="picture"
-				className="w-2/3 mx-auto"
-			/>
 
 			<h2 className="text-xl font-semibold mb-2">
 				Understanding ReplicaSets:

@@ -68,6 +68,22 @@ data:
 
 			<h3 className="text-lg">Inject as Environment Variables</h3>
 			<CodeBlock language="yaml">
+				{`
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-env-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    envFrom:
+    - secretRef:
+        name: my-secret  # Replace with your secret name
+`}
+			</CodeBlock>
+
+			<CodeBlock language="yaml">
 				{`apiVersion: v1
 kind: Pod
 metadata:

@@ -23,6 +23,9 @@ import SecretsSyntax from '../accordion/learningResources/kubernetesNotes/variab
 
 import ExamTips from '../accordion/learningResources/kubernetesNotes/examTips/ExamTips';
 
+import ResourcesSection from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSection';
+import ResourcesSyntax from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSyntax';
+
 import PodSyntax from '../accordion/learningResources/kubernetesNotes/pods/PodSyntax';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
@@ -94,6 +97,16 @@ function MainContent() {
 						path="/kubernetes/variables/secrets/syntax"
 						element={<SecretsSyntax />}
 					/>
+
+					<Route
+						path="/kubernetes/resources"
+						element={<ResourcesSection />}
+					/>
+					<Route
+						path="/kubernetes/resources/syntax"
+						element={<ResourcesSyntax />}
+					/>
+
 					<Route path="/other" element={<OtherSection />} />
 					<Route path="/other/1" element={<B1 />} />
 					<Route path="/other/2" element={<B2 />} />

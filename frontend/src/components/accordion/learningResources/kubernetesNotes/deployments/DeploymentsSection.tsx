@@ -1,5 +1,3 @@
-// import deploymentPicture from '../../../../../assets/deployment.png';
-
 const DeploymentSection = () => {
 	return (
 		<section className="mt-10 px-4 mx-auto">
@@ -11,12 +9,6 @@ const DeploymentSection = () => {
 				ReplicaSets and ensures that the desired state of your
 				application is maintained, even as updates are applied.
 			</p>
-
-			{/* <img
-				src={deploymentPicture}
-				alt="Deployment Illustration"
-				className="w-2/3 mx-auto"
-			/> */}
 
 			<h2 className="text-xl font-semibold mb-2">
 				Understanding Deployments:
