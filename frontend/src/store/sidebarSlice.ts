@@ -85,6 +85,39 @@ const initialState = {
 						},
 					],
 				},
+				{
+					text: 'Taints and Tolerations',
+					link: '/kubernetes/taints-tolerations',
+					open: false,
+					subsections: [
+						{
+							text: 'Syntax',
+							link: '/kubernetes/taints-tolerations/syntax',
+						},
+					],
+				},
+				{
+					text: 'Selectors and Affinity',
+					link: '/kubernetes/selectors-affinity',
+					open: false,
+					subsections: [
+						{
+							text: 'Syntax',
+							link: '/kubernetes/selectors-affinity/syntax',
+						},
+					],
+				},
+				{
+					text: 'Probes',
+					link: '/kubernetes/probes',
+					open: false,
+					subsections: [
+						{
+							text: 'Syntax',
+							link: '/kubernetes/probes/syntax',
+						},
+					],
+				},
 			],
 		},
 		{

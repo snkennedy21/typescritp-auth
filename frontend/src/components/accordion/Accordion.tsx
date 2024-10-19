@@ -63,7 +63,7 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 			</div>
 			<div
 				ref={contentRef}
-				className={`accordion-content overflow-hidden transition-max-height duration-300 ease-in-out ml-2`}
+				className={`accordion-content overflow-hidden transition-max-height duration-300 ease-in-out ml-4`}
 			>
 				{subsections.map((subsection, subIndex) =>
 					subsection.subsections ? (

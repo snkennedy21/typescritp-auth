@@ -26,6 +26,15 @@ import ExamTips from '../accordion/learningResources/kubernetesNotes/examTips/Ex
 import ResourcesSection from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSection';
 import ResourcesSyntax from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSyntax';
 
+import TaintsAndTolerationsSection from '../accordion/learningResources/kubernetesNotes/taints/TaintsAndTolerationsSection';
+import TaintsAndTolerationsSyntax from '../accordion/learningResources/kubernetesNotes/taints/TaintsAndTolerationsSyntax';
+
+import SelectorsAndAffinitySection from '../accordion/learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySection';
+import SelectorsAndAffinitySyntax from '../accordion/learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySyntax';
+
+import ProbesSection from '../accordion/learningResources/kubernetesNotes/probes/ProbesSection';
+import ProbesSyntax from '../accordion/learningResources/kubernetesNotes/probes/ProbesSyntax';
+
 import PodSyntax from '../accordion/learningResources/kubernetesNotes/pods/PodSyntax';
 import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
 import B1 from '../accordion/learningResources/otherNotes/B1';
@@ -105,6 +114,30 @@ function MainContent() {
 					<Route
 						path="/kubernetes/resources/syntax"
 						element={<ResourcesSyntax />}
+					/>
+					<Route
+						path="/kubernetes/taints-tolerations"
+						element={<TaintsAndTolerationsSection />}
+					/>
+					<Route
+						path="/kubernetes/taints-tolerations/syntax"
+						element={<TaintsAndTolerationsSyntax />}
+					/>
+					<Route
+						path="/kubernetes/selectors-affinity"
+						element={<SelectorsAndAffinitySection />}
+					/>
+					<Route
+						path="/kubernetes/selectors-affinity/syntax"
+						element={<SelectorsAndAffinitySyntax />}
+					/>
+					<Route
+						path="/kubernetes/probes"
+						element={<ProbesSection />}
+					/>
+					<Route
+						path="/kubernetes/probes/syntax"
+						element={<ProbesSyntax />}
 					/>
 
 					<Route path="/other" element={<OtherSection />} />
