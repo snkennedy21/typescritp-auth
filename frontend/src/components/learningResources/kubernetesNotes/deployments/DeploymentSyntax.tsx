@@ -1,4 +1,4 @@
-import CodeBlock from '../../../../codeblockExample/CodeblockExample';
+import CodeBlock from '../../../codeblockExample/CodeblockExample';
 
 const DeploymentSyntax = () => {
 	return (

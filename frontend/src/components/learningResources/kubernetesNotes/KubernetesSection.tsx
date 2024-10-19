@@ -1,4 +1,4 @@
-import kubernetesArchitechture from '../../../../assets/components-of-kubernetes.svg';
+import kubernetesArchitechture from '../../../assets/components-of-kubernetes.svg';
 
 const KubernetesSection = () => {
 	return (

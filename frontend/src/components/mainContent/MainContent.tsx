@@ -6,41 +6,41 @@ import NotFound from '../../components/notFound/NotFound';
 import { Routes, Route } from 'react-router-dom';
 import UnprotectedEndpoint from '../../components/unprotectedEndpoint/unprotectedEndpoint';
 
-import KubernetesSection from '../accordion/learningResources/kubernetesNotes/KubernetesSection';
-import PodsSection from '../accordion/learningResources/kubernetesNotes/pods/PodsSection';
-import DeploymentSyntax from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentSyntax';
-import DeploymentsSection from '../accordion/learningResources/kubernetesNotes/deployments/DeploymentsSection';
+import KubernetesSection from '../learningResources/kubernetesNotes/KubernetesSection';
+import PodsSection from '../learningResources/kubernetesNotes/pods/PodsSection';
+import DeploymentSyntax from '../learningResources/kubernetesNotes/deployments/DeploymentSyntax';
+import DeploymentsSection from '../learningResources/kubernetesNotes/deployments/DeploymentsSection';
 
-import ReplicaSetSection from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicaSetSection';
-import ReplicaSetSyntax from '../accordion/learningResources/kubernetesNotes/replicaSets/ReplicasetSyntax';
+import ReplicaSetSection from '../learningResources/kubernetesNotes/replicaSets/ReplicaSetSection';
+import ReplicaSetSyntax from '../learningResources/kubernetesNotes/replicaSets/ReplicasetSyntax';
 
-import VariablesSection from '../accordion/learningResources/kubernetesNotes/variables/VariablesSection';
-import ConfigMapsSection from '../accordion/learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSection';
-import ConfigMapSyntax from '../accordion/learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSyntax';
+import VariablesSection from '../learningResources/kubernetesNotes/variables/VariablesSection';
+import ConfigMapsSection from '../learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSection';
+import ConfigMapSyntax from '../learningResources/kubernetesNotes/variables/configMaps/ConfigMapsSyntax';
 
-import SecretsSection from '../accordion/learningResources/kubernetesNotes/variables/secrets/SecretsSection';
-import SecretsSyntax from '../accordion/learningResources/kubernetesNotes/variables/secrets/SecretsSyntax';
+import SecretsSection from '../learningResources/kubernetesNotes/variables/secrets/SecretsSection';
+import SecretsSyntax from '../learningResources/kubernetesNotes/variables/secrets/SecretsSyntax';
 
-import ExamTips from '../accordion/learningResources/kubernetesNotes/examTips/ExamTips';
+import ExamTips from '../learningResources/kubernetesNotes/examTips/ExamTips';
 
-import ResourcesSection from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSection';
-import ResourcesSyntax from '../accordion/learningResources/kubernetesNotes/resources/ResourcesSyntax';
+import ResourcesSection from '../learningResources/kubernetesNotes/resources/ResourcesSection';
+import ResourcesSyntax from '../learningResources/kubernetesNotes/resources/ResourcesSyntax';
 
-import TaintsAndTolerationsSection from '../accordion/learningResources/kubernetesNotes/taints/TaintsAndTolerationsSection';
-import TaintsAndTolerationsSyntax from '../accordion/learningResources/kubernetesNotes/taints/TaintsAndTolerationsSyntax';
+import TaintsAndTolerationsSection from '../learningResources/kubernetesNotes/taints/TaintsAndTolerationsSection';
+import TaintsAndTolerationsSyntax from '../learningResources/kubernetesNotes/taints/TaintsAndTolerationsSyntax';
 
-import SelectorsAndAffinitySection from '../accordion/learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySection';
-import SelectorsAndAffinitySyntax from '../accordion/learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySyntax';
+import SelectorsAndAffinitySection from '../learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySection';
+import SelectorsAndAffinitySyntax from '../learningResources/kubernetesNotes/selectorsAndAffinity/SelectorsAndAffinitySyntax';
 
-import ProbesSection from '../accordion/learningResources/kubernetesNotes/probes/ProbesSection';
-import ProbesSyntax from '../accordion/learningResources/kubernetesNotes/probes/ProbesSyntax';
+import ProbesSection from '../learningResources/kubernetesNotes/probes/ProbesSection';
+import ProbesSyntax from '../learningResources/kubernetesNotes/probes/ProbesSyntax';
 
-import PodSyntax from '../accordion/learningResources/kubernetesNotes/pods/PodSyntax';
-import OtherSection from '../accordion/learningResources/otherNotes/OtherSection';
-import B1 from '../accordion/learningResources/otherNotes/B1';
-import B2 from '../accordion/learningResources/otherNotes/B2';
-import B2a from '../accordion/learningResources/otherNotes/B2a';
-import B2ai from '../accordion/learningResources/otherNotes/B2ai';
+import PodSyntax from '../learningResources/kubernetesNotes/pods/PodSyntax';
+import OtherSection from '../learningResources/otherNotes/OtherSection';
+import B1 from '../learningResources/otherNotes/B1';
+import B2 from '../learningResources/otherNotes/B2';
+import B2a from '../learningResources/otherNotes/B2a';
+import B2ai from '../learningResources/otherNotes/B2ai';
 import Settings from '../settings/Settings';
 
 import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
