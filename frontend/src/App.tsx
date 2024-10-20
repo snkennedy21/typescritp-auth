@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import AuthProvider from './components/authProvider/AuthProvider';
+import LearningLayout from './components/learningLayout/LearningLayout';
 import ApplicationLayout from './components/applicationLayout/ApplicationLayout';
 
 function App() {

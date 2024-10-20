@@ -10,7 +10,6 @@ function MainContent() {
 
 	const renderRoutes = (accordions) => {
 		return accordions.flatMap((accordion) => {
-			console.log('ACC: ', accordion);
 			// Main route for the current accordion
 			const routes = [
 				<Route

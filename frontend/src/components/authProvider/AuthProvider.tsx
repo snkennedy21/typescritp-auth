@@ -36,14 +36,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 			// If a refresh token is found, check if the user is about to expire
 			if (refreshToken) {
-				console.log('USER DATA: ', userData);
-
 				const now = Date.now();
 
 				// If the user is going to expire in 10 seconds, refresh the tokens
 				if (userData?.expirationTime - now < 10000 || !userData) {
 					try {
-						console.log('REFRESHING');
 						const userData = await refresh().unwrap();
 						setLocalStorageUserData(userData);
 						dispatch(authenticateUser(userData));
