@@ -9,7 +9,7 @@ const ApplicationLayout = () => {
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />} />
-				<Route path="/learning" element={<LearningLayout />} />
+				<Route path="/learning/*" element={<LearningLayout />} />
 			</Routes>
 		</>
 	);

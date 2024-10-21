@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
 import Settings from '../settings/Settings';
-import Home from '../home/Home';
+import LearningPage from '../learningResources/LearningPage';
 
 function MainContent() {
 	const { accordions } = useSelector((state) => state.sidebarSlice);
 
 	const renderRoutes = (accordions) => {
 		return accordions.flatMap((accordion) => {
+			console.log('Accordion: ', accordion);
 			// Main route for the current accordion
 			const routes = [
 				<Route
@@ -33,9 +34,9 @@ function MainContent() {
 			<div className="p-2">
 				<CurrentPathDisplay />
 				<Routes>
-					<Route path="/" element={<Home />} />
+					<Route path="/" element={<LearningPage />} />
 					{renderRoutes(accordions)}
-					<Route path="/settings" element={<Settings />} />
+					<Route path="settings" element={<Settings />} />
 					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</div>

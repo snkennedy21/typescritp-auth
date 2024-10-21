@@ -35,83 +35,83 @@ const initialState = {
 	accordions: [
 		{
 			text: 'Kubernetes',
-			link: '/kubernetes',
+			link: 'kubernetes',
 			component: KubernetesSection,
 			open: false,
 			subsections: [
 				{
 					text: 'Pods',
-					link: '/kubernetes/pods',
+					link: '/learning/kubernetes/pods',
 					component: PodsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/pods/syntax',
+							link: '/learning/kubernetes/pods/syntax',
 							component: PodSyntax,
 						},
 					],
 				},
 				{
 					text: 'ReplicaSets',
-					link: '/kubernetes/replicasets',
+					link: '/learning/kubernetes/replicasets',
 					component: ReplicaSetSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/replicasets/syntax',
+							link: '/learning/kubernetes/replicasets/syntax',
 							component: ReplicaSetSyntax,
 						},
 					],
 				},
 				{
 					text: 'Deployments',
-					link: '/kubernetes/deployments',
+					link: '/learning/kubernetes/deployments',
 					component: DeploymentsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/deployments/syntax',
+							link: '/learning/kubernetes/deployments/syntax',
 							component: DeploymentSyntax,
 						},
 					],
 				},
 				{
 					text: 'Exam Tips',
-					link: '/kubernetes/exam-tips',
+					link: '/learning/kubernetes/exam-tips',
 					component: ExamTips,
 					open: false,
 				},
 				{
 					text: 'Variables',
-					link: '/kubernetes/variables',
+					link: '/learning/kubernetes/variables',
 					component: VariablesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'ConfigMaps',
-							link: '/kubernetes/variables/configmaps',
+							link: '/learning/kubernetes/variables/configmaps',
 							component: ConfigMapsSection,
 							open: false,
 							subsections: [
 								{
 									text: 'Syntax',
-									link: '/kubernetes/variables/configmaps/syntax',
+									link: '/learning/kubernetes/variables/configmaps/syntax',
 									component: ConfigMapSyntax,
 								},
 							],
 						},
 						{
 							text: 'Secrets',
-							link: '/kubernetes/variables/secrets',
+							link: '/learning/kubernetes/variables/secrets',
 							component: SecretsSection,
 							open: false,
 							subsections: [
 								{
 									text: 'Syntax',
-									link: '/kubernetes/variables/secrets/syntax',
+									link: '/learning/kubernetes/variables/secrets/syntax',
 									component: SecretsSyntax,
 								},
 							],
@@ -120,52 +120,52 @@ const initialState = {
 				},
 				{
 					text: 'Resources',
-					link: '/kubernetes/resources',
+					link: '/learning/kubernetes/resources',
 					component: ResourcesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/resources/syntax',
+							link: '/learning/kubernetes/resources/syntax',
 							component: ResourcesSyntax,
 						},
 					],
 				},
 				{
 					text: 'Taints and Tolerations',
-					link: '/kubernetes/taints-tolerations',
+					link: '/learning/kubernetes/taints-tolerations',
 					component: TaintsAndTolerationsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/taints-tolerations/syntax',
+							link: '/learning/kubernetes/taints-tolerations/syntax',
 							component: TaintsAndTolerationsSyntax,
 						},
 					],
 				},
 				{
 					text: 'Selectors and Affinity',
-					link: '/kubernetes/selectors-affinity',
+					link: '/learning/kubernetes/selectors-affinity',
 					component: SelectorsAndAffinitySection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/selectors-affinity/syntax',
+							link: '/learning/kubernetes/selectors-affinity/syntax',
 							component: SelectorsAndAffinitySyntax,
 						},
 					],
 				},
 				{
 					text: 'Probes',
-					link: '/kubernetes/probes',
+					link: '/learning/kubernetes/probes',
 					component: ProbesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/kubernetes/probes/syntax',
+							link: '/learning/kubernetes/probes/syntax',
 							component: ProbesSyntax,
 						},
 					],
