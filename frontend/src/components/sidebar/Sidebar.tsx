@@ -21,7 +21,12 @@ function Sidebar({ isMobile = false }) {
 	);
 
 	const updateAccordionState = (accordions, path, basePath = '') => {
-		const segments = path.split('/').filter(Boolean); // split the path and filter out empty strings
+		// Remove '/learning' from the start of the path if it exists
+		const sanitizedPath = path.startsWith('/learning')
+			? path.replace('/learning', '')
+			: path;
+
+		const segments = sanitizedPath.split('/').filter(Boolean); // split the path and filter out empty strings
 
 		return accordions.map((accordion) => {
 			// Build the current path by appending the next segment
@@ -33,7 +38,12 @@ function Sidebar({ isMobile = false }) {
 			// Create a new accordion object instead of modifying the existing one
 			const newAccordion = { ...accordion };
 
-			if (newAccordion.link === currentPath) {
+			console.log('Path: ', path);
+			console.log('Sanitized Path: ', sanitizedPath);
+			console.log('CURRENT PATH: ', currentPath);
+			console.log('New Accordion Link: ', newAccordion.link);
+
+			if (newAccordion.link === currentPath.substring(1)) {
 				newAccordion.open = true;
 
 				// If there are remaining segments and subsections, recurse
@@ -57,6 +67,7 @@ function Sidebar({ isMobile = false }) {
 			accordions,
 			location.pathname,
 		);
+
 		dispatch(setAccordions(updatedAccordions)); // Assuming you have a state setter for accordions
 	}, [location.pathname]);
 

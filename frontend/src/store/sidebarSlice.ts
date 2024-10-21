@@ -41,77 +41,77 @@ const initialState = {
 			subsections: [
 				{
 					text: 'Pods',
-					link: '/learning/kubernetes/pods',
+					link: 'kubernetes/pods',
 					component: PodsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/pods/syntax',
+							link: 'kubernetes/pods/syntax',
 							component: PodSyntax,
 						},
 					],
 				},
 				{
 					text: 'ReplicaSets',
-					link: '/learning/kubernetes/replicasets',
+					link: 'kubernetes/replicasets',
 					component: ReplicaSetSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/replicasets/syntax',
+							link: 'kubernetes/replicasets/syntax',
 							component: ReplicaSetSyntax,
 						},
 					],
 				},
 				{
 					text: 'Deployments',
-					link: '/learning/kubernetes/deployments',
+					link: 'kubernetes/deployments',
 					component: DeploymentsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/deployments/syntax',
+							link: 'kubernetes/deployments/syntax',
 							component: DeploymentSyntax,
 						},
 					],
 				},
 				{
 					text: 'Exam Tips',
-					link: '/learning/kubernetes/exam-tips',
+					link: 'kubernetes/exam-tips',
 					component: ExamTips,
 					open: false,
 				},
 				{
 					text: 'Variables',
-					link: '/learning/kubernetes/variables',
+					link: 'kubernetes/variables',
 					component: VariablesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'ConfigMaps',
-							link: '/learning/kubernetes/variables/configmaps',
+							link: 'kubernetes/variables/configmaps',
 							component: ConfigMapsSection,
 							open: false,
 							subsections: [
 								{
 									text: 'Syntax',
-									link: '/learning/kubernetes/variables/configmaps/syntax',
+									link: 'kubernetes/variables/configmaps/syntax',
 									component: ConfigMapSyntax,
 								},
 							],
 						},
 						{
 							text: 'Secrets',
-							link: '/learning/kubernetes/variables/secrets',
+							link: 'kubernetes/variables/secrets',
 							component: SecretsSection,
 							open: false,
 							subsections: [
 								{
 									text: 'Syntax',
-									link: '/learning/kubernetes/variables/secrets/syntax',
+									link: 'kubernetes/variables/secrets/syntax',
 									component: SecretsSyntax,
 								},
 							],
@@ -120,52 +120,52 @@ const initialState = {
 				},
 				{
 					text: 'Resources',
-					link: '/learning/kubernetes/resources',
+					link: 'kubernetes/resources',
 					component: ResourcesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/resources/syntax',
+							link: 'kubernetes/resources/syntax',
 							component: ResourcesSyntax,
 						},
 					],
 				},
 				{
 					text: 'Taints and Tolerations',
-					link: '/learning/kubernetes/taints-tolerations',
+					link: 'kubernetes/taints-tolerations',
 					component: TaintsAndTolerationsSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/taints-tolerations/syntax',
+							link: 'kubernetes/taints-tolerations/syntax',
 							component: TaintsAndTolerationsSyntax,
 						},
 					],
 				},
 				{
 					text: 'Selectors and Affinity',
-					link: '/learning/kubernetes/selectors-affinity',
+					link: 'kubernetes/selectors-affinity',
 					component: SelectorsAndAffinitySection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/selectors-affinity/syntax',
+							link: 'kubernetes/selectors-affinity/syntax',
 							component: SelectorsAndAffinitySyntax,
 						},
 					],
 				},
 				{
 					text: 'Probes',
-					link: '/learning/kubernetes/probes',
+					link: 'kubernetes/probes',
 					component: ProbesSection,
 					open: false,
 					subsections: [
 						{
 							text: 'Syntax',
-							link: '/learning/kubernetes/probes/syntax',
+							link: 'kubernetes/probes/syntax',
 							component: ProbesSyntax,
 						},
 					],
