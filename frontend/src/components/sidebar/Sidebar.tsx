@@ -38,11 +38,6 @@ function Sidebar({ isMobile = false }) {
 			// Create a new accordion object instead of modifying the existing one
 			const newAccordion = { ...accordion };
 
-			console.log('Path: ', path);
-			console.log('Sanitized Path: ', sanitizedPath);
-			console.log('CURRENT PATH: ', currentPath);
-			console.log('New Accordion Link: ', newAccordion.link);
-
 			if (newAccordion.link === currentPath.substring(1)) {
 				newAccordion.open = true;
 
@@ -97,13 +92,14 @@ function Sidebar({ isMobile = false }) {
 				<ul className="mt-4">
 					<li className="">
 						<NavLink
-							to="/"
+							to="/learning"
+							end
 							className={({ isActive }) =>
 								isActive ? styles.activeNavLink : styles.navLink
 							}
 							onClick={() => dispatch(closeMobileNavigation())}
 						>
-							Home
+							Learning
 						</NavLink>
 					</li>
 					{/* <li className="my-2">
@@ -199,14 +195,15 @@ function Sidebar({ isMobile = false }) {
 					<ul>
 						<li className="">
 							<NavLink
-								to="/"
+								to="/learning"
+								end
 								className={({ isActive }) =>
 									isActive
 										? styles.activeNavLink
 										: styles.navLink
 								}
 							>
-								Home
+								Learning
 							</NavLink>
 						</li>
 						{/* <li className="my-2">

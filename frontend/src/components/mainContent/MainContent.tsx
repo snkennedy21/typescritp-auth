@@ -1,11 +1,14 @@
 import NotFound from '../../components/notFound/NotFound';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 import CurrentPathDisplay from '../currentPathDisplay/CurrentPathDisplay';
 import Settings from '../settings/Settings';
 import LearningPage from '../learningResources/LearningPage';
+import { closeAllAccordions } from '../../store/sidebarSlice';
+import { useEffect } from 'react';
 
 function MainContent() {
+	const dispatch = useDispatch();
 	const { accordions } = useSelector((state) => state.sidebarSlice);
 
 	const renderRoutes = (accordions) => {
@@ -27,6 +30,13 @@ function MainContent() {
 			return routes;
 		});
 	};
+
+	useEffect(() => {
+		return () => {
+			console.log('RUNNING');
+			dispatch(closeAllAccordions());
+		};
+	}, []);
 
 	return (
 		<>

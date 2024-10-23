@@ -208,7 +208,30 @@ export const sidebarSlice = createSlice({
 			// Update the accordions in the state
 			state.accordions = updateAccordion(state.accordions);
 		},
+
+		closeAllAccordions: (state) => {
+			// Recursive function to close all accordions
+			const closeAccordion = (accordions) => {
+				return accordions.map((accordion) => {
+					// If there are subsections, recurse and close them as well
+					if (accordion.subsections) {
+						return {
+							...accordion,
+							open: false,
+							subsections: closeAccordion(accordion.subsections),
+						};
+					}
+
+					// Set the open state to false for the accordion
+					return { ...accordion, open: false };
+				});
+			};
+
+			// Update the accordions in the state to all be closed
+			state.accordions = closeAccordion(state.accordions);
+		},
 	},
 });
 
-export const { setAccordions, updateAccordionState } = sidebarSlice.actions;
+export const { setAccordions, updateAccordionState, closeAllAccordions } =
+	sidebarSlice.actions;

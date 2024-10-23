@@ -13,7 +13,15 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 	const contentRef = useRef(null);
 	const location = useLocation();
 
-	const isActive = location.pathname === navLink;
+	console.log('Location: ', location.pathname);
+	console.log('NavLink: ', navLink);
+
+	function removeFirstPart(url) {
+		// Use a regular expression to remove the first slash, first word, and second slash
+		return url.replace(/^\/[^/]+\//, '');
+	}
+
+	const isActive = removeFirstPart(location.pathname) === navLink;
 
 	const toggleAccordion = () => {
 		setIsOpen(!isOpen);
@@ -79,7 +87,8 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 							<NavLink
 								to={subsection.link}
 								className={`transition-color duration-200 cursor-pointer ${
-									location.pathname === subsection.link
+									removeFirstPart(location.pathname) ===
+									subsection.link
 										? 'text-blue-400'
 										: 'hover:text-blue-400'
 								}`}
