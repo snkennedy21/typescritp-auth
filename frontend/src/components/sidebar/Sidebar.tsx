@@ -279,7 +279,7 @@ function Sidebar({ isMobile = false }) {
 				<div className="flex items-center gap-2">
 					<i className="fa-solid fa-gear"></i>
 					<NavLink
-						to="/settings"
+						to="/learning/settings"
 						className={({ isActive }) =>
 							isActive ? styles.activeNavLink : styles.navLink
 						}
