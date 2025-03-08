@@ -102,64 +102,6 @@ function Sidebar({ isMobile = false }) {
 							Learning
 						</NavLink>
 					</li>
-					{/* <li className="my-2">
-						<NavLink
-							to="/protected"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-						>
-							{'Protected'}
-						</NavLink>
-					</li>
-					<li className="my-2">
-						<NavLink
-							to="/unprotected"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-						>
-							{'Unprotected'}
-						</NavLink>
-					</li>
-					{currentUser ? (
-						<li className="my-2">
-							<NavLink
-								to="/logout"
-								className={styles.navLink}
-								onClick={logoutHandler}
-							>
-								Logout
-							</NavLink>
-						</li>
-					) : (
-						<>
-							<li className="my-2">
-								<NavLink
-									to="/signup"
-									className={({ isActive }) =>
-										isActive
-											? styles.activeNavLink
-											: styles.navLink
-									}
-								>
-									Signup
-								</NavLink>
-							</li>
-							<li className="my-2">
-								<NavLink
-									to="/login"
-									className={({ isActive }) =>
-										isActive
-											? styles.activeNavLink
-											: styles.navLink
-									}
-								>
-									Login
-								</NavLink>
-							</li>
-						</>
-					)} */}
 					{accordions.map((accordion) => {
 						return (
 							<Accordion
@@ -170,18 +112,6 @@ function Sidebar({ isMobile = false }) {
 							/>
 						);
 					})}
-					{/* <div className="flex items-center gap-2">
-						<i className="fa-solid fa-gear"></i>
-						<NavLink
-							to="/settings"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-							onClick={() => dispatch(closeMobileNavigation())}
-						>
-							Settings
-						</NavLink>
-					</div> */}
 				</ul>
 			</div>
 		);
@@ -193,77 +123,6 @@ function Sidebar({ isMobile = false }) {
 				<div>
 					<h2 className="text-xl font-bold">Resources</h2>
 					<ul>
-						<li className="">
-							<NavLink
-								to="/learning"
-								end
-								className={({ isActive }) =>
-									isActive
-										? styles.activeNavLink
-										: styles.navLink
-								}
-							>
-								Learning
-							</NavLink>
-						</li>
-						{/* <li className="my-2">
-						<NavLink
-							to="/protected"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-						>
-							{'Protected'}
-						</NavLink>
-					</li>
-					<li className="my-2">
-						<NavLink
-							to="/unprotected"
-							className={({ isActive }) =>
-								isActive ? styles.activeNavLink : styles.navLink
-							}
-						>
-							{'Unprotected'}
-						</NavLink>
-					</li>
-					{currentUser ? (
-						<li className="my-2">
-							<NavLink
-								to="/logout"
-								className={styles.navLink}
-								onClick={logoutHandler}
-							>
-								Logout
-							</NavLink>
-						</li>
-					) : (
-						<>
-							<li className="my-2">
-								<NavLink
-									to="/signup"
-									className={({ isActive }) =>
-										isActive
-											? styles.activeNavLink
-											: styles.navLink
-									}
-								>
-									Signup
-								</NavLink>
-							</li>
-							<li className="my-2">
-								<NavLink
-									to="/login"
-									className={({ isActive }) =>
-										isActive
-											? styles.activeNavLink
-											: styles.navLink
-									}
-								>
-									Login
-								</NavLink>
-							</li>
-						</>
-					)} */}
 						{accordions.map((accordion) => {
 							return (
 								<Accordion
@@ -276,17 +135,6 @@ function Sidebar({ isMobile = false }) {
 						})}
 					</ul>
 				</div>
-				{/* <div className="flex items-center gap-2">
-					<i className="fa-solid fa-gear"></i>
-					<NavLink
-						to="/learning/settings"
-						className={({ isActive }) =>
-							isActive ? styles.activeNavLink : styles.navLink
-						}
-					>
-						Settings
-					</NavLink>
-				</div> */}
 			</div>
 		</div>
 	);
