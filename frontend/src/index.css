@@ -6,3 +6,8 @@
 body {
 	@apply bg-white text-black dark:bg-darkBackground dark:text-darkText;
 }
+
+html,
+body {
+	@apply overscroll-none;
+}

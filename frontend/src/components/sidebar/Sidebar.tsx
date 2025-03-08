@@ -170,7 +170,7 @@ function Sidebar({ isMobile = false }) {
 							/>
 						);
 					})}
-					<div className="flex items-center gap-2">
+					{/* <div className="flex items-center gap-2">
 						<i className="fa-solid fa-gear"></i>
 						<NavLink
 							to="/settings"
@@ -181,7 +181,7 @@ function Sidebar({ isMobile = false }) {
 						>
 							Settings
 						</NavLink>
-					</div>
+					</div> */}
 				</ul>
 			</div>
 		);
@@ -276,7 +276,7 @@ function Sidebar({ isMobile = false }) {
 						})}
 					</ul>
 				</div>
-				<div className="flex items-center gap-2">
+				{/* <div className="flex items-center gap-2">
 					<i className="fa-solid fa-gear"></i>
 					<NavLink
 						to="/learning/settings"
@@ -286,7 +286,7 @@ function Sidebar({ isMobile = false }) {
 					>
 						Settings
 					</NavLink>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

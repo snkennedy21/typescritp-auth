@@ -7,10 +7,12 @@ const ApplicationLayout = () => {
 	return (
 		<>
 			<Navbar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/learning/*" element={<LearningLayout />} />
-			</Routes>
+			<div className="mt-14">
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/learning/*" element={<LearningLayout />} />
+				</Routes>
+			</div>
 		</>
 	);
 };
