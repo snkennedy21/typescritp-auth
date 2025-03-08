@@ -16,7 +16,7 @@ const MainLayout = () => {
 	};
 
 	return (
-		<div className="flex flex-col h-screen">
+		<div className="flex flex-col h-[calc(100vh-56px)]">
 			{/* Desktop View */}
 			<div className="hidden lg:flex flex-row h-full">
 				<div className="lg:w-1/6 bg-gray-200">

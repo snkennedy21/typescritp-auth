@@ -19,9 +19,9 @@ const LearningLayout = () => {
 			</div>
 
 			{/* Main Layout for All Screen Sizes */}
-			<div className="flex flex-row h-full">
+			<div className="flex flex-row h-[calc(100vh-56px)]">
 				{/* Sidebar - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/5 sticky top-0 h-screen hidden md:block">
+				<div className="w-1/5 sticky top-0 h-[calc(100vh-56px)] hidden md:block">
 					<Sidebar />
 				</div>
 
@@ -31,7 +31,7 @@ const LearningLayout = () => {
 				</div>
 
 				{/* Additional Links - Shown on Desktop/Tablet, hidden on Mobile */}
-				<div className="w-1/5 sticky top-0 h-screen hidden lg:block">
+				<div className="w-1/5 sticky top-0 h-[calc(100vh-56px)] hidden lg:block">
 					<AdditionalLinks />
 				</div>
 			</div>
