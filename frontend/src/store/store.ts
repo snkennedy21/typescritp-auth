@@ -4,6 +4,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { authSlice } from './authSlice';
 import { navigationSlice } from './navigationSlice';
 import { sidebarSlice } from './sidebarSlice';
+import { commentsSlice } from './commentsSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
 		[authSlice.name]: authSlice.reducer,
 		[navigationSlice.name]: navigationSlice.reducer,
 		[sidebarSlice.name]: sidebarSlice.reducer,
+		[commentsSlice.name]: commentsSlice.reducer,
 	},
 
 	middleware: (getDefaultMiddleware) =>

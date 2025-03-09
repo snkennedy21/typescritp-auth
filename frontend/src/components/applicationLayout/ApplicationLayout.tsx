@@ -4,6 +4,7 @@ import Home from '../home/Home';
 import Login from '../login/Login';
 import Signup from '../signup/Signup';
 import Navbar from '../navbar/Navbar';
+import CommentsPanel from '../commentsPanel/CommentsPanel';
 
 const ApplicationLayout = () => {
 	return (
@@ -16,6 +17,7 @@ const ApplicationLayout = () => {
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/learning/*" element={<LearningLayout />} />
 				</Routes>
+				<CommentsPanel />
 			</div>
 		</>
 	);

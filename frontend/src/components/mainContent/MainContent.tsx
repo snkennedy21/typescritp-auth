@@ -6,6 +6,7 @@ import Settings from '../settings/Settings';
 import LearningPage from '../learningResources/LearningPage';
 import { closeAllAccordions } from '../../store/sidebarSlice';
 import { useEffect } from 'react';
+import CurrentPageActions from '../currentPageActions/CurrentPageActions';
 
 function MainContent() {
 	const dispatch = useDispatch();
@@ -42,6 +43,7 @@ function MainContent() {
 		<>
 			<div className="p-2">
 				<CurrentPathDisplay />
+				<CurrentPageActions />
 				<Routes>
 					<Route path="/" element={<LearningPage />} />
 					{renderRoutes(accordions)}

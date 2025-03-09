@@ -31,8 +31,17 @@ import SelectorsAndAffinitySyntax from '../components/learningResources/kubernet
 import ProbesSection from '../components/learningResources/kubernetesNotes/probes/ProbesSection';
 import ProbesSyntax from '../components/learningResources/kubernetesNotes/probes/ProbesSyntax';
 
+import DeploymentTutorial from '../components/learningResources/deploymentTutorial/DeploymentTutorial';
+
 const initialState = {
 	accordions: [
+		{
+			text: 'Deployment Tutorial',
+			link: 'deployment-tutorial',
+			component: DeploymentTutorial,
+			open: false,
+			subsections: [],
+		},
 		{
 			text: 'Kubernetes',
 			link: 'kubernetes',

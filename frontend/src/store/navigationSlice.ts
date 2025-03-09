@@ -19,3 +19,4 @@ export const navigationSlice = createSlice({
 
 export const { openMobileNavigation, closeMobileNavigation } =
 	navigationSlice.actions;
+export default navigationSlice.reducer;
