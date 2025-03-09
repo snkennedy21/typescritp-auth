@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const users_1 = require("./routes/users/users");
+const comments_1 = require("./routes/comments/comments");
 const endpoints_1 = require("./routes/endpoints/endpoints");
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -29,6 +30,7 @@ exports.app.use(body_parser_1.default.json());
 exports.app.use((0, cookie_parser_1.default)());
 exports.app.use('/users', users_1.userRouter);
 exports.app.use('/endpoints', endpoints_1.endpointsRouter);
+exports.app.use('/comments', comments_1.commentsRouter);
 exports.app.listen(port, () => {
     console.log('now Listening on port 8000...');
 });

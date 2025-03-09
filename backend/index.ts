@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import { userRouter } from './routes/users/users';
+import { commentsRouter } from './routes/comments/comments';
 import { endpointsRouter } from './routes/endpoints/endpoints';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/users', userRouter);
 app.use('/endpoints', endpointsRouter);
+app.use('/comments', commentsRouter);
 
 app.listen(port, () => {
 	console.log('now Listening on port 8000...');

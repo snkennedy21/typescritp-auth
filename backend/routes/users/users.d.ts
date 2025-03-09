@@ -6,7 +6,10 @@ export interface CreateUserInput {
 
 export interface User {
 	id: number;
-	name: string;
 	email: string;
+	name: string | null;
 	password?: string;
+	roleId: number | null;
+	createdAt: Date;
+	updatedAt: Date;
 }

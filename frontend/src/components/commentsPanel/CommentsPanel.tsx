@@ -1,20 +1,24 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCommentsPanel } from '../../store/commentsSlice';
+import { useLocation } from 'react-router-dom';
+import { useSubmitCommentMutation } from '../../store/mainApi';
 
 const CommentsPanel = () => {
 	const { isCommentsPanelOpen } = useSelector((state) => state.commentsSlice);
+	const [submitComment] = useSubmitCommentMutation();
 	const dispatch = useDispatch();
 	const [comment, setComment] = useState('');
 	const [isExpanded, setIsExpanded] = useState(false);
+	const location = useLocation();
 
 	const handleCloseComments = () => {
 		dispatch(toggleCommentsPanel());
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		if (comment.trim() !== '') {
-			console.log('New Comment:', comment);
+			await submitComment({ text: comment, pageId: location.pathname });
 			setComment('');
 			setIsExpanded(false); // Reset to initial state
 
@@ -31,7 +35,7 @@ const CommentsPanel = () => {
 		<>
 			{/* Comments Panel */}
 			<div
-				className={`fixed top-0 right-0 h-full w-[600px] bg-white shadow-lg border-l transition-transform duration-300 z-10 ${
+				className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white shadow-lg border-l transition-transform duration-300 z-10 ${
 					isCommentsPanelOpen ? 'translate-x-0' : 'translate-x-full'
 				}`}
 			>

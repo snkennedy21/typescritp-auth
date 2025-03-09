@@ -13,12 +13,6 @@ interface CreateUserInput {
 	password: string;
 }
 
-// interface CreateUserResponse {
-// 	id: string;
-// 	name: string;
-// 	email: string;
-// }
-
 interface LoginUserInput {
 	name: string;
 	email: string;
@@ -51,6 +45,11 @@ interface UserData {
 
 interface CreateUserResponse {
 	data: UserData;
+}
+
+interface CreateCommentInput {
+	text: string;
+	pageId: string;
 }
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -147,14 +146,41 @@ export const mainApi = createApi({
 				};
 			},
 		}),
+
+		submitComment: builder.mutation<void, CreateCommentInput>({
+			query: ({ text, pageId }) => {
+				console.log('HERE I AM');
+				return {
+					url: '/comments/create',
+					method: 'POST',
+					body: { content: text, pageId },
+				};
+			},
+		}),
+
+		getComments: builder.query<void, string>({
+			query: (pageId) => {
+				return {
+					url: `/comments?pageId=${pageId}`,
+					method: 'GET',
+				};
+			},
+		}),
 	}),
 });
 
 export const {
+	// Users
 	useSignupMutation,
 	useLoginMutation,
 	useLogoutMutation,
+
+	// Endpoints
 	useUnprotectedEndpointQuery,
 	useProtectedEndpointQuery,
 	useRefreshTokenMutation,
+
+	// Comments
+	useSubmitCommentMutation,
+	useGetCommentsQuery,
 } = mainApi;

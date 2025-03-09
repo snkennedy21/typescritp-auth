@@ -37,6 +37,8 @@ services:
     restart: always
     env_file:
       - ./backend/.env
+    networks:
+      - my_network
     ports:
       - "5050:80"
 
