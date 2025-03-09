@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLogoutMutation } from '../../store/mainApi';
+import { unauthenticateUser } from '../../store/authSlice';
 
 const Navbar = () => {
 	const currentUser = useSelector((state) => state.auth.currentUser);
+	const dispatch = useDispatch();
 	const [logout] = useLogoutMutation();
 
 	const handleLogout = () => {
 		logout();
+		dispatch(unauthenticateUser());
 	};
 
 	return (
@@ -25,9 +28,12 @@ const Navbar = () => {
 				</li>
 			</ul>
 			{currentUser ? (
-				<div onClick={handleLogout} className="text-white">
-					Logout
-				</div>
+				<>
+					<div>{currentUser.name}</div>
+					<div onClick={handleLogout} className="text-white">
+						Logout
+					</div>
+				</>
 			) : (
 				<Link to="/login" className="text-white">
 					Login
