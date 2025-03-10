@@ -40,7 +40,6 @@ exports.userRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, func
  ********************************************************************/
 exports.userRouter.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = req.body;
-    console.log('HELLO');
     try {
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const existingUser = yield prisma_1.prisma.user.findUnique({

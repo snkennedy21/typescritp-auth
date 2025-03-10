@@ -4,11 +4,6 @@ import { useEffect } from 'react';
 
 const UnprotectedEndpoint = () => {
 	const { data, error, isLoading, refetch } = useUnprotectedEndpointQuery();
-	const location = useLocation();
-
-	useEffect(() => {
-		console.log(location.pathname);
-	}, [location]);
 
 	if (isLoading) {
 		return <div>Loading...</div>;

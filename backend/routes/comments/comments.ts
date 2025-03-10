@@ -10,9 +10,24 @@ export const commentsRouter: Router = express.Router();
  ********************************************************************/
 commentsRouter.get('/', async (req: Request, res: Response) => {
 	try {
-		const comments: Comment[] = await prisma.comment.findMany({
-			where: { pageId: 'thispage' },
+		const { pageId } = req.query;
+
+		const comments = await prisma.comment.findMany({
+			where: { pageId: pageId },
+			include: {
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						role: {
+							select: { id: true, name: true },
+						},
+					},
+				},
+			},
 		});
+
 		res.status(200).json(comments);
 	} catch (error) {
 		console.error('Error fetching users:', error);
@@ -34,7 +49,6 @@ commentsRouter.post('/create', async (req: Request, res: Response) => {
 				parentId: null,
 			},
 		});
-		console.log('SUCCESS');
 		res.json(comment);
 	} catch (error) {
 		console.log('Error creating comment:', error);

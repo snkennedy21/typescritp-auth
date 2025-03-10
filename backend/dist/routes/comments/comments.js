@@ -22,8 +22,21 @@ exports.commentsRouter = express_1.default.Router();
  ********************************************************************/
 exports.commentsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const { pageId } = req.query;
         const comments = yield prisma_1.prisma.comment.findMany({
-            where: { pageId: 'thispage' },
+            where: { pageId: pageId },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        role: {
+                            select: { id: true, name: true },
+                        },
+                    },
+                },
+            },
         });
         res.status(200).json(comments);
     }
@@ -46,7 +59,6 @@ exports.commentsRouter.post('/create', (req, res) => __awaiter(void 0, void 0, v
                 parentId: null,
             },
         });
-        console.log('SUCCESS');
         res.json(comment);
     }
     catch (error) {

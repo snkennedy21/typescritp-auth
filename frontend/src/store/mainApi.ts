@@ -84,7 +84,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const mainApi = createApi({
 	reducerPath: 'mainApi',
 	baseQuery: baseQueryWithReauth,
-	tagTypes: ['User'],
+	tagTypes: ['User', 'Comments'],
 
 	endpoints: (builder) => ({
 		signup: builder.mutation<CreateUserResponse, CreateUserInput>({
@@ -149,13 +149,13 @@ export const mainApi = createApi({
 
 		submitComment: builder.mutation<void, CreateCommentInput>({
 			query: ({ text, pageId }) => {
-				console.log('HERE I AM');
 				return {
 					url: '/comments/create',
 					method: 'POST',
 					body: { content: text, pageId },
 				};
 			},
+			invalidatesTags: ['Comments'],
 		}),
 
 		getComments: builder.query<void, string>({
@@ -165,6 +165,7 @@ export const mainApi = createApi({
 					method: 'GET',
 				};
 			},
+			providesTags: ['Comments'],
 		}),
 	}),
 });

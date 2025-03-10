@@ -34,7 +34,6 @@ function MainContent() {
 
 	useEffect(() => {
 		return () => {
-			console.log('RUNNING');
 			dispatch(closeAllAccordions());
 		};
 	}, []);

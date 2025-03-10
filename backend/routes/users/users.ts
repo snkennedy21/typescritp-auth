@@ -32,7 +32,6 @@ userRouter.get('/', async (req: Request, res: Response) => {
  ********************************************************************/
 userRouter.post('/create', async (req: Request, res: Response) => {
 	const { name, email, password }: CreateUserInput = req.body;
-	console.log('HELLO');
 	try {
 		const hashedPassword: string = await bcrypt.hash(password, 10);
 		const existingUser: User | null = await prisma.user.findUnique({

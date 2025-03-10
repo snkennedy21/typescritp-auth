@@ -13,9 +13,6 @@ const Accordion = ({ text, navLink, open, subsections }) => {
 	const contentRef = useRef(null);
 	const location = useLocation();
 
-	console.log('Location: ', location.pathname);
-	console.log('NavLink: ', navLink);
-
 	function removeFirstPart(url) {
 		// Use a regular expression to remove the first slash, first word, and second slash
 		return url.replace(/^\/[^/]+\//, '');

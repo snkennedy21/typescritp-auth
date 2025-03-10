@@ -2,33 +2,40 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleCommentsPanel } from '../../store/commentsSlice';
 import { useLocation } from 'react-router-dom';
-import { useSubmitCommentMutation } from '../../store/mainApi';
+import {
+	useSubmitCommentMutation,
+	useGetCommentsQuery,
+} from '../../store/mainApi';
+import Comment from '../comment/Comment';
 
 const CommentsPanel = () => {
+	const location = useLocation();
 	const { isCommentsPanelOpen } = useSelector((state) => state.commentsSlice);
+	const { data: comments, isLoading: commentsLoading } = useGetCommentsQuery(
+		location.pathname,
+	);
 	const [submitComment] = useSubmitCommentMutation();
 	const dispatch = useDispatch();
 	const [comment, setComment] = useState('');
 	const [isExpanded, setIsExpanded] = useState(false);
-	const location = useLocation();
 
 	const handleCloseComments = () => {
 		dispatch(toggleCommentsPanel());
 	};
 
+	console.log('COMMENTS: ', comments);
+
 	const handleSubmit = async () => {
 		if (comment.trim() !== '') {
 			await submitComment({ text: comment, pageId: location.pathname });
 			setComment('');
-			setIsExpanded(false); // Reset to initial state
-
-			// API Call to save the comment to the database
+			setIsExpanded(false);
 		}
 	};
 
 	const handleCancel = () => {
 		setComment('');
-		setIsExpanded(false); // Shrink the textarea back
+		setIsExpanded(false);
 	};
 
 	return (
@@ -37,7 +44,7 @@ const CommentsPanel = () => {
 			<div
 				className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white shadow-lg border-l transition-transform duration-300 z-10 ${
 					isCommentsPanelOpen ? 'translate-x-0' : 'translate-x-full'
-				}`}
+				} flex flex-col`}
 			>
 				{/* Panel Header */}
 				<div className="flex items-center justify-between p-4 border-b">
@@ -85,11 +92,21 @@ const CommentsPanel = () => {
 					</div>
 				</div>
 
-				{/* Comments Content */}
-				<div className="p-4 flex-1 overflow-y-auto">
-					<p className="text-gray-500">
-						No comments yet. Start a discussion!
-					</p>
+				{/* 🛠 Scrollable Comments Section (Fix applied here) */}
+				<div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+					{commentsLoading ? (
+						<p className="text-center text-gray-500">
+							Loading comments...
+						</p>
+					) : comments?.length ? (
+						comments.map((comment) => (
+							<Comment key={comment.id} comment={comment} />
+						))
+					) : (
+						<p className="text-center text-gray-500">
+							No comments yet. Be the first!
+						</p>
+					)}
 				</div>
 			</div>
 		</>
