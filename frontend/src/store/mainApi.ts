@@ -52,6 +52,29 @@ interface CreateCommentInput {
 	pageId: string;
 }
 
+export interface CommentType {
+	id: number;
+	content: string;
+	parentId: number | null;
+	pageId: string;
+	createdAt: string;
+	user: {
+		id: number;
+		name: string;
+		email: string;
+	};
+}
+
+export interface CommentChainResponse {
+	chain: CommentType[]; // All ancestors + the selected comment itself
+	replies: CommentType[]; // Direct replies of the selected comment
+}
+
+export interface CommentWithReplies {
+	comment: CommentType; // your existing comment shape
+	replies: CommentType[]; // an array of direct replies
+}
+
 const baseQueryWithReauth = async (args, api, extraOptions) => {
 	let result = await baseQuery(args, api, extraOptions);
 
@@ -158,13 +181,27 @@ export const mainApi = createApi({
 			invalidatesTags: ['Comments'],
 		}),
 
-		getComments: builder.query<void, string>({
-			query: (pageId) => {
-				return {
-					url: `/comments?pageId=${pageId}`,
-					method: 'GET',
-				};
-			},
+		getTopLevelComments: builder.query<CommentType[], string>({
+			query: (pageId) => ({
+				url: `/comments?pageId=${pageId}`,
+				method: 'GET',
+			}),
+			providesTags: ['Comments'],
+		}),
+
+		getCommentWithReplies: builder.query<CommentWithReplies, number>({
+			query: (commentId) => ({
+				url: `/comments/${commentId}`,
+				method: 'GET',
+			}),
+			providesTags: ['Comments'],
+		}),
+
+		getCommentChain: builder.query<CommentChainResponse, number>({
+			query: (commentId) => ({
+				url: `/comments/${commentId}/chain`,
+				method: 'GET',
+			}),
 			providesTags: ['Comments'],
 		}),
 	}),
@@ -183,5 +220,6 @@ export const {
 
 	// Comments
 	useSubmitCommentMutation,
-	useGetCommentsQuery,
+	useGetTopLevelCommentsQuery,
+	useGetCommentChainQuery,
 } = mainApi;

@@ -1,115 +1,113 @@
-import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { toggleCommentsPanel } from '../../store/commentsSlice';
 import { useLocation } from 'react-router-dom';
 import {
-	useSubmitCommentMutation,
-	useGetCommentsQuery,
+	useGetTopLevelCommentsQuery,
+	useGetCommentChainQuery,
 } from '../../store/mainApi';
-import Comment from '../comment/Comment';
+import { setSelectedCommentId } from '../../store/commentsSlice';
+import CommentItem from '../comment/Comment';
 
 const CommentsPanel = () => {
-	const location = useLocation();
-	const { isCommentsPanelOpen } = useSelector((state) => state.commentsSlice);
-	const { data: comments, isLoading: commentsLoading } = useGetCommentsQuery(
-		location.pathname,
-	);
-	const [submitComment] = useSubmitCommentMutation();
 	const dispatch = useDispatch();
-	const [comment, setComment] = useState('');
-	const [isExpanded, setIsExpanded] = useState(false);
+	const location = useLocation();
+	const { isCommentsPanelOpen, selectedCommentId } = useSelector(
+		(state) => state.commentsSlice,
+	);
 
-	const handleCloseComments = () => {
-		dispatch(toggleCommentsPanel());
+	// 1) Top-level comments when no selection
+	const { data: topLevelComments, isLoading: topLevelLoading } =
+		useGetTopLevelCommentsQuery(location.pathname, {
+			skip: selectedCommentId !== null,
+		});
+
+	// 2) If a comment is selected, fetch its chain + replies
+	const { data: chainData, isLoading: chainLoading } =
+		useGetCommentChainQuery(selectedCommentId as number, {
+			skip: selectedCommentId === null,
+		});
+
+	const handleCommentClick = (commentId: number) => {
+		dispatch(setSelectedCommentId(commentId));
 	};
 
-	console.log('COMMENTS: ', comments);
-
-	const handleSubmit = async () => {
-		if (comment.trim() !== '') {
-			await submitComment({ text: comment, pageId: location.pathname });
-			setComment('');
-			setIsExpanded(false);
-		}
-	};
-
-	const handleCancel = () => {
-		setComment('');
-		setIsExpanded(false);
+	const handleBackToTopLevel = () => {
+		dispatch(setSelectedCommentId(null));
 	};
 
 	return (
-		<>
-			{/* Comments Panel */}
-			<div
-				className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white shadow-lg border-l transition-transform duration-300 z-10 ${
-					isCommentsPanelOpen ? 'translate-x-0' : 'translate-x-full'
-				} flex flex-col`}
-			>
-				{/* Panel Header */}
-				<div className="flex items-center justify-between p-4 border-b">
-					<h2 className="text-lg font-semibold">Comments</h2>
-					<button
-						onClick={handleCloseComments}
-						className="text-gray-500 hover:text-gray-700"
-					>
-						✖
-					</button>
-				</div>
-
-				{/* Comment Input (Animated) */}
-				<div className="p-4 border-b">
-					<textarea
-						value={comment}
-						onChange={(e) => setComment(e.target.value)}
-						onFocus={() => setIsExpanded(true)}
-						placeholder="Share your thoughts..."
-						className={`w-full p-2 border rounded-md resize-none transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-							isExpanded ? 'h-32' : 'h-11'
-						}`}
-					></textarea>
-
-					{/* Buttons (Smooth Fade-In) */}
-					<div
-						className={`flex justify-end space-x-2 mt-2 transition-opacity duration-300 ${
-							isExpanded
-								? 'opacity-100'
-								: 'opacity-0 pointer-events-none'
-						}`}
-					>
-						<button
-							onClick={handleCancel}
-							className="px-3 py-1 text-gray-500 hover:text-gray-700 transition-all"
-						>
-							Cancel
-						</button>
-						<button
-							onClick={handleSubmit}
-							className="px-4 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
-						>
-							Submit
-						</button>
-					</div>
-				</div>
-
-				{/* 🛠 Scrollable Comments Section (Fix applied here) */}
-				<div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
-					{commentsLoading ? (
-						<p className="text-center text-gray-500">
-							Loading comments...
-						</p>
-					) : comments?.length ? (
-						comments.map((comment) => (
-							<Comment key={comment.id} comment={comment} />
+		<div
+			className={`fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white shadow-lg border-l transition-transform duration-300 z-10 ${
+				isCommentsPanelOpen ? 'translate-x-0' : 'translate-x-full'
+			} flex flex-col`}
+		>
+			<div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+				{selectedCommentId === null ? (
+					// ---------------------------------------
+					// CASE 1: No comment selected => top-level
+					// ---------------------------------------
+					topLevelLoading ? (
+						<p>Loading comments...</p>
+					) : topLevelComments?.length ? (
+						topLevelComments.map((comment) => (
+							<div
+								key={comment.id}
+								onClick={() => handleCommentClick(comment.id)}
+							>
+								<CommentItem comment={comment} />
+							</div>
 						))
 					) : (
-						<p className="text-center text-gray-500">
-							No comments yet. Be the first!
-						</p>
-					)}
-				</div>
+						<p>No comments yet.</p>
+					)
+				) : // ---------------------------------------
+				// CASE 2: Selected comment => show chain
+				// ---------------------------------------
+				chainLoading ? (
+					<p>Loading chain...</p>
+				) : chainData ? (
+					<>
+						{/* 
+                1) Stack each comment in the chain top-to-bottom.
+                   The last item in chain is the currently selected comment.
+              */}
+						<div className="mb-4">
+							{chainData.chain.map((c) => (
+								<div
+									key={c.id}
+									className="mb-4 border-b border-gray-300 pb-2 cursor-pointer"
+									onClick={() => handleCommentClick(c.id)}
+								>
+									<CommentItem comment={c} />
+								</div>
+							))}
+						</div>
+
+						{/* 2) Now show direct replies to the selected comment */}
+						<h3 className="text-xl mb-2">Replies</h3>
+						{chainData.replies.length > 0 ? (
+							chainData.replies.map((reply) => (
+								<div
+									key={reply.id}
+									onClick={() => handleCommentClick(reply.id)}
+									className="border-b border-gray-300 pb-2 mb-4"
+								>
+									<CommentItem comment={reply} />
+								</div>
+							))
+						) : (
+							<p>No replies yet.</p>
+						)}
+
+						<button
+							onClick={handleBackToTopLevel}
+							className="mt-4 text-blue-500"
+						>
+							Back to Top-Level
+						</button>
+					</>
+				) : null}
 			</div>
-		</>
+		</div>
 	);
 };
 
