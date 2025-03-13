@@ -23,13 +23,13 @@ const CommentItem: React.FC<CommentProps> = ({
 	isParentComment,
 }) => {
 	return (
-		<div className={`p-4 ${isSelected ? 'font-semibold bg-blue-50' : ''}`}>
+		<div className={`${isSelected ? 'font-semibold bg-blue-50' : ''}`}>
 			<div className="flex items-start gap-3">
 				{/* Wrap the avatar in a 'relative' container 
             so we can absolutely position the vertical line below it */}
 				<div className="relative w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
 					{isParentComment && (
-						<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-400" />
+						<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-400 mt-[2px]" />
 					)}
 				</div>
 

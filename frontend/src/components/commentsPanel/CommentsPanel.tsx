@@ -49,7 +49,7 @@ const CommentsPanel: React.FC = () => {
 				isCommentsPanelOpen ? 'translate-x-0' : 'translate-x-full'
 			} flex flex-col`}
 		>
-			<div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+			<div className="flex-1 overflow-y-auto p-4 min-h-0">
 				{/* CASE A: No comment is selected => top-level */}
 				{selectedCommentId === null ? (
 					topLevelLoading ? (
@@ -91,7 +91,7 @@ const CommentsPanel: React.FC = () => {
 							return (
 								<div
 									key={c.id}
-									className={`mb-4 border-b border-gray-300 pb-2 ${
+									className={`border-gray-300 ${
 										isSelected
 											? 'cursor-default'
 											: 'cursor-pointer'
