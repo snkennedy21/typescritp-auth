@@ -23,13 +23,15 @@ const CommentItem: React.FC<CommentProps> = ({
 	isParentComment,
 }) => {
 	return (
-		<div className={`${isSelected ? 'font-semibold bg-blue-50' : ''}`}>
+		<div
+			className={`${isSelected ? 'font-semibold' : 'hover:bg-gray-100'} py-4 px-2 border-b-2 border-solid border-gray-200`}
+		>
 			<div className="flex items-start gap-3">
-				{/* Wrap the avatar in a 'relative' container 
+				{/* Wrap the profile pictures in a 'relative' container 
             so we can absolutely position the vertical line below it */}
 				<div className="relative w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
 					{isParentComment && (
-						<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-400 mt-[2px]" />
+						<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-400 mt-[4px]" />
 					)}
 				</div>
 
@@ -44,13 +46,6 @@ const CommentItem: React.FC<CommentProps> = ({
 						</span>
 					</div>
 					<p className="text-gray-800">{comment.content}</p>
-
-					{/* Hide "Reply" button if it's the selected comment */}
-					{!isSelected && (
-						<button className="text-blue-500 text-sm mt-2 hover:underline">
-							Reply
-						</button>
-					)}
 				</div>
 			</div>
 		</div>

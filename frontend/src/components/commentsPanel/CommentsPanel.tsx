@@ -35,7 +35,6 @@ const CommentsPanel: React.FC = () => {
 	});
 
 	const handleCommentClick = (commentId: number) => {
-		// Select that comment
 		dispatch(setSelectedCommentId(commentId));
 	};
 
@@ -50,7 +49,14 @@ const CommentsPanel: React.FC = () => {
 			} flex flex-col`}
 		>
 			<div className="flex-1 overflow-y-auto p-4 min-h-0">
-				{/* CASE A: No comment is selected => top-level */}
+				{/* 3) Go back to top-level */}
+				<button
+					onClick={handleBackToTopLevel}
+					className="mt-4 text-blue-500"
+				>
+					{`<-`}
+				</button>
+				{/* CASE A: No comment is selected. These Are Top Level Comment Items */}
 				{selectedCommentId === null ? (
 					topLevelLoading ? (
 						<p>Loading comments...</p>
@@ -61,7 +67,7 @@ const CommentsPanel: React.FC = () => {
 							<div
 								key={comment.id}
 								onClick={() => handleCommentClick(comment.id)}
-								className="border-b border-gray-300 pb-2 cursor-pointer"
+								className=""
 							>
 								{/* No parent vs. child distinction here—no chain selected */}
 								<CommentItem comment={comment} />
@@ -77,21 +83,15 @@ const CommentsPanel: React.FC = () => {
 					<p>Error loading comment chain.</p>
 				) : chainData ? (
 					<>
-						{/* 
-                1) Render the chain top-to-bottom. 
-                   The last item is the selected comment.
-                   Others are parents => highlight them in green
-              */}
+						{/* Chain Of Parents And Selected Comment */}
 						{chainData.chain.map((c, idx) => {
-							// If this comment is the selected one
 							const isSelected = c.id === selectedCommentId;
-							// If it's NOT selected but in the chain, it's a parent
 							const isParentComment = !isSelected;
 
 							return (
 								<div
 									key={c.id}
-									className={`border-gray-300 ${
+									className={`${
 										isSelected
 											? 'cursor-default'
 											: 'cursor-pointer'
@@ -111,14 +111,14 @@ const CommentsPanel: React.FC = () => {
 							);
 						})}
 
-						{/* 2) Now show direct replies for the selected comment */}
+						{/* Replies */}
 						<h3 className="text-xl mb-2">Replies</h3>
 						{chainData.replies.length > 0 ? (
 							chainData.replies.map((reply) => (
 								<div
 									key={reply.id}
 									onClick={() => handleCommentClick(reply.id)}
-									className="border-b border-gray-300 pb-2 mb-4 cursor-pointer"
+									className="cursor-pointer"
 								>
 									{/* Replies are neither selected nor parent => no special BG */}
 									<CommentItem comment={reply} />
@@ -127,14 +127,6 @@ const CommentsPanel: React.FC = () => {
 						) : (
 							<p>No replies yet.</p>
 						)}
-
-						{/* 3) Go back to top-level */}
-						<button
-							onClick={handleBackToTopLevel}
-							className="mt-4 text-blue-500"
-						>
-							Back to Top-Level
-						</button>
 					</>
 				) : null}
 			</div>
