@@ -80,15 +80,8 @@ exports.commentsRouter.get('/:commentId/chain', (req, res) => __awaiter(void 0, 
                 },
             },
         });
-        // Format replies: Move `_count.replies` to the root
-        const formattedReplies = replies.map((reply) => {
-            var _a, _b;
-            return (Object.assign(Object.assign({}, reply), { replies: (_b = (_a = reply._count) === null || _a === void 0 ? void 0 : _a.replies) !== null && _b !== void 0 ? _b : 0 }));
-        });
-        console.log('Chain', chain);
-        console.log('Replies', formattedReplies);
         // Return shape: { chain, replies }
-        res.status(200).json({ chain, replies: formattedReplies });
+        res.status(200).json({ chain, replies });
     }
     catch (error) {
         console.error('Error fetching chain:', error);
@@ -97,7 +90,6 @@ exports.commentsRouter.get('/:commentId/chain', (req, res) => __awaiter(void 0, 
 }));
 // Helper to walk up the parent chain
 function buildCommentChain(comment) {
-    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const chain = [];
         let currentComment = comment;
@@ -115,7 +107,7 @@ function buildCommentChain(comment) {
             if (!parent)
                 break;
             // Move `_count.replies` to `replies`
-            chain.push(Object.assign(Object.assign({}, parent), { replies: (_b = (_a = parent._count) === null || _a === void 0 ? void 0 : _a.replies) !== null && _b !== void 0 ? _b : 0 })); // Type casting to allow modification
+            chain.push(parent); // Type casting to allow modification
             currentComment = parent.parentId
                 ? yield prisma_1.prisma.comment.findUnique({
                     where: { id: parent.parentId },

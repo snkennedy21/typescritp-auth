@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export interface CommentProps {
 	comment: {
@@ -8,7 +8,6 @@ export interface CommentProps {
 		pageId: string;
 		parentId: number | null;
 		_count?: {
-			// `_count` is optional
 			replies: number;
 		};
 		user: {
@@ -26,20 +25,32 @@ const CommentItem: React.FC<CommentProps> = ({
 	isSelected,
 	isParentComment,
 }) => {
-	console.log('COMMENT ITEM', comment);
+	const commentRef = useRef<HTMLDivElement>(null);
+	const [commentHeight, setCommentHeight] = useState(0);
+
+	// Update the height of the comment dynamically
+	useEffect(() => {
+		if (commentRef.current) {
+			setCommentHeight(commentRef.current.clientHeight);
+		}
+	}, [comment.content]); // Re-run effect when comment text changes
 
 	// Ensure `replies` is always a number
 	const replyCount = comment._count?.replies ?? 0;
 
 	return (
 		<div
-			className={`${isSelected ? 'font-semibold' : 'hover:bg-gray-100'} py-4 px-2`}
+			ref={commentRef}
+			className={`${isSelected ? 'font-semibold' : 'hover:bg-gray-100'} py-4 px-2 relative`}
 		>
 			<div className="flex items-start gap-3">
 				{/* Profile picture container */}
 				<div className="relative w-10 h-10 bg-gray-300 rounded-full flex-shrink-0">
 					{isParentComment && (
-						<div className="absolute top-full left-1/2 transform -translate-x-1/2 w-px h-8 bg-gray-400 mt-[4px]" />
+						<div
+							className="absolute top-full left-1/2 transform -translate-x-1/2 w-px bg-gray-400 mt-[4px]"
+							style={{ height: `${commentHeight - 50}px` }} // Dynamic height
+						/>
 					)}
 				</div>
 

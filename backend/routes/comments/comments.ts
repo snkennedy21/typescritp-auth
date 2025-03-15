@@ -75,17 +75,8 @@ commentsRouter.get('/:commentId/chain', async (req, res) => {
 			},
 		});
 
-		// Format replies: Move `_count.replies` to the root
-		const formattedReplies = replies.map((reply) => ({
-			...reply,
-			replies: reply._count?.replies ?? 0, // Ensure it's always a number
-		}));
-
-		console.log('Chain', chain);
-		console.log('Replies', formattedReplies);
-
 		// Return shape: { chain, replies }
-		res.status(200).json({ chain, replies: formattedReplies });
+		res.status(200).json({ chain, replies });
 	} catch (error) {
 		console.error('Error fetching chain:', error);
 		res.status(500).json({ error: 'Internal server error' });
@@ -113,10 +104,7 @@ async function buildCommentChain(comment: Comment): Promise<Comment[]> {
 		if (!parent) break;
 
 		// Move `_count.replies` to `replies`
-		chain.push({
-			...parent,
-			replies: parent._count?.replies ?? 0,
-		} as any); // Type casting to allow modification
+		chain.push(parent); // Type casting to allow modification
 
 		currentComment = parent.parentId
 			? await prisma.comment.findUnique({
