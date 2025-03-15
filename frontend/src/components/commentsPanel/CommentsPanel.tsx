@@ -56,6 +56,40 @@ const CommentsPanel: React.FC = () => {
 				>
 					{`<-`}
 				</button>
+				{/* Comment Input (Animated) */}
+				<div className="p-4 border-b">
+					<textarea
+						value={comment}
+						onChange={(e) => setComment(e.target.value)}
+						onFocus={() => setIsExpanded(true)}
+						placeholder="Share your thoughts..."
+						className={`w-full p-2 border rounded-md resize-none transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+							isExpanded ? 'h-32' : 'h-11'
+						}`}
+					></textarea>
+
+					{/* Buttons (Smooth Fade-In) */}
+					<div
+						className={`flex justify-end space-x-2 mt-2 transition-opacity duration-300 ${
+							isExpanded
+								? 'opacity-100'
+								: 'opacity-0 pointer-events-none'
+						}`}
+					>
+						<button
+							onClick={handleCancel}
+							className="px-3 py-1 text-gray-500 hover:text-gray-700 transition-all"
+						>
+							Cancel
+						</button>
+						<button
+							onClick={handleSubmit}
+							className="px-4 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all"
+						>
+							Submit
+						</button>
+					</div>
+				</div>
 				{/* CASE A: No comment is selected. These Are Top Level Comment Items */}
 				{selectedCommentId === null ? (
 					topLevelLoading ? (
