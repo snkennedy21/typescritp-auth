@@ -6,7 +6,7 @@ import {
 	useGetCommentChainQuery,
 } from '../../store/mainApi';
 import { setSelectedCommentId } from '../../store/commentsSlice';
-import CommentItem from '../comment/Comment';
+import CommentItem from '../comment/CommentItem';
 import CommentInput from '../commentInput/CommentInput';
 import {
 	setCommentText,
@@ -54,6 +54,9 @@ const CommentsPanel: React.FC = () => {
 
 	const handleCloseCommentsPanel = () => {
 		dispatch(toggleCommentsPanel());
+		dispatch(setTextAreaExpanded(false));
+		dispatch(setCommentText(''));
+		dispatch(setSelectedCommentId(null));
 	};
 
 	const renderTopLevelComments = () => {

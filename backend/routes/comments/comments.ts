@@ -25,6 +25,11 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
 						email: true,
 					},
 				},
+				_count: {
+					select: {
+						replies: true, // Counting replies
+					},
+				},
 			},
 		});
 
@@ -41,27 +46,46 @@ commentsRouter.get('/:commentId/chain', async (req, res) => {
 		const { commentId } = req.params;
 		const numericId = Number(commentId);
 
-		// 1) Fetch the selected comment
+		// 1) Fetch the selected comment with `_count.replies`
 		const selectedComment = await prisma.comment.findUnique({
 			where: { id: numericId },
-			include: { user: true },
+			include: {
+				user: true,
+				_count: {
+					select: { replies: true },
+				},
+			},
 		});
 
 		if (!selectedComment) {
 			return res.status(404).json({ error: 'Comment not found.' });
 		}
 
-		// 2) Build the chain of ancestors: from top-level down to selected
+		// 2) Build the chain of ancestors, ensuring each has a `replies` count
 		const chain = await buildCommentChain(selectedComment);
 
-		// 3) Fetch direct replies of the selected comment
+		// 3) Fetch direct replies of the selected comment, including `_count.replies`
 		const replies = await prisma.comment.findMany({
 			where: { parentId: numericId },
-			include: { user: true },
+			include: {
+				user: true,
+				_count: {
+					select: { replies: true },
+				},
+			},
 		});
 
+		// Format replies: Move `_count.replies` to the root
+		const formattedReplies = replies.map((reply) => ({
+			...reply,
+			replies: reply._count?.replies ?? 0, // Ensure it's always a number
+		}));
+
+		console.log('Chain', chain);
+		console.log('Replies', formattedReplies);
+
 		// Return shape: { chain, replies }
-		res.status(200).json({ chain, replies });
+		res.status(200).json({ chain, replies: formattedReplies });
 	} catch (error) {
 		console.error('Error fetching chain:', error);
 		res.status(500).json({ error: 'Internal server error' });
@@ -70,29 +94,39 @@ commentsRouter.get('/:commentId/chain', async (req, res) => {
 
 // Helper to walk up the parent chain
 async function buildCommentChain(comment: Comment): Promise<Comment[]> {
-	// We'll gather ancestors in an array
-	// The final array will be top-level first, then down to the selected comment
-	const chain: Comment[] = [comment];
+	const chain: Comment[] = [];
 
-	let currentParentId = comment.parentId;
+	let currentComment = comment;
 
-	// Keep walking up while parentId is not null
-	while (currentParentId) {
+	// Walk up the parent chain, ensuring each has `_count.replies`
+	while (currentComment) {
 		const parent = await prisma.comment.findUnique({
-			where: { id: currentParentId },
-			include: { user: true },
+			where: { id: currentComment.id },
+			include: {
+				user: true,
+				_count: {
+					select: { replies: true },
+				},
+			},
 		});
-		if (!parent) break; // Shouldn't normally happen unless data is inconsistent
 
-		chain.push(parent);
-		currentParentId = parent.parentId;
+		if (!parent) break;
+
+		// Move `_count.replies` to `replies`
+		chain.push({
+			...parent,
+			replies: parent._count?.replies ?? 0,
+		} as any); // Type casting to allow modification
+
+		currentComment = parent.parentId
+			? await prisma.comment.findUnique({
+					where: { id: parent.parentId },
+				})
+			: null;
 	}
 
-	// Currently, chain[] is from the child upward to the top-level.
-	// We can reverse() so it goes from top-level down to the selected comment:
-	chain.reverse();
-
-	return chain;
+	// Reverse to go from top-level to selected comment
+	return chain.reverse();
 }
 
 /*********************************************************************

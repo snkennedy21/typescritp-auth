@@ -36,6 +36,11 @@ exports.commentsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, 
                         email: true,
                     },
                 },
+                _count: {
+                    select: {
+                        replies: true, // Counting replies
+                    },
+                },
             },
         });
         res.status(200).json(comments);
@@ -50,23 +55,40 @@ exports.commentsRouter.get('/:commentId/chain', (req, res) => __awaiter(void 0, 
     try {
         const { commentId } = req.params;
         const numericId = Number(commentId);
-        // 1) Fetch the selected comment
+        // 1) Fetch the selected comment with `_count.replies`
         const selectedComment = yield prisma_1.prisma.comment.findUnique({
             where: { id: numericId },
-            include: { user: true },
+            include: {
+                user: true,
+                _count: {
+                    select: { replies: true },
+                },
+            },
         });
         if (!selectedComment) {
             return res.status(404).json({ error: 'Comment not found.' });
         }
-        // 2) Build the chain of ancestors: from top-level down to selected
+        // 2) Build the chain of ancestors, ensuring each has a `replies` count
         const chain = yield buildCommentChain(selectedComment);
-        // 3) Fetch direct replies of the selected comment
+        // 3) Fetch direct replies of the selected comment, including `_count.replies`
         const replies = yield prisma_1.prisma.comment.findMany({
             where: { parentId: numericId },
-            include: { user: true },
+            include: {
+                user: true,
+                _count: {
+                    select: { replies: true },
+                },
+            },
         });
+        // Format replies: Move `_count.replies` to the root
+        const formattedReplies = replies.map((reply) => {
+            var _a, _b;
+            return (Object.assign(Object.assign({}, reply), { replies: (_b = (_a = reply._count) === null || _a === void 0 ? void 0 : _a.replies) !== null && _b !== void 0 ? _b : 0 }));
+        });
+        console.log('Chain', chain);
+        console.log('Replies', formattedReplies);
         // Return shape: { chain, replies }
-        res.status(200).json({ chain, replies });
+        res.status(200).json({ chain, replies: formattedReplies });
     }
     catch (error) {
         console.error('Error fetching chain:', error);
@@ -75,26 +97,33 @@ exports.commentsRouter.get('/:commentId/chain', (req, res) => __awaiter(void 0, 
 }));
 // Helper to walk up the parent chain
 function buildCommentChain(comment) {
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
-        // We'll gather ancestors in an array
-        // The final array will be top-level first, then down to the selected comment
-        const chain = [comment];
-        let currentParentId = comment.parentId;
-        // Keep walking up while parentId is not null
-        while (currentParentId) {
+        const chain = [];
+        let currentComment = comment;
+        // Walk up the parent chain, ensuring each has `_count.replies`
+        while (currentComment) {
             const parent = yield prisma_1.prisma.comment.findUnique({
-                where: { id: currentParentId },
-                include: { user: true },
+                where: { id: currentComment.id },
+                include: {
+                    user: true,
+                    _count: {
+                        select: { replies: true },
+                    },
+                },
             });
             if (!parent)
-                break; // Shouldn't normally happen unless data is inconsistent
-            chain.push(parent);
-            currentParentId = parent.parentId;
+                break;
+            // Move `_count.replies` to `replies`
+            chain.push(Object.assign(Object.assign({}, parent), { replies: (_b = (_a = parent._count) === null || _a === void 0 ? void 0 : _a.replies) !== null && _b !== void 0 ? _b : 0 })); // Type casting to allow modification
+            currentComment = parent.parentId
+                ? yield prisma_1.prisma.comment.findUnique({
+                    where: { id: parent.parentId },
+                })
+                : null;
         }
-        // Currently, chain[] is from the child upward to the top-level.
-        // We can reverse() so it goes from top-level down to the selected comment:
-        chain.reverse();
-        return chain;
+        // Reverse to go from top-level to selected comment
+        return chain.reverse();
     });
 }
 /*********************************************************************
