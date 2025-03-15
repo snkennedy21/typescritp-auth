@@ -50,6 +50,7 @@ interface CreateUserResponse {
 interface CreateCommentInput {
 	text: string;
 	pageId: string;
+	parentId: number | null;
 }
 
 export interface CommentType {
@@ -171,11 +172,12 @@ export const mainApi = createApi({
 		}),
 
 		submitComment: builder.mutation<void, CreateCommentInput>({
-			query: ({ text, pageId }) => {
+			query: ({ text, pageId, parentId }) => {
+				console.log('parentId: ', parentId);
 				return {
 					url: '/comments/create',
 					method: 'POST',
-					body: { content: text, pageId },
+					body: { content: text, pageId, parentId },
 				};
 			},
 			invalidatesTags: ['Comments'],

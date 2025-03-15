@@ -45,31 +45,6 @@ exports.commentsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).json({ error: 'Internal server error' });
     }
 }));
-// GET /api/comments/:commentId
-// commentsRouter.get('/:commentId', async (req: Request, res: Response) => {
-// 	try {
-// 		const { commentId } = req.params;
-// 		const numericId = Number(commentId);
-// 		// 1) Get the single comment
-// 		const comment = await prisma.comment.findUnique({
-// 			where: { id: numericId },
-// 			include: { user: true },
-// 		});
-// 		if (!comment) {
-// 			return res.status(404).json({ error: 'Comment not found.' });
-// 		}
-// 		// 2) Get all replies where `parentId = comment.id`
-// 		const replies = await prisma.comment.findMany({
-// 			where: { parentId: numericId },
-// 			include: { user: true },
-// 		});
-// 		// Return shape: { comment, replies: [... ] }
-// 		res.status(200).json({ comment, replies });
-// 	} catch (error) {
-// 		console.error('Error fetching comment and replies:', error);
-// 		res.status(500).json({ error: 'Internal server error' });
-// 	}
-// });
 // GET /api/comments/:commentId/chain
 exports.commentsRouter.get('/:commentId/chain', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -133,7 +108,7 @@ exports.commentsRouter.post('/create', (req, res) => __awaiter(void 0, void 0, v
                 content: req.body.content,
                 userId: 1,
                 pageId: req.body.pageId,
-                parentId: null,
+                parentId: req.body.parentId,
             },
         });
         res.json(comment);

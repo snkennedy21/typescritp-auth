@@ -35,36 +35,6 @@ commentsRouter.get('/', async (req: Request, res: Response) => {
 	}
 });
 
-// GET /api/comments/:commentId
-// commentsRouter.get('/:commentId', async (req: Request, res: Response) => {
-// 	try {
-// 		const { commentId } = req.params;
-// 		const numericId = Number(commentId);
-
-// 		// 1) Get the single comment
-// 		const comment = await prisma.comment.findUnique({
-// 			where: { id: numericId },
-// 			include: { user: true },
-// 		});
-
-// 		if (!comment) {
-// 			return res.status(404).json({ error: 'Comment not found.' });
-// 		}
-
-// 		// 2) Get all replies where `parentId = comment.id`
-// 		const replies = await prisma.comment.findMany({
-// 			where: { parentId: numericId },
-// 			include: { user: true },
-// 		});
-
-// 		// Return shape: { comment, replies: [... ] }
-// 		res.status(200).json({ comment, replies });
-// 	} catch (error) {
-// 		console.error('Error fetching comment and replies:', error);
-// 		res.status(500).json({ error: 'Internal server error' });
-// 	}
-// });
-
 // GET /api/comments/:commentId/chain
 commentsRouter.get('/:commentId/chain', async (req, res) => {
 	try {
@@ -136,7 +106,7 @@ commentsRouter.post('/create', async (req: Request, res: Response) => {
 				content: req.body.content,
 				userId: 1,
 				pageId: req.body.pageId,
-				parentId: null,
+				parentId: req.body.parentId,
 			},
 		});
 		res.json(comment);
