@@ -67,7 +67,7 @@ const CommentsPanel: React.FC = () => {
 							<div
 								key={comment.id}
 								onClick={() => handleCommentClick(comment.id)}
-								className=""
+								className="cursor-pointer"
 							>
 								{/* No parent vs. child distinction here—no chain selected */}
 								<CommentItem comment={comment} />
